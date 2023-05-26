@@ -1,0 +1,436 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="01Engine">
+      <UniqueIdentifier>{e5fccdcb-f299-4448-bdb6-01fa28039576}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01Engine\Collider">
+      <UniqueIdentifier>{7f19ecfb-5d70-4d31-a1f7-c9dd14bad324}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01Engine\DirectX">
+      <UniqueIdentifier>{e56f8c9a-95a5-4ceb-b65f-5b8e572d087b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01Engine\GameObject">
+      <UniqueIdentifier>{b450e438-c939-4b05-b319-0e3c0b4a335c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01Engine\ResourceManager">
+      <UniqueIdentifier>{bedee914-5063-4c08-95bb-79c861b4969c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02Shader">
+      <UniqueIdentifier>{47a6a3f5-8cfd-436b-8d58-beccd108f3f3}</UniqueIdentifier>
+      <Extensions>hlsl</Extensions>
+    </Filter>
+    <Filter Include="TitleScene">
+      <UniqueIdentifier>{a48f47f3-2e88-4c65-a028-0d6fb289cc20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlayScene">
+      <UniqueIdentifier>{cd096b6a-1418-4e88-903d-1fb020add356}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SettingScene">
+      <UniqueIdentifier>{97d8e1b0-4d8c-41bc-ad5b-1aab3f388059}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlayScene\Pause">
+      <UniqueIdentifier>{ea446750-41ef-4a92-afc9-1f05d3f621cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlayScene\Ready">
+      <UniqueIdentifier>{18fe33bb-d23d-436a-9e3f-5cea3e7eca04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlayScene\Result">
+      <UniqueIdentifier>{3c44d04b-8e2a-420c-a79c-7c706c867c59}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Engine\BoxCollider.cpp">
+      <Filter>01Engine\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Collider.cpp">
+      <Filter>01Engine\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\SphereCollider.cpp">
+      <Filter>01Engine\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Direct3D.cpp">
+      <Filter>01Engine\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Fbx.cpp">
+      <Filter>01Engine\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\FbxParts.cpp">
+      <Filter>01Engine\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Input.cpp">
+      <Filter>01Engine\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Sprite.cpp">
+      <Filter>01Engine\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Camera.cpp">
+      <Filter>01Engine\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GameObject.cpp">
+      <Filter>01Engine\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\RootObject.cpp">
+      <Filter>01Engine\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\CsvReader.cpp">
+      <Filter>01Engine\ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Image.cpp">
+      <Filter>01Engine\ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Model.cpp">
+      <Filter>01Engine\ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Main.cpp">
+      <Filter>01Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\SceneManager.cpp">
+      <Filter>01Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Texture.cpp">
+      <Filter>01Engine\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Transform.cpp">
+      <Filter>01Engine\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Audio.cpp">
+      <Filter>01Engine\ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Text.cpp">
+      <Filter>01Engine\ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="StateBase.cpp" />
+    <ClCompile Include="State.cpp" />
+    <ClCompile Include="StateWalk.cpp" />
+    <ClCompile Include="StateThrow.cpp" />
+    <ClCompile Include="memo.cpp" />
+    <ClCompile Include="Engine\Particle.cpp">
+      <Filter>01Engine\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\BillBoard.cpp">
+      <Filter>01Engine\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="StateCharge.cpp" />
+    <ClCompile Include="StateManager.cpp" />
+    <ClCompile Include="Engine\ScreenSplit.cpp">
+      <Filter>01Engine\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Button.cpp">
+      <Filter>01Engine\ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Easing.cpp">
+      <Filter>01Engine\ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Stopwach.cpp">
+      <Filter>01Engine\ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>TitleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="BackGround.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Ball.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Basket.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Ground.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayScene.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Time.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleBall.cpp">
+      <Filter>TitleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="TitlePlayer.cpp">
+      <Filter>TitleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleText.cpp">
+      <Filter>TitleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingScene.cpp">
+      <Filter>SettingScene</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingText.cpp">
+      <Filter>SettingScene</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingBack.cpp">
+      <Filter>SettingScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Frame.cpp" />
+    <ClCompile Include="PoryLine.cpp" />
+    <ClCompile Include="StopBack.cpp">
+      <Filter>PlayScene\Pause</Filter>
+    </ClCompile>
+    <ClCompile Include="StopButton.cpp">
+      <Filter>PlayScene\Pause</Filter>
+    </ClCompile>
+    <ClCompile Include="StopText.cpp">
+      <Filter>PlayScene\Pause</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayStop.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="AssistText.cpp">
+      <Filter>PlayScene\Ready</Filter>
+    </ClCompile>
+    <ClCompile Include="ReadyBack.cpp">
+      <Filter>PlayScene\Ready</Filter>
+    </ClCompile>
+    <ClCompile Include="ReadyButton.cpp">
+      <Filter>PlayScene\Ready</Filter>
+    </ClCompile>
+    <ClCompile Include="ReadyText.cpp">
+      <Filter>PlayScene\Ready</Filter>
+    </ClCompile>
+    <ClCompile Include="AssistReady.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Result.cpp">
+      <Filter>PlayScene\Result</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonBace.cpp" />
+    <ClCompile Include="SettingStartButton.cpp">
+      <Filter>SettingScene</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingArrowButton.cpp">
+      <Filter>SettingScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Number.cpp" />
+    <ClCompile Include="Engine\ButtonManager.cpp">
+      <Filter>01Engine\ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleButton.cpp">
+      <Filter>TitleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Rule.cpp">
+      <Filter>TitleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="ReadyArrowButton.cpp">
+      <Filter>PlayScene\Ready</Filter>
+    </ClCompile>
+    <ClCompile Include="ReadyOKButton.cpp">
+      <Filter>PlayScene\Ready</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Engine\BoxCollider.h">
+      <Filter>01Engine\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Collider.h">
+      <Filter>01Engine\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\SphereCollider.h">
+      <Filter>01Engine\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Direct3D.h">
+      <Filter>01Engine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Fbx.h">
+      <Filter>01Engine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\FbxParts.h">
+      <Filter>01Engine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Input.h">
+      <Filter>01Engine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Sprite.h">
+      <Filter>01Engine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Camera.h">
+      <Filter>01Engine\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GameObject.h">
+      <Filter>01Engine\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\RootObject.h">
+      <Filter>01Engine\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\CsvReader.h">
+      <Filter>01Engine\ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Image.h">
+      <Filter>01Engine\ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Model.h">
+      <Filter>01Engine\ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Global.h">
+      <Filter>01Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\SceneManager.h">
+      <Filter>01Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Texture.h">
+      <Filter>01Engine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Transform.h">
+      <Filter>01Engine\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Audio.h">
+      <Filter>01Engine\ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Text.h">
+      <Filter>01Engine\ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="PoryLine.h" />
+    <ClInclude Include="StateBase.h" />
+    <ClInclude Include="State.h" />
+    <ClInclude Include="StateWalk.h" />
+    <ClInclude Include="StateThrow.h" />
+    <ClInclude Include="Engine\Particle.h">
+      <Filter>01Engine\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\BillBoard.h">
+      <Filter>01Engine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="StateCharge.h" />
+    <ClInclude Include="StateManager.h" />
+    <ClInclude Include="Engine\ScreenSplit.h">
+      <Filter>01Engine\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Button.h">
+      <Filter>01Engine\ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Easing.h">
+      <Filter>01Engine\ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Stopwach.h">
+      <Filter>01Engine\ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScene.h">
+      <Filter>TitleScene</Filter>
+    </ClInclude>
+    <ClInclude Include="BackGround.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Ball.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Basket.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Ground.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayScene.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleBall.h">
+      <Filter>TitleScene</Filter>
+    </ClInclude>
+    <ClInclude Include="TitlePlayer.h">
+      <Filter>TitleScene</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleText.h">
+      <Filter>TitleScene</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingScene.h">
+      <Filter>SettingScene</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingText.h">
+      <Filter>SettingScene</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingBack.h">
+      <Filter>SettingScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Frame.h" />
+    <ClInclude Include="StopBack.h">
+      <Filter>PlayScene\Pause</Filter>
+    </ClInclude>
+    <ClInclude Include="StopButton.h">
+      <Filter>PlayScene\Pause</Filter>
+    </ClInclude>
+    <ClInclude Include="StopText.h">
+      <Filter>PlayScene\Pause</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayStop.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="AssistText.h">
+      <Filter>PlayScene\Ready</Filter>
+    </ClInclude>
+    <ClInclude Include="ReadyBack.h">
+      <Filter>PlayScene\Ready</Filter>
+    </ClInclude>
+    <ClInclude Include="ReadyButton.h">
+      <Filter>PlayScene\Ready</Filter>
+    </ClInclude>
+    <ClInclude Include="ReadyText.h">
+      <Filter>PlayScene\Ready</Filter>
+    </ClInclude>
+    <ClInclude Include="AssistReady.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Result.h">
+      <Filter>PlayScene\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonBace.h" />
+    <ClInclude Include="SettingStartButton.h">
+      <Filter>SettingScene</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingArrowButton.h">
+      <Filter>SettingScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Number.h" />
+    <ClInclude Include="Engine\ButtonManager.h">
+      <Filter>01Engine\ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleButton.h">
+      <Filter>TitleScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Rule.h">
+      <Filter>TitleScene</Filter>
+    </ClInclude>
+    <ClInclude Include="ReadyArrowButton.h">
+      <Filter>PlayScene\Ready</Filter>
+    </ClInclude>
+    <ClInclude Include="ReadyOKButton.h">
+      <Filter>PlayScene\Ready</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Assets\Shader\Simple2D.hlsl">
+      <Filter>02Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Assets\Shader\Simple3D.hlsl">
+      <Filter>02Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Assets\Shader\Debug3D.hlsl">
+      <Filter>02Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Assets\Shader\BillBoard.hlsl">
+      <Filter>02Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Assets\Shader\Toon.hlsl">
+      <Filter>02Shader</Filter>
+    </FxCompile>
+  </ItemGroup>
+</Project>
