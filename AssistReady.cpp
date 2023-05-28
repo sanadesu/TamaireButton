@@ -4,12 +4,14 @@
 #include "Engine/Direct3D.h"
 #include "Engine/ScreenSplit.h"
 #include "Engine/ButtonManager.h"
+#include "Engine/Input.h"
 #include "AssistText.h"
 #include "ReadyBack.h"
 #include "ReadyButton.h"
 #include "ReadyText.h"
 #include "PlayStop.h"
 #include "ReadyArrowButton.h"
+#include "ReadyOKButton.h"
 
 //コンストラクタ
 AssistReady::AssistReady(GameObject* parent)
@@ -23,13 +25,14 @@ struct ReadyUI
 	//ReadyButton* pReadyButton;
 	ReadyText* pReadyText;
 	AssistText* pAssistText;
-	ReadyArrowButton* pReadyArrowButton;
-}; ReadyUI playerUI[4];
+	ReadyArrowButton* pReadyArrowButton[2];
+	ReadyOKButton* pReadyOKButton;
+}; ReadyUI playerUI[5];
 
 //初期化
 void AssistReady::Initialize()
 {
-
+	const char* buttonName[] = { "ReadyArrowButton1", "ReadyArrowButton2"};
 	if (ScreenSplit::GetPlayerPerson() != 3)
 	{
 		for (int i = 0; i < ScreenSplit::GetPlayerPerson(); i++)
@@ -38,13 +41,16 @@ void AssistReady::Initialize()
 			playerUI[i].pReadyBack->SetSplit(i + ScreenSplit::GetPlayerPerson() - 1);
 			for (int j = 0; j < 2; j++)
 			{
-				playerUI[i].pReadyArrowButton = ButtonManager::CreateButtonScreen<ReadyArrowButton>(this, "ReadyArrowButton", j,i);
-				playerUI[i].pReadyArrowButton->SetSplit(i + ScreenSplit::GetPlayerPerson() - 1);
+				playerUI[i].pReadyArrowButton[j] = ButtonManager::CreateButtonScreen<ReadyArrowButton>(this, buttonName[j], j, i);
+				playerUI[i].pReadyArrowButton[j]->SetSplit(i + ScreenSplit::GetPlayerPerson() - 1);
+				
 			}
+			playerUI[i].pReadyOKButton = ButtonManager::CreateButtonScreen<ReadyOKButton>(this, "ReadyOKButton", 0, i);
+			playerUI[i].pReadyOKButton->SetSplit(i + ScreenSplit::GetPlayerPerson() - 1);
 			//playerUI[i].pReadyButton = Instantiate<ReadyButton>(this);
 			//playerUI[i].pReadyButton->SetSplit(i + ScreenSplit::GetPlayerPerson() - 1);
-			//playerUI[i].pReadyText = Instantiate<ReadyText>(this);
-			//playerUI[i].pReadyText->SetSplit(i + ScreenSplit::GetPlayerPerson() - 1);
+			playerUI[i].pReadyText = Instantiate<ReadyText>(this);
+			playerUI[i].pReadyText->SetSplit(i + ScreenSplit::GetPlayerPerson() - 1);
 			playerUI[i].pAssistText = Instantiate<AssistText>(this);
 			playerUI[i].pAssistText->SetSplit(i + ScreenSplit::GetPlayerPerson() - 1);
 		}
@@ -57,19 +63,23 @@ void AssistReady::Initialize()
 			playerUI[i].pReadyBack->SetSplit(i + ScreenSplit::GetPlayerPerson());
 			for (int j = 0; j < 2; j++)
 			{
-				playerUI[i].pReadyArrowButton = ButtonManager::CreateButtonScreen<ReadyArrowButton>(this,"ReadyArrowButton", j,i);
-				playerUI[i].pReadyArrowButton->SetSplit(i + ScreenSplit::GetPlayerPerson());
+				playerUI[i].pReadyArrowButton[j] = ButtonManager::CreateButtonScreen<ReadyArrowButton>(this, buttonName[j], j,i);
+				playerUI[i].pReadyArrowButton[j]->SetSplit(i + ScreenSplit::GetPlayerPerson());
 			}
+			playerUI[i].pReadyOKButton = ButtonManager::CreateButtonScreen<ReadyOKButton>(this, "ReadyOKButton", 0, i);
+			playerUI[i].pReadyOKButton->SetSplit(i + ScreenSplit::GetPlayerPerson());
 			//playerUI[i].pReadyButton = Instantiate<ReadyButton>(this);
 			//playerUI[i].pReadyButton->SetSplit(i + ScreenSplit::GetPlayerPerson());
-			//playerUI[i].pReadyText = Instantiate<ReadyText>(this);
-			//playerUI[i].pReadyText->SetSplit(i + ScreenSplit::GetPlayerPerson());
+			playerUI[i].pReadyText = Instantiate<ReadyText>(this);
+			playerUI[i].pReadyText->SetSplit(i + ScreenSplit::GetPlayerPerson());
 			playerUI[i].pAssistText = Instantiate<AssistText>(this);
 			playerUI[i].pAssistText->SetSplit(i + ScreenSplit::GetPlayerPerson());
 		}
 	}
 
-
+	isFirstTime = true;
+	pText = new Text;
+	pText->Initialize();
 	//switch (ScreenSplit::GetPlayerPerson())
 	//{
 	//case 1:
@@ -128,26 +138,43 @@ void AssistReady::Initialize()
 //更新
 void AssistReady::Update()
 {
-	if (AllReady())
+	if (/*isFirstTime &&*/ AllReady())
 	{
+		isFirstTime = false;
 		PlayStop* pPlayStop = (PlayStop*)FindObject("PlayStop");
 		//スタート
 		pPlayStop->GameStart();//一回だけにする
+		ButtonManager::ButtonRelease();
+		KillMe();
 	}
+
+#ifdef _DEBUG
+	//準備完了
+	if (Input::IsKeyDown(DIK_R))
+	{
+		for (int i = 0; i < ScreenSplit::GetPlayerPerson(); i++)
+		{
+			ReadyKill(i);
+		}
+	}
+#endif // DEBUG
+
 }
 
 //描画
 void AssistReady::Draw()
 {
-
+#ifdef _DEBUG
+	if (Direct3D::lr == 0)
+	{
+		pText->Draw(30, 30, "DEBUG");
+		pText->Draw(30, 60, "R->START!");
+	}
+#endif // DEBUG
 }
 
 //開放
 void AssistReady::Release()
-{
-}
-
-void AssistReady::SetIsReady()
 {
 }
 
@@ -156,7 +183,7 @@ bool AssistReady::AllReady()
 	for (int i = 0; i < ScreenSplit::GetPlayerPerson(); i++)
 	{
 		//if (playerUI[i].pReadyButton->GetReady() == false)
-		if(playerUI[i].pReadyArrowButton->IsDead() == false)
+		if(playerUI[i].pReadyOKButton->IsDead() == false)
 			return false;
 	}
 	return true;
@@ -166,9 +193,13 @@ void AssistReady::ReadyKill(int ScreenNum)
 {
 	playerUI[ScreenNum].pReadyBack->BlackBack();
 	//playerUI[ScreenNum].pReadyButton->KillMe();
-	playerUI[ScreenNum].pReadyArrowButton->KillMe();
-	//playerUI[ScreenNum].pReadyText->KillMe();
-	playerUI[ScreenNum].pAssistText->KillMe();
+	//playerUI[ScreenNum].pReadyArrowButton->KillMe();
+	for (int i = 0; i < 2; i++)
+		playerUI[ScreenNum].pReadyArrowButton[i]->KillMe();
+
+	playerUI[ScreenNum].pReadyOKButton->KillMe();
+	playerUI[ScreenNum].pReadyText->KillMe();
+	playerUI[ScreenNum].pAssistText->KillMe(); 
 }
 
 void AssistReady::SetAssistText(int ScreenNum, int x)

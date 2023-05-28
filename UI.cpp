@@ -130,8 +130,14 @@ void UI::Draw()
         {
             pText->Draw(1730, 120 + (i * 30), i + 1);
             pText->Draw(1760, 120 + (i * 30), pPlayer[i]->GetStateText().c_str());
+
         }
 
+        const char* operation[] = {"OPERATION","0     ->TIME FAST","WASD  ->MOVE","<-.-> ->ROTATE","SPASE ->THROW","ESC   ->END","CLRL  ->PAUSE"};
+        for (int i = 0;i < 7;i++)
+        {
+            pText->Draw(1630, 450 + (i * 30), operation[i]);
+        }
        
 
         if (ScreenSplit::GetPlayerPerson() >= 3)
@@ -234,8 +240,8 @@ void UI::Draw()
         //Image::SetTransform(hPict_[PICT_RED_BAR], transBarRed);
         //Image::Draw(hPict_[PICT_RED_BAR]);
     }
-    //Image::SetTransform(hPict_[PICT_FRAME], transform_);
-    //Image::Draw(hPict_[PICT_FRAME]);
+    Image::SetTransform(hPict_[PICT_FRAME], transform_);
+    Image::Draw(hPict_[PICT_FRAME]);
 }
 
 //ŠJ•ú

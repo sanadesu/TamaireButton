@@ -7,14 +7,13 @@
 #include "BackGround.h"
 #include "PlayStop.h"
 #include "AssistReady.h"
-#include "Result.h"
 #include "Engine/Image.h"
 #include "Engine/Input.h"
 #include "Engine/SceneManager.h"
 #include "Engine/ScreenSplit.h"
 #include "Engine/Camera.h"
 #include "Engine/Audio.h"
-
+#include "Result.h"
 //#include "Engine/Camera.h"
 
 //コンストラクタ

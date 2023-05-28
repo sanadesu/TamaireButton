@@ -30,13 +30,14 @@ class TitleButton : public Button
 	int alpha;
 	int titleState;
 	bool isPush;
+	bool isFirstTime;
 
 	TitleScene* pTitle;
+	TitleButton* pRuleButton;
 public:
 
 	//コンストラクタ
-	//引数：parent  親オブジェクト（SceneManager）
-	TitleButton(GameObject* parent, int arrowID);
+	TitleButton(GameObject* pParent, const std::string name, int buttonID_, int screenID_);
 
 	//初期化
 	void SubInitialize() override;

@@ -33,7 +33,8 @@ void PlayStop::Update()
 {
 	pUI = (UI*)FindObject("UI");
 	//ƒ|[ƒY
-	if (Input::IsKeyDown(DIK_LCONTROL) && pUI->GetIsEnd() == false)
+	if ((Input::IsKeyDown(DIK_LCONTROL) || Input::IsKeyDown(DIK_RCONTROL) || Input::IsPadButtonDown(XINPUT_GAMEPAD_START))
+		&& pUI->GetIsEnd() == false)
 	{
 		if (isStop[Stop::STOP_PAUSE])
 		{

@@ -50,10 +50,10 @@ void TitleScene::Initialize()
 	Instantiate<TitleText>(this);
 	//Instantiate<TitleButton>(this);
 	TitleButton* pTitleButton[2];
-	const char* ButtonName[2] = { "TitleStartButton","TitleRuleButton" };
+	const std::string ButtonName[2] = { "TitleStartButton","TitleRuleButton" };
 	for (int i = 0; i < 2; i++)
 	{
-		pTitleButton[i] = ButtonManager::CreateButton<TitleButton>(this, transform_.position_, i);
+		pTitleButton[i] = ButtonManager::CreateButtonScreen<TitleButton>(this, ButtonName[i], i,0);
 		pTitleButton[i]->SetObjectName(ButtonName[i]);
 	}
 

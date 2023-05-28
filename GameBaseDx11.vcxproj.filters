@@ -200,13 +200,12 @@
     <ClCompile Include="AssistReady.cpp">
       <Filter>PlayScene</Filter>
     </ClCompile>
-    <ClCompile Include="Result.cpp">
+    <ClCompile Include="ResultText.cpp">
       <Filter>PlayScene\Result</Filter>
     </ClCompile>
     <ClCompile Include="UI.cpp">
       <Filter>PlayScene</Filter>
     </ClCompile>
-    <ClCompile Include="ButtonBace.cpp" />
     <ClCompile Include="SettingStartButton.cpp">
       <Filter>SettingScene</Filter>
     </ClCompile>
@@ -228,6 +227,12 @@
     </ClCompile>
     <ClCompile Include="ReadyOKButton.cpp">
       <Filter>PlayScene\Ready</Filter>
+    </ClCompile>
+    <ClCompile Include="Result.cpp">
+      <Filter>PlayScene\Result</Filter>
+    </ClCompile>
+    <ClCompile Include="ResultButton.cpp">
+      <Filter>PlayScene\Result</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -389,10 +394,9 @@
     <ClInclude Include="AssistReady.h">
       <Filter>PlayScene</Filter>
     </ClInclude>
-    <ClInclude Include="Result.h">
+    <ClInclude Include="ResultText.h">
       <Filter>PlayScene\Result</Filter>
     </ClInclude>
-    <ClInclude Include="ButtonBace.h" />
     <ClInclude Include="SettingStartButton.h">
       <Filter>SettingScene</Filter>
     </ClInclude>
@@ -414,6 +418,12 @@
     </ClInclude>
     <ClInclude Include="ReadyOKButton.h">
       <Filter>PlayScene\Ready</Filter>
+    </ClInclude>
+    <ClInclude Include="Result.h">
+      <Filter>PlayScene\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="ResultButton.h">
+      <Filter>PlayScene\Result</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

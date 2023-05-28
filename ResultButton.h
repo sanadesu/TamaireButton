@@ -1,22 +1,16 @@
 #pragma once
 #include "Engine/Button.h"
 
-//using namespace Button;
-
 //■■シーンを管理するクラス
-class ReadyOKButton : public Button
+class ResultButton : public Button
 {
-	int screenID;
-	int first;
+	const float RESULT_POX_X = 0.43f;
+	const float RESULT_POX_Y = -0.75f;
 	int hPict_;
-	int playerNum;
-	float scaleY;
-	bool isReady;
+	int buttonID;
 public:
-
 	//コンストラクタ
-	//引数：parent  親オブジェクト（SceneManager）
-	ReadyOKButton(GameObject* parent, const std::string name, int buttonID_, int screenID_);
+	ResultButton(GameObject* pParent, std::string name, int buttonID_, int screenID_);
 
 	//初期化
 	void SubInitialize() override;
@@ -24,7 +18,6 @@ public:
 	//更新
 	void SubUpdate() override;
 
-	//描画
 	void Draw() override;
 
 	//ボタンが押されたときにする処理
@@ -36,8 +29,4 @@ public:
 	//選択解除された瞬間
 	void IsSelectReleas() override;
 
-	//準備完了したか
-	bool GetReady();
-
-	void SetSplit(int split_) { playerNum = split_; }
 };

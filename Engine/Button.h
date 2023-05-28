@@ -98,5 +98,5 @@ public:
 	//ŠJ•ú
 	void Release() override;
 
-	int GetScreenID();
+	virtual int GetScreenID();
 };

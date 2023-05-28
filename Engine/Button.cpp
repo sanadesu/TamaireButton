@@ -55,7 +55,7 @@ void Button::Update()
 		//}
 
 		//選択移動したとき
-		if (ButtonManager::GetNowButton(screenID) == this)
+		if (ButtonManager::GetNowButton(this->GetScreenID()) == this)
 		{
 			SelectMove(screenID);
 		}
@@ -68,7 +68,7 @@ void Button::Update()
 
 
 	//決定したとき
-	if ((Input::IsKeyDown(DIK_SPACE) || Input::IsPadButtonDown(XINPUT_GAMEPAD_A)) && this == ButtonManager::GetNowButton(screenID))
+	if ((Input::IsKeyDown(DIK_SPACE) || Input::IsPadButtonDown(XINPUT_GAMEPAD_A, screenID)) && this == ButtonManager::GetNowButton(screenID))
 	{
 		Audio::Play(hSound_[SOUND_BUTTON]);
 		Event();
@@ -96,12 +96,16 @@ void Button::Event()
 //選択ボタンの動き　
 void Button::SelectMove(int screenID_move)
 {
+	if(screenID_move == 5)
+		screenID_move = 0;
 	if (Input::GetPadStickL(screenID_move).y == 0 && Input::GetPadStickL(screenID_move).x == 0)
 	{
 		isStickMove = true;
 	}
 
-	if ((Input::IsKeyDown(DIK_UP) || Input::IsPadButtonDown(XINPUT_GAMEPAD_DPAD_UP, 0) || (Input::GetPadStickL(0).y > 0 && isStickMove))/* && screenID_move == this->GetScreenID()*/)
+	if (((Input::IsKeyDown(DIK_UP) && screenID_move == 0)||
+		Input::IsPadButtonDown(XINPUT_GAMEPAD_DPAD_UP, screenID_move) ||
+		(Input::GetPadStickL(screenID_move).y > 0 && isStickMove))  /* && screenID_move == this->GetScreenID()*/)
 	{
 		float selectingPosY = ButtonManager::GetSelectButtonPos(screenID_move).y;
 		//今いる場所 nowPos;
@@ -141,7 +145,10 @@ void Button::SelectMove(int screenID_move)
 		isStickMove = false;
 		ButtonManager::SetSelectChange(true);
 	}
-	if ((((Input::IsKeyDown(DIK_DOWN) || Input::IsPadButtonDown(XINPUT_GAMEPAD_DPAD_DOWN, 0) || (Input::GetPadStickL(0).y < 0 && isStickMove)))&& ButtonManager::GetSelectChange() == false)/* && screenID_move == this->GetScreenID()*/)
+	if (((((Input::IsKeyDown(DIK_DOWN) && screenID_move == 0)|| 
+		Input::IsPadButtonDown(XINPUT_GAMEPAD_DPAD_DOWN, screenID_move) || (
+			Input::GetPadStickL(screenID_move).y < 0 && isStickMove)))&& 
+		ButtonManager::GetSelectChange() == false)/* && screenID_move == this->GetScreenID()*/)
 	{
 		//選択中ボタンの位置
 		float selectingPosY = ButtonManager::GetSelectButtonPos(screenID_move).y;
@@ -232,7 +239,9 @@ void Button::SelectMove(int screenID_move)
 		isStickMove = false;
 		ButtonManager::SetSelectChange(true);
 	}
-	if ((Input::IsKeyDown(DIK_RIGHT) || Input::IsPadButtonDown(XINPUT_GAMEPAD_DPAD_RIGHT, 0) || (Input::GetPadStickL(0).x > 0 && isStickMove))/* && screenID_move == this->GetScreenID()*/)
+	if (((Input::IsKeyDown(DIK_RIGHT) && screenID_move == 0)|| 
+		Input::IsPadButtonDown(XINPUT_GAMEPAD_DPAD_RIGHT, screenID_move) ||
+		(Input::GetPadStickL(screenID_move).x > 0 && isStickMove))/* && screenID_move == this->GetScreenID()*/)
 	{
 		//自分とスクリーン一緒？？
  		float selectingPosX = ButtonManager::GetSelectButtonPos(screenID_move).x;
@@ -258,7 +267,9 @@ void Button::SelectMove(int screenID_move)
 		isStickMove = false;
 		ButtonManager::SetSelectChange(true);
 	}
-	if ((Input::IsKeyDown(DIK_LEFT) || Input::IsPadButtonDown(XINPUT_GAMEPAD_DPAD_LEFT, 0) || (Input::GetPadStickL(0).x < 0 && isStickMove)) /*&& screenID_move == this->GetScreenID()*/)
+	if (((Input::IsKeyDown(DIK_LEFT) && screenID_move == 0)|| 
+		Input::IsPadButtonDown(XINPUT_GAMEPAD_DPAD_LEFT, screenID_move) || 
+		(Input::GetPadStickL(screenID_move).x < 0 && isStickMove)) /*&& screenID_move == this->GetScreenID()*/)
 	{
 		//選択中ボタンの位置
 		float selectingPosX = ButtonManager::GetSelectButtonPos(screenID_move).x;

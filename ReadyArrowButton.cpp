@@ -13,6 +13,7 @@ ReadyArrowButton::ReadyArrowButton(GameObject* parent, const string name, int bu
 	arrowID = buttonID_;
 	screenID = screenID_;
 	SetScreenID(screenID_);
+	SetObjectName(name);
 }
 
 ReadyArrowButton::ReadyArrowButton(GameObject* parent, int buttonID_)
@@ -77,11 +78,11 @@ void ReadyArrowButton::SubInitialize()
 void ReadyArrowButton::SubUpdate()
 {
 	ButtonSwith();
-	if (a == 0)
+	if (a == 0)//
 	{
 		a = 1;
-		ButtonManager::AddButton((Button*)this, playerNum - min);
-		this->SetScreenID(playerNum - min);
+		ButtonManager::AddButton((Button*)this, playerNum - min);//screenID
+		this->SetScreenID(playerNum - min);//screenID
 	}
 }
 

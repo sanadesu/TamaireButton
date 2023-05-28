@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine/GameObject.h" 
 #include "Engine/ScreenSplit.h"
+#include "Engine/Text.h"
 
 //■■シーンを管理するクラス
 class AssistReady : public GameObject
@@ -8,8 +9,8 @@ class AssistReady : public GameObject
 	//static const int a = ScreenSplit::GetPlayerPerson();
 	//bool isReady[ScreenSplit::GetPlayerPerson()];
 	//std::vector<bool> isReaady;//(ScreenSplit::GetPlayerPerson(),false);
-	
-
+	bool isFirstTime;
+	Text* pText;
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
@@ -27,7 +28,7 @@ public:
 	//開放
 	void Release() override;
 
-	void SetIsReady();
+	//void SetIsReady();
 
 	bool AllReady();
 

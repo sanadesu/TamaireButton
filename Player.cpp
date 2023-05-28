@@ -79,7 +79,7 @@ void Player::Initialize()
     prevPos = transform_;
 
     pLine = std::make_unique<PoryLine>();
-    pLine->Load("tex0.png");
+    pLine->Load("tex1.png");
     //pLineW = new PoryLine;
     //pLineW->Load("tex2.jpg");
     //pLineX = new PoryLine;
@@ -117,7 +117,7 @@ void Player::Update()
     if (IsFirst)
     {
         pPlayStop = (PlayStop*)FindObject("PlayStop");
-        pResult = (Result*)FindObject("Result");
+        pResultText = (ResultText*)FindObject("ResultText");
         if (playerID % 2 == 0)
         {
             //白チーム
@@ -143,13 +143,13 @@ void Player::Update()
         IsFirst = false;
     }
 
-    //準備完了
-    if (Input::IsKeyDown(DIK_R))
-    {
-        pPlayStop->SetIsReady(true, playerID);
-    }
+    ////準備完了
+    //if (Input::IsKeyDown(DIK_R))
+    //{
+    //    pPlayStop->SetIsReady(true, playerID);
+    //}
 
-    if (!(pResult->GetIsEnd() || pPlayStop->GetIsStop()))
+    if (!(pResultText->GetIsEnd() || pPlayStop->GetIsStop()))
     {
         /*if (Input::IsPadButtonDown(XINPUT_GAMEPAD_X, playerID))
         {
@@ -304,7 +304,7 @@ void Player::Update()
                     
                     //投げるか
                     //あとでAIかどうか判別                                                
-                    if (powerZ > powf(goalLength - (rand() % 3000 / 1000), 0.5f) * 0.22f )
+                    if (powerZ > powf(goalLength - ((rand() % 3000) / 1000.0f), 0.5f) * 0.22f )
                     {
                         //if(effectCollar > 2)//エフェクト試す用
                         nowState = THROW_STATE;//ボールを投げる状態へ

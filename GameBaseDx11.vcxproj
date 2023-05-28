@@ -136,7 +136,6 @@
     <ClCompile Include="BackGround.cpp" />
     <ClCompile Include="Ball.cpp" />
     <ClCompile Include="Basket.cpp" />
-    <ClCompile Include="ButtonBace.cpp" />
     <ClCompile Include="Engine\BillBoard.cpp" />
     <ClCompile Include="Engine\Button.cpp" />
     <ClCompile Include="Engine\ButtonManager.cpp" />
@@ -178,6 +177,8 @@
     <ClCompile Include="ReadyOKButton.cpp" />
     <ClCompile Include="ReadyText.cpp" />
     <ClCompile Include="Result.cpp" />
+    <ClCompile Include="ResultButton.cpp" />
+    <ClCompile Include="ResultText.cpp" />
     <ClCompile Include="Rule.cpp" />
     <ClCompile Include="SettingArrowButton.cpp" />
     <ClCompile Include="SettingBack.cpp" />
@@ -207,7 +208,6 @@
     <ClInclude Include="BackGround.h" />
     <ClInclude Include="Ball.h" />
     <ClInclude Include="Basket.h" />
-    <ClInclude Include="ButtonBace.h" />
     <ClInclude Include="Engine\BillBoard.h" />
     <ClInclude Include="Engine\Button.h" />
     <ClInclude Include="Engine\ButtonManager.h" />
@@ -248,6 +248,8 @@
     <ClInclude Include="ReadyOKButton.h" />
     <ClInclude Include="ReadyText.h" />
     <ClInclude Include="Result.h" />
+    <ClInclude Include="ResultButton.h" />
+    <ClInclude Include="ResultText.h" />
     <ClInclude Include="Rule.h" />
     <ClInclude Include="SettingArrowButton.h" />
     <ClInclude Include="SettingBack.h" />

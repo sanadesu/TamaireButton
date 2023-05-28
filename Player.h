@@ -9,7 +9,7 @@
 #include "Engine/Text.h"
 #include "StateManager.h"
 #include "Engine/Particle.h"
-#include "Result.h"
+#include "ResultText.h"
 #include "PlayStop.h"
 
 #include<memory>
@@ -97,7 +97,7 @@ class Player : public GameObject
     Basket* pBasket = (Basket*)FindObject("Basket");
     Ground* pGround = (Ground*)FindObject("Ground");
     StateWalk* pStateWalk = (StateWalk*)FindObject("StateWalk");
-    Result* pResult;
+    ResultText* pResultText;
     PlayStop* pPlayStop;
     CsvReader* pCsv;
     Text* pText;

@@ -10,10 +10,10 @@
 #include "Rule.h"
 #include "Engine/Input.h"
 //コンストラクタ
-TitleButton::TitleButton(GameObject* parent, int ID)
-	: Button(parent, "TitleButton")
+TitleButton::TitleButton(GameObject* pParent, const std::string name, int buttonID_, int screenID_)
+	: Button(pParent, "TitleButton")
 {
-	buttonID = ID;
+	buttonID = buttonID_;
 }
 
 void TitleButton::SubInitialize()
@@ -40,11 +40,20 @@ void TitleButton::SubInitialize()
 	titleState = 0;
 	isPush = false;
 	pTitle = (TitleScene*)FindObject("TitleScene");
+	isFirstTime = true;
 }
 
 void TitleButton::SubUpdate()
 {
-	ButtonSwith();
+	//最初だけやりたい処理
+	if (isFirstTime)
+	{
+		pRuleButton = (TitleButton*)FindObject("TitleRuleButton");
+		isFirstTime = false;
+	}
+	
+	if(pRuleButton->GetTitleState() == TITLE)
+		ButtonSwith();
 
 	
 	Frame* nowFrame = (Frame*)FindObject("Frame");

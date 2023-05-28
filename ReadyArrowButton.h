@@ -52,7 +52,7 @@ public:
 
 	void SetSplit(int split_) { playerNum = split_; }
 
-	int GetScreenID();
+	int GetScreenID() override;
 
 	int GetPlayerNum();
 };

@@ -2,7 +2,7 @@
 #include "Engine/Model.h"
 #include "Engine/Input.h"
 #include "Basket.h"
-#include "Result.h"
+#include "ResultText.h"
 #include "PlayScene.h"
 #include "PlayStop.h"
 
@@ -203,20 +203,20 @@ void Ball::OnCollision(GameObject* pTarget)
     //ƒS[ƒ‹‚É“–‚½‚Á‚½‚Æ‚«
     if (pTarget->GetObjectName() == "Basket" && throwBall)
     {
-        Result* pResult = (Result*)FindObject("Result");
+        ResultText* pResultText = (ResultText*)FindObject("ResultText");
         hModel_[0];
         this->hModel_;
 
         if (ballID % 2 == 0)
         {
             //ƒS[ƒ‹‚É“ü‚Á‚½‚ç“¾“_
-            pResult->WhiteCount();
+            pResultText->WhiteCount();
             pGround->SetGroundBall(-1);
             
         }
         else
         {
-            pResult->RedCount();
+            pResultText->RedCount();
             pGround->SetGroundBall(-1);
         }
 
