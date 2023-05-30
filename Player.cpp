@@ -121,7 +121,7 @@ void Player::Update()
         if (playerID % 2 == 0)
         {
             //白チーム
-            hModel_ = Model::Load("Goma.fbx");
+            hModel_ = Model::Load("WhitePlayer.fbx");
             assert(hModel_ >= 0);
             transform_.position_.x = playerID * -3 - 3;
         }
@@ -129,7 +129,7 @@ void Player::Update()
         {
             //赤チーム
             hModel_ = Model::Load("FryDamage.fbx");
-            hModel_ = Model::Load("Fry2.fbx");
+            hModel_ = Model::Load("RedPlayer.fbx");
             assert(hModel_ >= 0);
             transform_.position_.x = playerID * 3;
         }
