@@ -126,13 +126,14 @@ void Time::Update()
 
 #ifdef _DEBUG
 
+        
+
+#endif // DEBUG
         //デバッグのみ
         if (Input::IsKeyDown(DIK_0))
         {
             time -= 1800;
-        }
-
-#endif // DEBUG
+    }
     }
     
 }

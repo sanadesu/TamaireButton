@@ -5,6 +5,7 @@
 #include <string>
 #include "Transform.h"
 #include "Texture.h"
+#include "Direct3D.h"
 
 class FbxParts;
 
@@ -70,7 +71,7 @@ public:
 
 	//描画
 	//引数：World	ワールド行列
-	void    Draw(Transform& transform, int frame);
+	void    Draw(Transform& transform, int frame, Direct3D::SHADER_TYPE shaderType);
 
 	//解放
 	void    Release();

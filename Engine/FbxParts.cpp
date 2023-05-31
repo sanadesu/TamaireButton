@@ -438,9 +438,7 @@ void FbxParts::Draw(Transform& transform)
 	Direct3D::pContext_->VSSetConstantBuffers(0, 1, &pConstantBuffer_);
 	Direct3D::pContext_->PSSetConstantBuffers(0, 1, &pConstantBuffer_);
 
-	for (int j = 0; j < 2; j++)
-	{
-		transform.Calclation();
+	transform.Calclation();
 		//シェーダーのコンスタントバッファーに各種データを渡す
 		for (DWORD i = 0; i < materialCount_; i++)
 		{
@@ -490,8 +488,7 @@ void FbxParts::Draw(Transform& transform)
 			//ポリゴンメッシュを描画する
 			Direct3D::pContext_->DrawIndexed(pMaterial_[i].polygonCount * 3, 0, 0);
 		}
-		Direct3D::SetShader(Direct3D::SHADER_TOON);
-	}
+	
 }
 
 //ボーン有りのモデルを描画

@@ -19,6 +19,9 @@ namespace Model
 
 		//ロードしたモデルデータのアドレス
 		Fbx*		pFbx;
+		
+		//どのシェーダ
+		Direct3D::SHADER_TYPE shaderType;
 
 		//行列
 		Transform 	transform;
@@ -29,7 +32,7 @@ namespace Model
 
 
 		//初期化
-		ModelData() : pFbx(nullptr), nowFrame(0), startFrame(0), endFrame(0), animSpeed(0)
+		ModelData() : pFbx(nullptr), nowFrame(0), startFrame(0), endFrame(0), animSpeed(0),shaderType(Direct3D::SHADER_NORMAL)
 		{
 		}
 
@@ -88,6 +91,10 @@ namespace Model
 	//引数：handle	設定したいモデルの番号
 	//引数：matrix	ワールド行列
 	void SetTransform(int handle, Transform& transform);
+
+	//使うシェーダ
+	void SetShederType(int handle, Direct3D::SHADER_TYPE type);
+
 
 	//ワールド行列の取得
 	//引数：handle	知りたいモデルの番号

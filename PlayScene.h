@@ -9,26 +9,15 @@
 //■■シーンを管理するクラス
 class PlayScene : public GameObject
 {
-	int hPict_Back;    //画像
 	int hPict_;    //画像番号
-	int hSound_;
+	int hSound_;//音
 
-	const int ALL_BALL = 60;
-	const int END_TIME = 7200;
-	float time;
-	int startTime;
-	int playerNumber;
-	int groundBall;
-	bool isEnd;
+	const int ALL_BALL = 60;//ボールの数
+	const int END_TIME = 7200;//ゲーム時間
+	const float VOLUME = 0.7f;//音量
 	Ball* pBall[80];
-	Text* pText;
-	UI* pUI;
-	//Player* pPlayer[ScreenSplit::GetScreenSplit()];
 	Player* pPlayer[4];
-	Player* p1;
-	Player* p2;
 	Ground* pGround;
-	Time* pTime;
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
@@ -45,7 +34,4 @@ public:
 
 	//開放
 	void Release() override;
-
-	//消すか
-	bool IsDelete();
 };

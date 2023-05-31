@@ -20,15 +20,15 @@ BackGround::~BackGround()
 //‰Šú‰»
 void BackGround::Initialize()
 {
-    hModel_ = Model::Load("BackGround.fbx");
+    hModel_ = Model::Load("BackGround1.fbx");
     assert(hModel_ >= 0);
     hModel_Sky = Model::Load("BackSky.fbx");
     assert(hModel_Sky >= 0);
    
-    transform_.scale_ = XMFLOAT3(1.5f, 1.5f, 1.5f);
+    transform_.scale_ = XMFLOAT3(2, 2, 2);
     transSky = transform_;
-    transform_.position_.y = 5;
-    transSky.scale_ = XMFLOAT3(1.6f,1.6f,1.6f);
+    transform_.position_.y = 7;
+    transSky.scale_ = XMFLOAT3(2.1f,2.1f,2.1f);
     //transform_.scale_ = XMFLOAT3(35.1f, 35.1f, 35.1f);
 }
 
@@ -47,7 +47,7 @@ void BackGround::Draw()
     Model::SetTransform(hModel_, transform_);
     Model::Draw(hModel_);
   
-    Direct3D::SetShader(Direct3D::SHADER_TOON);
+    //Direct3D::SetShader(Direct3D::SHADER_TOON);
 
 }
 

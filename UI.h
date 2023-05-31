@@ -5,30 +5,17 @@
 //◆◆◆を管理するクラス
 class UI : public GameObject
 {
-    //使用する画像の種類
-    enum
-    {
-        PICT_FRAME,
-        PICT_WHITE_BAR,
-        PICT_RED_BAR,
-        PICT_MAX
-    };
-
+    static const int PLAYER_MAX = 4;
+    const int TEXT_SIZE = 30;
+    const int OPERATION_X = 1630;
+    const int OPERATION_Y = 450;
+    const int STATE_X = 1730;
+    const int STATE_Y = 120;
+    const int OPERATION_MAX = 7;
     //画像番号
-    int hPict_[PICT_MAX];
-
-    int nowBar; 
-    int maxBar; 
-
-    float stopRatio;       //最大に対する固定されたゲージの割合
-    float moveRatio;       //最大に対する変化してるゲージの割合
-    const float BAR_X = -128.0f / (GetPrivateProfileInt("SCREEN", "Width", 800, ".\\setup.ini")/2);
-    const float SPEED = 0.005f;      //バーの速度
-
-    bool IsEnd;            //動けるか
+    int hPict_;
+    bool IsEnd;       //終了してるか
     Text* pText;
-    Transform transBarRed;
-    Transform transBarWhite;
 public:
     //コンストラクタ
     UI(GameObject* parent);
@@ -48,9 +35,9 @@ public:
     //開放
     void Release() override;
 
-    void SetIsEnd(bool move_);
-
+    //ロード画面に切り替え
     void LoadSet();
 
+    //終了してるか取得
     bool GetIsEnd();
 };

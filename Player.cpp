@@ -8,6 +8,7 @@
 #include "Engine/CsvReader.h"
 #include "Engine/ScreenSplit.h"
 #include "Engine/Audio.h"
+#include "Engine/Direct3D.h"
 
 #define _USE_MATH_DEFINES
 #include<math.h>
@@ -103,6 +104,7 @@ void Player::Update()
             hModel_ = Model::Load("WhitePlayerD0.fbx");
             hModel_ = Model::Load("WhitePlayer.fbx");
             assert(hModel_ >= 0);
+            Model::SetShederType(hModel_, Direct3D::SHADER_TOON);
             transform_.position_.x = playerID * -PLAYER_INTERVAL - PLAYER_INTERVAL;
         }
         else
@@ -111,6 +113,7 @@ void Player::Update()
             hModel_ = Model::Load("RedPlayerD0.fbx");
             hModel_ = Model::Load("RedPlayer.fbx");
             assert(hModel_ >= 0);
+            Model::SetShederType(hModel_, Direct3D::SHADER_TOON);
             transform_.position_.x = playerID * PLAYER_INTERVAL;
         }
 
@@ -129,9 +132,6 @@ void Player::Update()
         //AIなら
         if (playerID >= ScreenSplit::GetPlayerPerson())
         {
-            //ステートベースAI
-            sManager.Action();//今の状態のアクション
-            sManager.NextState();//状態遷移
 
             //ステートベースAI
             switch (nowState)
@@ -464,11 +464,13 @@ void Player::Update()
                     {
                         hModel_ = Model::Load("WhitePlayerD0.fbx");
                         assert(hModel_ >= 0);
+                        Model::SetShederType(hModel_, Direct3D::SHADER_TOON);
                     }
                     else
                     {
                         hModel_ = Model::Load("RedPlayerD0.fbx");
                         assert(hModel_ >= 0);
+                        Model::SetShederType(hModel_, Direct3D::SHADER_TOON);
                     }
                 }
                 if (dropTime % 20 == 0)
@@ -477,11 +479,13 @@ void Player::Update()
                     {
                         hModel_ = Model::Load("WhitePlayer.fbx");
                         assert(hModel_ >= 0);
+                        Model::SetShederType(hModel_, Direct3D::SHADER_TOON);
                     }
                     else
                     {
                         hModel_ = Model::Load("RedPlayer.fbx");
                         assert(hModel_ >= 0);
+                        Model::SetShederType(hModel_, Direct3D::SHADER_TOON);
                     }
                 }
                 dropTime++;
@@ -492,11 +496,13 @@ void Player::Update()
                 {
                     hModel_ = Model::Load("WhitePlayer.fbx");
                     assert(hModel_ >= 0);
+                    Model::SetShederType(hModel_, Direct3D::SHADER_TOON);
                 }
                 else
                 {
                     hModel_ = Model::Load("RedPlayer.fbx");
                     assert(hModel_ >= 0);
+                    Model::SetShederType(hModel_, Direct3D::SHADER_TOON);
                 }
                 dropTime = 0;
                 isDrop = false;

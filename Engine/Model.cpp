@@ -85,7 +85,7 @@ namespace Model
 
 		if (_datas[handle]->pFbx)
 		{
-			_datas[handle]->pFbx->Draw(_datas[handle]->transform, (int)_datas[handle]->nowFrame);
+			_datas[handle]->pFbx->Draw(_datas[handle]->transform, (int)_datas[handle]->nowFrame,_datas[handle]->shaderType);
 		}
 	}
 
@@ -169,6 +169,11 @@ namespace Model
 		}
 
 		_datas[handle]->transform = transform;
+	}
+
+	void SetShederType(int handle, Direct3D::SHADER_TYPE type)
+	{
+		_datas[handle]->shaderType = type;
 	}
 
 

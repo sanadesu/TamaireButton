@@ -25,22 +25,12 @@ Ball::~Ball()
 //初期化
 void Ball::Initialize()
 {
-    //const int WhiteConstParam::DIAMETER = 3800;
+    radiusPower = 0;
 
 
-    key = 0;
-    radius = 0;
-
-
-    height = 1;
     powerZ = 0;
     powerY = 0;
-    ballDrop = 0;
-    throwBall = false;
-    rightHaving = false;
-    leftHaving = false;
-    chargePower = false;
-    assist = false;
+    isThrowBall = false;
     isThrow = false;
 
     //モデルデータのロード
@@ -55,6 +45,7 @@ void Ball::Initialize()
         std::string fn = fileName[i];
         hModel_[i] = Model::Load(fn);
         assert(hModel_[i] >= 0);
+        Model::SetShederType(hModel_[i], Direct3D::SHADER_TOON);
     }
 
     do
@@ -62,14 +53,14 @@ void Ball::Initialize()
         transform_.position_.x = (float)(rand() % DIAMETER - (DIAMETER / HALF)) / CHANGE_DECIMAL;
         transform_.position_.z = (float)(rand() % DIAMETER - (DIAMETER / HALF)) / CHANGE_DECIMAL;
 
-        radius = (transform_.position_.x * transform_.position_.x) + (transform_.position_.z * transform_.position_.z);
-    } while (radius >= CIRCLE_RANGE || radius < NEAR_GOAL);
+        radiusPower = (transform_.position_.x * transform_.position_.x) + (transform_.position_.z * transform_.position_.z);
+    } while (radiusPower >= CIRCLE_RANGE || radiusPower < NEAR_GOAL);
+
+    pGround = (Ground*)FindObject("Ground");
 
     //当たり判定
     SphereCollider* collision = new SphereCollider(XMFLOAT3(0, 0, 0), BALLSIZE);
     AddCollider(collision);
-
-    trans.position_ = XMFLOAT3(0, 0, 0);
 }
 
 //更新
@@ -81,14 +72,14 @@ void Ball::Update()
         //後でキーを変えられるようにしてfor文
 
         //投げるときのボールの動き
-        if (throwBall == true)
+        if (isThrowBall == true)
         {
             //加速度の演算
             powerY += GRAVITY;
 
             // スピードの演算
 
-            transform_.rotate_.y = playerRotateY;
+            //transform_.rotate_.y = playerRotateY;
 
             XMFLOAT3 move = { 0,-powerY,powerZ }; //移動量
             XMVECTOR vMove = XMLoadFloat3(&move); //移動量をベクトルに変換 
@@ -111,8 +102,7 @@ void Ball::Update()
             {  // ボールが下に当たったら
                 isThrow = false;
                 transform_.position_.y = 0.0;
-                powerY = -powerY * BOUND;  // y軸のスピードを反転して玉入れっぽくあまり跳ねなくする
-                height = powerY; //高さ保存
+                powerY = -powerY * BOUND;  // y軸のスピードを反転して玉入れっぽくあまり
                 powerZ *= RESISTANCE;//抵抗
 
                 //当たり判定終わりにする　あとで
@@ -123,38 +113,10 @@ void Ball::Update()
             {
                 powerZ = 0;
                 powerY = 0;
-                throwBall = false;
+                isThrowBall = false;
                 isHave = false;
             }
         }
-
-        ////パワー渡す
-        //if (Input::IsPadButtonUp(XINPUT_GAMEPAD_A) && throwBall == false)
-        //{
-        //    throwBall = true;
-        //    /* powerY = -0.5;
-        //     powerZ = 0.5;*/
-        //}
-
-
-        for (int i = 0; i < Max; i++)
-        {
-            if (i == First)
-            {
-                key = DIK_SPACE;
-                assistKey = DIK_F1;
-            }
-            else if (i == Second)
-            {
-                key = DIK_RETURN;
-                assistKey = DIK_F2;
-            }
-            else
-            {
-                key = 0;
-            }
-        }
-
         //デバッグ用
         if (Input::IsKey(DIK_B))
         {
@@ -162,8 +124,8 @@ void Ball::Update()
         }
 
         ////円の範囲外なら消える
-        radius = (transform_.position_.x * transform_.position_.x) + (transform_.position_.z * transform_.position_.z);
-        if (radius > CIRCLE_OUTSIDE)
+        radiusPower = (transform_.position_.x * transform_.position_.x) + (transform_.position_.z * transform_.position_.z);
+        if (radiusPower > CIRCLE_OUTSIDE)
         {
             pGround->SetGroundBall(-1);
             KillMe();
@@ -200,7 +162,7 @@ void Ball::Release()
 void Ball::OnCollision(GameObject* pTarget)
 {
     //ゴールに当たったとき
-    if (pTarget->GetObjectName() == "Basket" && throwBall)
+    if (pTarget->GetObjectName() == "Basket" && isThrowBall)
     {
         ResultText* pResultText = (ResultText*)FindObject("ResultText");
         hModel_[0];
@@ -219,7 +181,7 @@ void Ball::OnCollision(GameObject* pTarget)
             pGround->SetGroundBall(-1);
         }
 
-        throwBall = false;
+        isThrowBall = false;
         //中心に向かって移動
         Basket* pBasket = (Basket*)FindObject("Basket");
         XMFLOAT3 basketPos = pBasket->GetBasketPos();
@@ -241,34 +203,13 @@ void Ball::OnCollision(GameObject* pTarget)
     }
 }
 
-
-void Ball::HandPos(int playerID_, bool rightHand_)
-{
-    //transform_.position_ = bonePos;
-    //a = true;
-    //もってるあいだの変数true
-}
-
-void Ball::PlayerBone(XMFLOAT3 bone)
-{
-    //transform_.position_ = bone;
-}
-
 void Ball::SetPower(float powerY_, float powerZ_, float playerRotateY_)
 {
     powerY = powerY_;
     powerZ = powerZ_;
-    playerRotateY = playerRotateY_;
-    throwBall = true;
+    transform_.rotate_.y = playerRotateY_;
+    isThrowBall = true;
     isThrow = true;
-}
-
-void Ball::SetPlayerModel(int model_, int ballID_)
-{
-    //できない
-    /*playerModel = model_;
-    transform_.position_ = Model::GetBonePosition(playerModel, "joint1");*/
-
 }
 
 int Ball::GetBallNum()

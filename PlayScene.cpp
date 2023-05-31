@@ -14,23 +14,19 @@
 #include "Engine/Camera.h"
 #include "Engine/Audio.h"
 #include "Result.h"
-//#include "Engine/Camera.h"
 
 //コンストラクタ
 PlayScene::PlayScene(GameObject* parent)
-	: GameObject(parent, "PlayScene"), hPict_Back(-1), hPict_(-1)
+	: GameObject(parent, "PlayScene"), hPict_(-1), hSound_(-1)
 {
 }
 
 //初期化
 void PlayScene::Initialize()
 {
-	hSound_ = Audio::Load("PlayBGM.wav", true, 0.8f, 1);
+	hSound_ = Audio::Load("PlayBGM.wav", true, VOLUME, 1);
 	assert(hSound_ >= 0);
-	isEnd = false;
 
-	//ScreenSplit::SetScreenSplit(2);//後でプレイヤーの数に変更　これを★に
-	//Camera::Initialize();
 	Instantiate<BackGround>(this);
 	Instantiate<Ground>(this);
 	for (int i = 0; i < ALL_BALL; i++)
@@ -42,44 +38,21 @@ void PlayScene::Initialize()
 		}
 	}
 
-	groundBall = ALL_BALL;
+	const char* objectName[] = { "Player","Player2" ,"Player3" ,"Player4" };
 	for (int i = 0; i < ScreenSplit::GetAllPerson(); i++)
 	{
 		pPlayer[i] = Instantiate<Player>(this);
 		pPlayer[i]->playerID = i;
-		//pPlayer[i]->SetObjectName("Player" + (char)i); 
-	}
-	if(pPlayer[1] != nullptr)
-	{
-		pPlayer[1]->SetObjectName("Player2");
-	}
-	if (pPlayer[2] != nullptr)
-	{
-		pPlayer[2]->SetObjectName("Player3");
-	}
-	if (pPlayer[3] != nullptr)
-	{
-		pPlayer[3]->SetObjectName("Player4");
+		pPlayer[i]->SetObjectName(objectName[i]);
 	}
 
 	Instantiate<Basket>(this);
-	
-	pText = new Text;
-	pText->Initialize();
-	time = END_TIME;
-	playerNumber = 0;
-	startTime = 180;
 	Instantiate<Time>(this);
 	Instantiate<PlayStop>(this);
 	Instantiate<AssistReady>(this);
 	Instantiate<UI>(this);
 	Instantiate<Result>(this);
 	pGround = (Ground*)FindObject("Ground");
-	pUI = (UI*)FindObject("UI");
-	pTime = (Time*)FindObject("Time");
-
-	hPict_Back = Image::Load("TimeBack.png");
-	assert(hPict_Back >= 0);
 
 	Camera::SetScreen(ScreenSplit::GetScreenSplit());
 }

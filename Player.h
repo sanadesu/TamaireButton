@@ -1,11 +1,9 @@
 #pragma once
 #include "Engine/GameObject.h"
 #include "PoryLine.h"
-#include "StateWalk.h"
 #include "Ground.h"
 #include"Ball.h"
 #include "Engine/Text.h"
-#include "StateManager.h"
 #include "Engine/Particle.h"
 #include "ResultText.h"
 #include "PlayStop.h"
@@ -36,7 +34,7 @@ class Player : public GameObject
     int hModel_;    //モデル番号
     int hSound_Throw;
 
-    const int CIRCLE_RANGE = 360;//丸の範囲？？？？
+    const int CIRCLE_RANGE = 360;//丸の範囲
     const int PORY_LENGTH = 42;//軌道を保存する長さ?-1
     const int NOT_HAVE = -1;
     const int DROP_TIME = 120;//玉を当てられたときに拾えない時間
@@ -81,7 +79,6 @@ class Player : public GameObject
 
 
     XMFLOAT3 camPos;//カメラの場所
-    StateManager sManager;
     Particle* pParticle_;
     string stateText;
 
@@ -93,7 +90,6 @@ class Player : public GameObject
     Ball* pBallLeft;//左手で持ってるボール
     Ball* pBallThrow;//投げられているボール
     Ground* pGround;//ボールの管理に使う
-     StateWalk* pStateWalk;
     ResultText* pResultText;
     PlayStop* pPlayStop;
     Text* pText;

@@ -104,10 +104,6 @@
     <ClCompile Include="Engine\Text.cpp">
       <Filter>01Engine\ResourceManager</Filter>
     </ClCompile>
-    <ClCompile Include="StateBase.cpp" />
-    <ClCompile Include="State.cpp" />
-    <ClCompile Include="StateWalk.cpp" />
-    <ClCompile Include="StateThrow.cpp" />
     <ClCompile Include="memo.cpp" />
     <ClCompile Include="Engine\Particle.cpp">
       <Filter>01Engine\GameObject</Filter>
@@ -115,8 +111,6 @@
     <ClCompile Include="Engine\BillBoard.cpp">
       <Filter>01Engine\DirectX</Filter>
     </ClCompile>
-    <ClCompile Include="StateCharge.cpp" />
-    <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="Engine\ScreenSplit.cpp">
       <Filter>01Engine\GameObject</Filter>
     </ClCompile>
@@ -297,18 +291,12 @@
       <Filter>01Engine\ResourceManager</Filter>
     </ClInclude>
     <ClInclude Include="PoryLine.h" />
-    <ClInclude Include="StateBase.h" />
-    <ClInclude Include="State.h" />
-    <ClInclude Include="StateWalk.h" />
-    <ClInclude Include="StateThrow.h" />
     <ClInclude Include="Engine\Particle.h">
       <Filter>01Engine\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Engine\BillBoard.h">
       <Filter>01Engine\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="StateCharge.h" />
-    <ClInclude Include="StateManager.h" />
     <ClInclude Include="Engine\ScreenSplit.h">
       <Filter>01Engine\GameObject</Filter>
     </ClInclude>

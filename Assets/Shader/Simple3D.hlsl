@@ -18,6 +18,7 @@ cbuffer global
 	float4		g_vecAmbient;		// アンビエントカラー（影の色）
 	float4		g_vecSpeculer;		// スペキュラーカラー（ハイライトの色）
 	float4		g_vecCameraPosition;// 視点（カメラの位置）
+	float4		g_color;			//色
 	float		g_shuniness;		// ハイライトの強さ（テカリ具合）
 	bool		g_isTexture;		// テクスチャ貼ってあるかどうか
 	float		g_uvScroll;			//uvスクロールをするための値
@@ -68,8 +69,6 @@ VS_OUT VS(float4 pos : POSITION, float4 Normal : NORMAL, float2 Uv : TEXCOORD)
 //───────────────────────────────────────
 float4 PS(VS_OUT inData) : SV_Target
 {
-	inData.uv.x += g_uvScroll;
-
 	//ライトの向き
 	float4 lightDir = g_vecLightDir;	//グルーバル変数は変更できないので、いったんローカル変数へ
 	lightDir = normalize(lightDir);	//向きだけが必要なので正規化
@@ -123,5 +122,5 @@ float4 PS(VS_OUT inData) : SV_Target
 	}
 
 	//最終的な色
-	return diffuse;
+	return diffuse+diffuse * ambient + speculer;
 }

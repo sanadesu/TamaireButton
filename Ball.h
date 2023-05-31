@@ -22,49 +22,25 @@ class Ball : public GameObject
     const int DIAMETER = 3800;//地面にランダムにボール配置
     const int HALF = 2;
     const int CHANGE_DECIMAL = 100;//小数に変化
-    const int CIRCLE_RANGE = 360;
-    const int NEAR_GOAL = 15;
-    const int CIRCLE_OUTSIDE = 450;
-    const int DROP_TIME = 600;
-    const float BALLSIZE = 0.18f;
-    const float POWER = 0.01f;
-    const float GRAVITY = 0.05f;
-    const float RESISTANCE = 0.97f;
-    const float BOUND = 0.6f;
-    const float RIGHT_HAND_LENGTH = 1.0f;
-    const float LEFT_HAND_LENGTH = -1.0f;
-    const float HAND_HEIGHT = 2.5f;
-    const float END_MOVE = 0.001f;
+    const int CIRCLE_RANGE = 360;//地面範囲
+    const int NEAR_GOAL = 15;//ゴールの近く
+    const int CIRCLE_OUTSIDE = 450;//ボールの生存範囲
 
-    int key;
-    int ballDrop;
-    int assistKey;
-    int playerModel = 0;
-    int groundBall;
-    float radius;         //円の半径の2乗
-    float height;       //バウンドの高さ
+    const float BALLSIZE = 0.18f;//ボール半径
+    const float GRAVITY = 0.05f;//重力
+    const float RESISTANCE = 0.97f;//抵抗
+    const float BOUND = 0.6f;//バウンドの大きさ
+    const float END_MOVE = 0.001f;//ボールが止まる値
+
+    float radiusPower;         //円の半径の2乗
     float powerZ;       //投げる距離
     float powerY;       //投げる高さ
-    float playerRotateY;
-    bool throwBall;     //ボールを投げている間
-    bool rightHaving;   //右手
-    bool leftHaving;    //左手
-    bool chargePower;   //力をためているか
-    bool assist;
-    bool isThrow;
-    bool isHave;
-    //XMFLOAT direction;
 
-   
-    //Player* pPlayer = (Player*)FindObject("Player");
-    //* pBasket = (Basket*)FindObject("Basket");
-    GameObject* pBall = FindObject("Ball");
-    PoryLine* pLine;
-    Transform trans;
-    Ground* pGround = (Ground*)FindObject("Ground");
-    int a = 0;
-    //PlayScene* pPlayScene;
-    //Fbx* pFbx;
+    bool isThrowBall;     //ボールを投げている間
+    bool isThrow;//投げてる状態かどうか
+    bool isHave;//持っている状態かどうか
+
+    Ground* pGround;
 public:
     int ballID;
     //コンストラクタ
@@ -89,24 +65,21 @@ public:
     //引数：pTarget 当たった相手
     void OnCollision(GameObject* pTarget) override;
 
-
-    //プレイヤーがボールをもつ
-    //引数：コントローラーの番号 , 右手に持つか
-    void HandPos(int playerID_, bool rightHand_);
-
-    void PlayerBone(XMFLOAT3 bone);
-
+    //投げる強さをセット
     void SetPower(float powerY, float powerZ, float rotatePlayer);
 
-    void SetPlayerModel(int model_, int ballID_);
-
+    //どのボールか判別
     int GetBallNum();
 
+    //投げてる状態かどうか取得
     bool GetIsThrow();
 
+    //場所セット
     void SetBallPos(XMFLOAT3 ballPos);
 
+    //持っているかどうかセット
     void SetIsHave(bool isHave_);
 
+    //持っているかどうか取得
     bool GetIsHave();
 };

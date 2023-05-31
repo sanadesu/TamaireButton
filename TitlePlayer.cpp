@@ -31,7 +31,7 @@ void TitlePlayer::Initialize()
     playerPosRed = POS_X + MOVE_RANGE;
     playerPosWhite = POS_X + MOVE_RANGE;
     playerRotateZ = 0;
-    hModel_ = Model::Load("Fry.fbx");
+    hModel_ = Model::Load("RedPlayer.fbx");
     assert(hModel_ >= 0);
     transform_.position_.z += 30;
     transform_.scale_.x *= SIZE;
@@ -82,7 +82,7 @@ void TitlePlayer::Update()
     else if(T_PlayerID == PLAYER_WHITE)
     {
         //™
-        hModel_ = Model::Load("GomaPlayer.fbx");
+        hModel_ = Model::Load("WhitePlayer.fbx");
         assert(hModel_ >= 0);
 
         if ((nowFrame->GetFrame() > WHITE_START && BoundWhite != 0) || pTitle->GetIsSkip())
