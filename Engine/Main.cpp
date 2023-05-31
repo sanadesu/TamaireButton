@@ -144,8 +144,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						Direct3D::SetViewPort(0);
 						if (pPlayer != nullptr)
 						{
-							Camera::SetPosition(pPlayer->GetCameraPos(0));
-							Camera::SetTarget(pPlayer->GetCameraTarget(0));
+							Camera::SetPosition(pPlayer->GetCameraPos());
+							Camera::SetTarget(pPlayer->GetCameraTarget());
 						}
 						Camera::Update();
 						pRootObject->DrawSub();
@@ -159,8 +159,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						if (pPlayer != nullptr)
 						{
-							Camera::SetPosition(pPlayer->GetCameraPos(0));
-							Camera::SetTarget(pPlayer->GetCameraTarget(0));
+							Camera::SetPosition(pPlayer->GetCameraPos());
+							Camera::SetTarget(pPlayer->GetCameraTarget());
 						}
 
 						Camera::Update();
@@ -177,8 +177,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						Direct3D::SetViewPort(2);
 						if (pPlayer != nullptr)
 						{
-							Camera::SetPosition(pPlayer->GetCameraPos(1));
-							Camera::SetTarget(pPlayer->GetCameraTarget(1));
+							Camera::SetPosition(pPlayer->GetCameraPos());
+							Camera::SetTarget(pPlayer->GetCameraTarget());
 						}
 
 						Camera::Update();
@@ -214,8 +214,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						if (pPlayer != nullptr)
 						{
-							Camera::SetPosition(pPlayer->GetCameraPos(0));
-							Camera::SetTarget(pPlayer->GetCameraTarget(0));
+							Camera::SetPosition(pPlayer->GetCameraPos());
+							Camera::SetTarget(pPlayer->GetCameraTarget());
 						}
 
 						Camera::Update();
@@ -232,8 +232,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						Direct3D::SetViewPort(4);
 						if (pPlayer != nullptr)
 						{
-							Camera::SetPosition(pPlayer->GetCameraPos(1));
-							Camera::SetTarget(pPlayer->GetCameraTarget(1));
+							Camera::SetPosition(pPlayer->GetCameraPos());
+							Camera::SetTarget(pPlayer->GetCameraTarget());
 						}
 
 						Camera::Update();
@@ -250,8 +250,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						if (pPlayer != nullptr)
 						{
-							Camera::SetPosition(pPlayer->GetCameraPos(2));
-							Camera::SetTarget(pPlayer->GetCameraTarget(2));
+							Camera::SetPosition(pPlayer->GetCameraPos());
+							Camera::SetTarget(pPlayer->GetCameraTarget());
 						}
 
 						Camera::Update();
@@ -268,8 +268,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						Direct3D::SetViewPort(6);
 						if (pPlayer != nullptr)
 						{
-							Camera::SetPosition(pPlayer->GetCameraPos(3));
-							Camera::SetTarget(pPlayer->GetCameraTarget(3));
+							Camera::SetPosition(pPlayer->GetCameraPos());
+							Camera::SetTarget(pPlayer->GetCameraTarget());
 						}
 
 						Camera::Update();

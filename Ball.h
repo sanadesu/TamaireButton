@@ -2,7 +2,6 @@
 #include "Engine/GameObject.h"
 #include "Engine/SphereCollider.h"
 #include "Engine/Fbx.h"
-#include "Ball.h"
 #include "Basket.h"
 #include "PoryLine.h"
 #include "Ground.h"
@@ -20,17 +19,9 @@ class Ball : public GameObject
         Max
     };
 
-    /*struct WhiteConstParam
-    {
-        static const int DIAMETER;
-        static const int RADIUS;
-        static const int NEAR_GOAL;
-    };*/
-
-    const int MODEL_NUM = 2;
-    const int DIAMETER = 3800;
+    const int DIAMETER = 3800;//地面にランダムにボール配置
     const int HALF = 2;
-    const int CHANGE_DECIMAL = 100;
+    const int CHANGE_DECIMAL = 100;//小数に変化
     const int CIRCLE_RANGE = 360;
     const int NEAR_GOAL = 15;
     const int CIRCLE_OUTSIDE = 450;

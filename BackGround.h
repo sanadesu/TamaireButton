@@ -6,6 +6,7 @@ class BackGround : public GameObject
 {
     int hModel_;    //ƒ‚ƒfƒ‹”Ô†
     int hModel_Sky;
+    int hModelSky;
     Transform transSky;
     
 public:

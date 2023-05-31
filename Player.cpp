@@ -1,5 +1,4 @@
 #include "Player.h"
-#include"Ball.h"
 #include "Engine/Input.h"
 #include "Engine/Model.h"
 #include "Engine/Camera.h"
@@ -18,8 +17,8 @@
 //コンストラクタ
 Player::Player(GameObject* parent)
     :GameObject(parent, "Player"),
-    hModel_(-1),  pLine(nullptr), pText(nullptr), hSound_Charge(-1), hSound_Throw(-1),
-    IsAssist(true)
+    hModel_(-1),  pLine(nullptr), pText(nullptr), hSound_Throw(-1),
+    isAssist(true)
 {
 
 }
@@ -34,13 +33,10 @@ Player::~Player()
 void Player::Initialize()
 {
     //サウンドデータのロード
-    hSound_Charge = Audio::Load("Star.wav", false, 0.8f, 1);//あとで
-    assert(hSound_Charge >= 0);
     hSound_Throw = Audio::Load("Throw.wav", false, 0.8f, 1);
     assert(hSound_Throw >= 0);
 
     transform_.position_ = XMFLOAT3(START_POS_X, 1.5f, START_POS_Z);
-    //transform_.position_.x = (float)(rand() % 180 / 10);
 
     //当たり判定
     SphereCollider* collision = new SphereCollider(XMFLOAT3(0, -0.2f,0), HIT_SIZE);
@@ -48,12 +44,10 @@ void Player::Initialize()
 
     nowState = WALK_STATE;
     playerID = 0;
-    key = 0;
-    button = 0;
-    processID = 0;
     rightHand = -1;
     leftHand = -1;
     dropTime = 0;
+    pGround = (Ground*)FindObject("Ground");
     powerY = 0.0f;
     powerZ = 0.0f;
     trajectoryY = 0.0f;
@@ -66,72 +60,58 @@ void Player::Initialize()
     viewY = 3.0f; //Y座標
     cameraZ = 0.1f;
 #endif
+    effectCollar = 0;
     stateText = "Player";
 
     moveLimit = 0.0f;
     goalLength = 0.0f;
     IsFirst = true;
-    damage = false;
-    chargePower = false;
-    IsDrop = false;
-    IsEnd = false;
-    //IsAssist = true;
+    isDamage = false;
+    isChargePower = false;
+    isDrop = false;
+    camPos = XMFLOAT3(0, 0, 0);
     prevPos = transform_;
 
     pLine = std::make_unique<PoryLine>();
     pLine->Load("tex1.png");
-    //pLineW = new PoryLine;
-    //pLineW->Load("tex2.jpg");
-    //pLineX = new PoryLine;
-    //pLineX->Load("tex2.jpg");
 
-    trans = transform_;
+    poryTrans = transform_;
+    pBall = (Ball*)FindObject("Ball");
+    pBallRight = nullptr;
+    pBallLeft = nullptr;
+    pBallThrow = nullptr;
     //pCsv->CsvReader("a.csv");
     pText = new Text;
     pText->Initialize();
-
     pParticle_ = Instantiate<Particle>(this);
 
-    hModel_ = Model::Load("Goma.fbx");
+    hModel_ = Model::Load("WhitePlayer.fbx");
     assert(hModel_ >= 0);
-   /* if (playerID % 2 == 0)
-    {
-        hModel_ = Model::Load("Goma.fbx");
-        assert(hModel_ >= 0);
-    }
-    else
-    {
-        hModel_ = Model::Load("fryPlayer.fbx");
-        assert(hModel_ >= 0);
-    }*/
 }
 
 //更新
 void Player::Update()
 {
-    
-    //bool a = pPlayStop->GetIsStop();
-    //動けるかどうか
-    
         //最初の一回だけやりたい処理
     if (IsFirst)
     {
-        pPlayStop = (PlayStop*)FindObject("PlayStop");
         pResultText = (ResultText*)FindObject("ResultText");
+        pPlayStop = (PlayStop*)FindObject("PlayStop");
         if (playerID % 2 == 0)
         {
             //白チーム
+            hModel_ = Model::Load("WhitePlayerD0.fbx");
             hModel_ = Model::Load("WhitePlayer.fbx");
             assert(hModel_ >= 0);
-            transform_.position_.x = playerID * -3 - 3;
+            transform_.position_.x = playerID * -PLAYER_INTERVAL - PLAYER_INTERVAL;
         }
         else
         {
             //赤チーム
-            hModel_ = Model::Load("FryDamage.fbx");
+            hModel_ = Model::Load("RedPlayerD0.fbx");
             hModel_ = Model::Load("RedPlayer.fbx");
             assert(hModel_ >= 0);
-            transform_.position_.x = playerID * 3;
+            transform_.position_.x = playerID * PLAYER_INTERVAL;
         }
 
         //AI
@@ -143,29 +123,10 @@ void Player::Update()
         IsFirst = false;
     }
 
-    ////準備完了
-    //if (Input::IsKeyDown(DIK_R))
-    //{
-    //    pPlayStop->SetIsReady(true, playerID);
-    //}
-
+    //ゲームが進行中なら
     if (!(pResultText->GetIsEnd() || pPlayStop->GetIsStop()))
     {
-        /*if (Input::IsPadButtonDown(XINPUT_GAMEPAD_X, playerID))
-        {
-            if (IsAssist)
-            {
-                IsAssist = false;
-            }
-            else
-            {
-                IsAssist = true;
-            }
-        }*/
-
-
-        //プレイヤーが色選択できるように後で変える
-        //              プレイ人数
+        //AIなら
         if (playerID >= ScreenSplit::GetPlayerPerson())
         {
             //ステートベースAI
@@ -182,14 +143,13 @@ void Player::Update()
                 //状態表示用、デバッグのみ
                 stateText = "Walk";
 
-                //方向転換、後でちゃんとボールを探索で見つけたい(未)
                 if (moveLimit > CIRCLE_RANGE)
-                    transform_.rotate_.y += 137;
+                    transform_.rotate_.y += COM_ROTATE;
                 //移動
                 transform_ = FrontDirection(0, 0, PLAYER_MOVE, transform_.rotate_.y, transform_);
                 
                 //ボールを2個持ってる&ゴールから一定距離離れているか
-                if (pBallLeft != nullptr && moveLimit > 50)
+                if (pBallLeft != nullptr && moveLimit > NOTTHROW_RANGE)
                 {
                     //ボールの投げる強さを決める状態へ
                     nowState = CHARGE_STATE;
@@ -238,7 +198,7 @@ void Player::Update()
                         pParticle_->Start(data);
                         
                         //グラデーション用
-                        effectCollar += 0.02f;
+                        effectCollar += GRADATION_VALUE;
                     }
 
                     //ゴールを向く
@@ -258,55 +218,22 @@ void Player::Update()
                     if (playerID % 2 == pBallRight->ballID % 2)
                     {
                         //ゴール向く
-                        transform_.rotate_.y = (float)(atan2(goalRotate.x, goalRotate.z) * 180.0 / M_PI);
+                        transform_.rotate_.y = (float)(atan2(goalRotate.x, goalRotate.z) * GOAL_ROTATE / M_PI);
                     }
                     else
                     {
                         //ゴールと反対を向く
-                        goalLength = 21 - goalLength;
-                        transform_.rotate_.y = (float)(atan2(-goalRotate.x, -goalRotate.z) * 180.0 / M_PI);
+                        goalLength = CIRCLE_RADIUS - goalLength;
+                        transform_.rotate_.y = (float)(atan2(-goalRotate.x, -goalRotate.z) * GOAL_ROTATE / M_PI);
                     }
                     //力ためる
                     powerY -= POWER;
                     powerZ += POWER;
 
-
-                    ////アシスト機能オンなら(未)
-                    //if (IsAssist)
-                    //{
-                    //    //ボールの軌道
-                    //    trajectoryY = powerY;
-                    //    trajectoryZ = powerZ;
-                    //    //右手の位置
-                    //    trans.position_ = Model::GetBonePosition(hModel_, "joint1");
-
-                    //    for (int j = 0; j < PORY_LENGTH; j++)
-                    //    {
-                    //        //3フレームおきの場所を入れる
-                    //        if (j % 3 == 0)
-                    //        {
-                    //            pLine->AddPosition(trans.position_);
-                    //            //pLineW->AddPositionW(trans.position_);
-                    //            //pLineX->AddPositionX(trans.position_);
-                    //        }
-
-                    //        // 加速度の演算
-                    //        trajectoryY += GRAVITY;
-                    //        trans.rotate_ = transform_.rotate_;
-                    //        trans = FrontDirection(0, -trajectoryY, trajectoryZ, transform_.rotate_.y, trans);
-                    //        trajectoryZ *= RESISTANCE;//抵抗
-
-                    //    }
-                    //    //軌道を表示する
-                    //    chargePower = true;
-
-                    //}
-                    
                     //投げるか
                     //あとでAIかどうか判別                                                
-                    if (powerZ > powf(goalLength - ((rand() % 3000) / 1000.0f), 0.5f) * 0.22f )
+                    if (powerZ > powf(goalLength - ((rand() % RANDOM_VALUE) / DECIMAL_CHANGE), THROW_POWER_Y) * POWER_ADJUSTMENT)
                     {
-                        //if(effectCollar > 2)//エフェクト試す用
                         nowState = THROW_STATE;//ボールを投げる状態へ
                     }
                 }
@@ -319,11 +246,11 @@ void Player::Update()
 
 
                 pBallRight->SetPower(powerY, powerZ, transform_.rotate_.y);
-                chargePower = false;//↑足す？
+                isChargePower = false;//↑足す？
                 powerY = 0;
                 powerZ = 0;
                 rightHand = leftHand;
-                leftHand = -1;
+                leftHand = NOT_HAVE;
                 pBallRight = pBallLeft;
                 pBallLeft = nullptr;//ここまで？
                 //あとでAIかどうか判別 
@@ -351,15 +278,12 @@ void Player::Update()
         {
             //右手にボール持つ
             pBallRight->SetBallPos(Model::GetBonePosition(hModel_, "joint1"));
-            //trans.position_ = Model::GetBonePosition(hModel_, "joint1");
-            //pBallRight->PlayerBone(Model::GetBonePosition(hModel_, "joint1"));
 
         }//左手ボール持ってたら
         if (pBallLeft != nullptr)
         {
             //左手にボール持つ
             pBallLeft->SetBallPos(Model::GetBonePosition(hModel_, "joint2"));
-            //pBallLeft->PlayerBone(Model::GetBonePosition(hModel_, "joint2"));
         }
 
         //いる場所、二乗
@@ -443,30 +367,27 @@ void Player::Update()
 
            
 
-            if (IsAssist)
+            if (isAssist)
             {
                 trajectoryY = powerY;
                 trajectoryZ = powerZ;
                 //右手の位置 予測のやつ
-                trans.position_ = Model::GetBonePosition(hModel_, "joint1");
+                poryTrans.position_ = Model::GetBonePosition(hModel_, "joint1");
 
                 for (int i = 0; i < PORY_LENGTH; i++)
                 {
                     if (i % 3 == 0)
-                    {
-                        pLine->AddPosition(trans.position_);
-                        //pLineW->AddPositionW(trans.position_);
-                        //pLineX->AddPositionX(trans.position_);
-                    }
+                        pLine->AddPosition(poryTrans.position_);
+
                     // 加速度の演算
                     trajectoryY += GRAVITY;
 
-                    trans.rotate_ = transform_.rotate_;
-                    trans = FrontDirection(0, -trajectoryY, trajectoryZ, transform_.rotate_.y, trans);
+                    poryTrans.rotate_ = transform_.rotate_;
+                    poryTrans = FrontDirection(0, -trajectoryY, trajectoryZ, transform_.rotate_.y, poryTrans);
 
                     trajectoryZ *= RESISTANCE;//抵抗
                 }
-                chargePower = true;
+                isChargePower = true;
             }
         }
         if ((((Input::IsKeyUp(DIK_SPACE) && playerID == 0) ||  //キーボード操作
@@ -476,11 +397,11 @@ void Player::Update()
             effectCollar = 0;
             Audio::Play(hSound_Throw);
             pBallRight->SetPower(powerY, powerZ, transform_.rotate_.y);
-            chargePower = false;
+            isChargePower = false;
             powerY = 0;
             powerZ = 0;
             rightHand = leftHand;
-            leftHand = -1;
+            leftHand = NOT_HAVE;
             pBallRight = pBallLeft;
             pBallLeft = nullptr;
         }
@@ -525,19 +446,14 @@ void Player::Update()
 
 #if THIRD_VIEW
 
-        RightStick.x *= 1.5;
+        RightStick.x *= ROTATE_SPEED;
 #else 
 
         RightStick.x /= 300;
 #endif
-
         transform_.rotate_.y += RightStick.x;
-        //viewY += RightStick.y;//上下回転
-        // 
-        //hdri
-        //ポリヘブン
-
-        if (IsDrop)
+        
+        if (isDrop)
         {
             if (dropTime <= DROP_TIME)
             {
@@ -546,10 +462,12 @@ void Player::Update()
                 {
                     if (playerID % 2 == 0)
                     {
+                        hModel_ = Model::Load("WhitePlayerD0.fbx");
+                        assert(hModel_ >= 0);
                     }
                     else
                     {
-                        hModel_ = Model::Load("FryDamage.fbx");
+                        hModel_ = Model::Load("RedPlayerD0.fbx");
                         assert(hModel_ >= 0);
                     }
                 }
@@ -557,46 +475,37 @@ void Player::Update()
                 {
                     if (playerID % 2 == 0)
                     {
+                        hModel_ = Model::Load("WhitePlayer.fbx");
+                        assert(hModel_ >= 0);
                     }
                     else
                     {
-                        hModel_ = Model::Load("Fry2.fbx");
+                        hModel_ = Model::Load("RedPlayer.fbx");
                         assert(hModel_ >= 0);
                     }
                 }
                 dropTime++;
-
             }
             else
             {
                 if (playerID % 2 == 0)
                 {
-
+                    hModel_ = Model::Load("WhitePlayer.fbx");
+                    assert(hModel_ >= 0);
                 }
                 else
                 {
-                    hModel_ = Model::Load("Fry2.fbx");
+                    hModel_ = Model::Load("RedPlayer.fbx");
                     assert(hModel_ >= 0);
                 }
                 dropTime = 0;
-                IsDrop = false;
+                isDrop = false;
             }
         }
 
         //カメラ
-        //if (playerID == 0)
-        {
 #if THIRD_VIEW
-            //XMVECTOR vCam = XMVectorSet(0.0f, viewY, -cameraZ, 0.0f);
-            //XMMATRIX mRotate = XMMatrixRotationY(XMConvertToRadians(transform_.rotate_.y));
-
-            //vCam = XMVector3TransformCoord(vCam, mRotate);
-            //XMVECTOR vPos = XMLoadFloat3(&transform_.position_);
-            //XMFLOAT3 camPos;
-            //XMStoreFloat3(&camPos, vPos + vCam);//カメラの座標
-
-            //Camera::SetPosition(XMFLOAT3(camPos.x, camPos.y-3, camPos.z ));
-            //Camera::SetTarget(XMFLOAT3(transform_.position_.x, transform_.position_.y+5, transform_.position_.z));
+            //
 #else 
             XMVECTOR vCam = XMVectorSet(0.0f, viewY, cameraZ, 0.0f);
             XMMATRIX mRotate = XMMatrixRotationY(XMConvertToRadians(transform_.rotate_.y));
@@ -612,15 +521,9 @@ void Player::Update()
 
             Camera::SetTarget(camPos);
 #endif
-        }
 
         //デバッグ用
 #ifdef _DEBUG
-        if (Input::IsKeyDown(DIK_B))
-        {
-            int a = 0;
-            //Audio::Play(hSound_);
-        }
         if (Input::IsKeyDown(DIK_1))
         {
             ScreenSplit::SetScreenSplit(1);
@@ -651,32 +554,16 @@ void Player::Draw()
     XMVECTOR vPos = XMLoadFloat3(&transform_.position_);
     XMStoreFloat3(&camPos, vPos + vCam);//カメラの座標
 
-    //変数にposとtarget入れるメインで使う
-    //Camera::SetPosition(XMFLOAT3(camPos.x, camPos.y - 3, camPos.z));
-    //Camera::SetTarget(XMFLOAT3(transform_.position_.x, transform_.position_.y + 5, transform_.position_.z));
-    //XMFLOAT3 cameraPos[MAX_PLAYER] = {XMFLOAT3(0,0,0)};
-   // XMFLOAT3 cameraTarget[MAX_PLAYER] = { XMFLOAT3(0,0,0) };
-                      
-    //GetCameraPos(i);
-   // GetCameraTarget(i);
-
-    //cameraPos[playerID] = XMFLOAT3(camPos.x, camPos.y - 3, camPos.z);
-    //cameraTarget[playerID] = XMFLOAT3(transform_.position_.x, transform_.position_.y + 5, transform_.position_.z);
-
     Direct3D::SetShader(Direct3D::SHADER_TOON);
     Model::SetTransform(hModel_, transform_);
     Model::Draw(hModel_);
 
-    if (IsAssist == false)
+    if (isAssist == false)
         return;
 
-    if (chargePower == true)
-    {
-        //ポリラインを描画
+    //ポリラインを描画
+    if (isChargePower)
        pLine->Draw();
-        //pLineW->Draw();
-        //pLineX->Draw();
-    }
 
 }
 
@@ -685,15 +572,13 @@ void Player::Release()
 {
     //ポリライン解放
     pLine->Release();
-    //pLineW->Release();
-    //pLineX->Release();
 }
 
 //何かに当たった
 void Player::OnCollision(GameObject* pTarget)
 {
     //ボールにあたる＆どのプレイヤーか＆ボール持ってないか
-    if (pTarget->GetObjectName() == "Ball" && IsDrop == false)
+    if (pTarget->GetObjectName() == "Ball" && isDrop == false)
     {
         //落ちてるボールか投げてるボールか転がってるボールか
         //↑ボールの状態取得して判別
@@ -701,8 +586,8 @@ void Player::OnCollision(GameObject* pTarget)
         //投げてるボールだったら
         if (pBallThrow->GetIsThrow())
         {
-            rightHand = -1;
-            leftHand = -1;
+            rightHand = NOT_HAVE;
+            leftHand = NOT_HAVE;
             if (pBallRight != nullptr)
             {
                 pGround->SetGroundBall(-1);
@@ -715,16 +600,10 @@ void Player::OnCollision(GameObject* pTarget)
                 pBallLeft->KillMe();
                 pBallLeft = nullptr;
             }
-            IsDrop = true;
-            //振動させたい
-            //Input::SetPadVibration(50, 50, playerID);
-
-
-            //透明にさせる
-            
+            isDrop = true;
             //値を戻す
             nowState = WALK_STATE;
-            chargePower = false;
+            isChargePower = false;
             powerY = 0;
             powerZ = 0;
         } //持ってるボール
@@ -748,11 +627,6 @@ void Player::OnCollision(GameObject* pTarget)
             //当たったボールの番号
             leftHand = pBallLeft->GetBallNum();
         }
-
-        //投げてるボール
-        //持ってるボールを消す
-        //一定時間拾えない
-        //点滅
     }
 }
 
@@ -764,12 +638,12 @@ float Player::GetAngle()
 
 void Player::SetDamage(bool damage_)
 {
-    damage = damage_;
+    isDamage = damage_;
 }
 
 bool Player::GetDamage()
 {
-    return damage;
+    return isDamage;
 }
 
 Transform Player::GetPlayerPosition(bool right)
@@ -788,10 +662,6 @@ Transform Player::GetPlayerPosition(bool right)
     return trans_;
 }
 
-int Player::GetState()
-{
-    return nowState;
-}
 
 Transform Player::FrontDirection(float x_, float y_, float z_, float direction_, Transform trans_)
 {
@@ -808,16 +678,14 @@ Transform Player::FrontDirection(float x_, float y_, float z_, float direction_,
     return trans_;
 }
 
-XMFLOAT3 Player::GetCameraPos(int player_)
+XMFLOAT3 Player::GetCameraPos()
 {
-    cameraPos[player_] = XMFLOAT3(camPos.x, camPos.y - 3, camPos.z);
-    return cameraPos[player_];
+    return XMFLOAT3(camPos.x, camPos.y - 3, camPos.z);
 }
 
-XMFLOAT3 Player::GetCameraTarget(int player_)
+XMFLOAT3 Player::GetCameraTarget()
 {
-    cameraTarget[player_] = cameraTarget[player_] = XMFLOAT3(transform_.position_.x, transform_.position_.y + 3, transform_.position_.z);
-    return cameraTarget[player_];
+    return XMFLOAT3(transform_.position_.x, transform_.position_.y + 3, transform_.position_.z);;
 }
 
 string Player::GetStateText()
@@ -825,18 +693,13 @@ string Player::GetStateText()
     return stateText;
 }
 
-void Player::SetIsEnd(bool End_)
-{
-    IsEnd = End_;
-}
-
 void Player::SetIsAssist(bool assist_)
 {
-    IsAssist = assist_;
+    isAssist = assist_;
 }
 
 bool Player::GetIsAssist()
 {
-    return IsAssist;
+    return isAssist;
 }
 
