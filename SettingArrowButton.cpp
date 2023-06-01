@@ -7,6 +7,21 @@
 #include "Number.h"
 #include "Engine/Easing.h"
 
+//定数
+namespace
+{
+	static const int REVERSE = 180;//ボタン反転
+	static const float EASE_VAL = 0.04f;//イージングの変化量(スライド)
+	static const float START_EASE_UP = 1.0f;//スライド開始イージング上
+	static const float START_EASE_DOWN = 1.2f;//スライド開始イージング下
+	//ボタンの位置
+	static const float LEFT_POS = 0.085f;
+	static const float RIGHT_POS = 0.78f;
+	static const float UP_POS = 0.38f;
+	static const float DOWN_POS = -0.21f;
+	static const float NUM_POS = 0.435f;//数字の位置
+}
+
 //コンストラクタ
 SettingArrowButton::SettingArrowButton(GameObject* parent,int ID)
 	: Button(parent, "SettingButton")
@@ -56,12 +71,6 @@ void SettingArrowButton::SubInitialize()
 	ButtonManager::AddButton((Button*)this,0);
 }
 
-////初期化
-//void SettingArrowButton::Initialize()
-//{
-//	
-//}
-
 void SettingArrowButton::SubUpdate()
 {
 	ButtonSwith();
@@ -72,9 +81,10 @@ void SettingArrowButton::SubUpdate()
 		Number* pNumber2 = (Number*)FindObject("Number2");
 		//上段下段分ける
 		if (arrowID < 2 )
-			startEase = 1.0f;
+			startEase = START_EASE_UP;
 		else
-			startEase = 1.2f;
+			startEase = START_EASE_DOWN;
+
 
 		//スライドして登場させる
 		easeSave = startEase - easeX;
@@ -85,26 +95,13 @@ void SettingArrowButton::SubUpdate()
 		transform_.position_.x = -Easing::EaseInQuart(easeSave) * 2 + arrowPosX;
 		
 		if (arrowID == 0)
-			pNumber1->SetPosition(XMFLOAT3(-Easing::EaseInQuart(easeSave) * 2 + 0.435f, pNumber1->GetPosition().y, pNumber1->GetPosition().z));
+			pNumber1->SetPosition(XMFLOAT3(-Easing::EaseInQuart(easeSave) * 2 + NUM_POS, pNumber1->GetPosition().y, pNumber1->GetPosition().z));
 		else if(arrowID == 2)
-			pNumber2->SetPosition(XMFLOAT3(-Easing::EaseInQuart(easeSave) * 2 + 0.435f, pNumber2->GetPosition().y, pNumber2->GetPosition().z));
+			pNumber2->SetPosition(XMFLOAT3(-Easing::EaseInQuart(easeSave) * 2 + NUM_POS, pNumber2->GetPosition().y, pNumber2->GetPosition().z));
 		//0.435f = SettingSceneでxの位置指定してる
-		
 
 		easeX += EASE_VAL;
 	}
-	
-	/*if (GetIsNextSelect() != GetIsNowSelect())
-	{
-		SetIsNowSelect(GetIsNextSelect());
-		if (GetIsNowSelect())
-		{
-			IsSelect();
-			ButtonManager::SetNowButton(this);
-		}
-		else
-			IsSelectReleas();
-	}*/
 }
 
 //ボタンが押されたときにする処理
@@ -170,29 +167,6 @@ void SettingArrowButton::Event()
 
 	pNumber1->SetNum(pStartButton->GetPlayerNum(),0);
 	pNumber2->SetNum(pStartButton->GetComNum(), 0);
-
-	//クラス増やす
-	//矢印なら左右
-	//矢印関数作る
-	//決定なら個別の処理
-	//これはシーン切り替え
-	//スタートボタンクラスに移動
-	//ScreenSplit::SetScreenSplit(playerNum);
-	//ScreenSplit::SetPlayPerson(playerNum);
-	//ScreenSplit::SetAllPerson(playerNum + comNum);
-
-	////ロードクラス作るどっかに
-	////ロード画像に変更したい？
-	//isLoad = true;
-	////別クラス？
-	////hPict_[Pict::PICT_BUTTON] = Image::Load("Load.png");
-	////assert(hPict_[Pict::PICT_BUTTON] >= 0);
-	//SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-	//pSceneManager->ChangeScene(SCENE_ID_PLAY);
-
-	//矢印
-	//rotate.z == 0 なら減らす関数　左スクロール
-	//rotate.z == 180なら増やす関数　右スクロール
 }
 
 //選択された瞬間

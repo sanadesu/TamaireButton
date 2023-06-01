@@ -19,19 +19,7 @@ class Ball : public GameObject
         Max
     };
 
-    const int DIAMETER = 3800;//地面にランダムにボール配置
-    const int HALF = 2;
-    const int CHANGE_DECIMAL = 100;//小数に変化
-    const int CIRCLE_RANGE = 360;//地面範囲
-    const int NEAR_GOAL = 15;//ゴールの近く
-    const int CIRCLE_OUTSIDE = 450;//ボールの生存範囲
-
-    const float BALLSIZE = 0.18f;//ボール半径
-    const float GRAVITY = 0.05f;//重力
-    const float RESISTANCE = 0.97f;//抵抗
-    const float BOUND = 0.6f;//バウンドの大きさ
-    const float END_MOVE = 0.001f;//ボールが止まる値
-
+   
     float radiusPower;         //円の半径の2乗
     float powerZ;       //投げる距離
     float powerY;       //投げる高さ

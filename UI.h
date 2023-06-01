@@ -5,13 +5,7 @@
 //ŸŸŸ‚ğŠÇ—‚·‚éƒNƒ‰ƒX
 class UI : public GameObject
 {
-    static const int PLAYER_MAX = 4;
-    const int TEXT_SIZE = 30;
-    const int OPERATION_X = 1630;
-    const int OPERATION_Y = 450;
-    const int STATE_X = 1730;
-    const int STATE_Y = 120;
-    const int OPERATION_MAX = 7;
+   
     //‰æ‘œ”Ô†
     int hPict_;
     bool IsEnd;       //I—¹‚µ‚Ä‚é‚©

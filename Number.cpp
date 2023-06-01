@@ -3,11 +3,21 @@
 #include "Engine/Model.h"
 #include "Engine/Easing.h"
 
+//定数
+namespace
+{
+    static const int MAX_DIGITS = 3;//最大桁数
+    static const int CHANGE_DIGITS = 60;//桁を変える
+    static const int NUM_INTERVAL = 150;//数字の画像の間隔
+    static const int WIDTH = 150;//数字1つの横幅
+    static const int HEIGHT = 256;//数字1つの縦幅
+}
+
 //コンストラクタ
 Number::Number(GameObject* parent,int ID)
     : GameObject(parent, "Number"), hPict_{ -1, -1, -1 }
 {
-	numID = ID;
+
 }
 
 //初期化
@@ -72,19 +82,14 @@ void Number::SetNum(int num_, float space_)
         dividedTime = CHANGE_DIGITS;
         repeat = 1;
     }
-    //int dividedTime = 6000;
-    saveTime = num;
-    //Transform numTrans = transform_;
 
-    //numTrans.scale_ = XMFLOAT3(fontScale, fontScale, fontScale);
+    saveTime = num;
     transform_.position_.x -= space_;
     for (int i = 0; i <= MAX_DIGITS; i++)
     {
         if (i < repeat)
         {
             Image::SetRect(hPict_[i], int(saveTime / dividedTime) * NUM_INTERVAL, 0, WIDTH, HEIGHT);
-            //Image::SetTransform(hPict_[i], transform_);
-            //Image::Draw(hPict_[i]);
             saveTime = saveTime % dividedTime;
             dividedTime /= 10;
             transform_.position_.x += space_;

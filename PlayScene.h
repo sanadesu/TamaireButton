@@ -11,10 +11,7 @@ class PlayScene : public GameObject
 {
 	int hPict_;    //‰æ‘œ”Ô†
 	int hSound_;//‰¹
-
-	const int ALL_BALL = 60;//ƒ{[ƒ‹‚Ì”
-	const int END_TIME = 7200;//ƒQ[ƒ€ŠÔ
-	const float VOLUME = 0.7f;//‰¹—Ê
+	
 	Ball* pBall[80];
 	Player* pPlayer[4];
 	Ground* pGround;

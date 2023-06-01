@@ -5,6 +5,18 @@
 #include "Player.h"
 #include "Engine/ScreenSplit.h"
 
+//定数
+namespace
+{
+    static const int PLAYER_MAX = 4;
+    static const int TEXT_SIZE = 30;
+    static const int OPERATION_X = 1630;
+    static const int OPERATION_Y = 450;
+    static const int STATE_X = 1730;
+    static const int STATE_Y = 120;
+    static const int OPERATION_MAX = 7;
+}
+
 //コンストラクタ
 UI::UI(GameObject* parent)
     :GameObject(parent, "UI"),

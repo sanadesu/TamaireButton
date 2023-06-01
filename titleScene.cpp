@@ -14,9 +14,19 @@
 #include "TitleButton.h"
 #include "Engine/ButtonManager.h"
 #include "Rule.h"
+
+//定数
+namespace
+{
+	static const int MAX_PLAYER = 2;//タイトルに登場させるプレイヤーの数
+	static const int BALL_DROP_INTERVAL = 10;//ボールを落とす間隔
+	static const int DROP_START_FRAME = 120;//ボールを落とし始めるフレーム数
+	static const int BUTTON_NUM = 2;//ボタン数
+}
+
 //コンストラクタ
 TitleScene::TitleScene(GameObject* parent)
-	: GameObject(parent, "TitleScene"), hPict_(-1), hPict_Back(-1), hSound_(-1), hSound_Button(-1), hSound_Move(-1), hModel_(-1)
+	: GameObject(parent, "TitleScene"), hPict_(-1), hPict_Back(-1), hSound_(-1)
 {
 }
 
@@ -25,13 +35,9 @@ void TitleScene::Initialize()
 { 
 	isSkip = false;
 	//サウンドデータのロード
-	hSound_ = Audio::Load("Star.wav", false, 0.8f, 1);
+	hSound_ = Audio::Load("Star.wav", false, 0.7f, 1);
 	assert(hSound_ >= 0);
-	hSound_Button = Audio::Load("Button.wav", false, 0.8f, 10);
-	assert(hSound_Button >= 0);
-	hSound_Move = Audio::Load("Move.wav", false, 0.8f, 10);
-	assert(hSound_Move >= 0);
-
+	
 	Audio::Play(hSound_);
 
 	ScreenSplit::SetScreenSplit(1);
@@ -41,17 +47,13 @@ void TitleScene::Initialize()
 	assert(hPict_ >= 0);
 	hPict_Back = Image::Load("Back.jpg");
 	assert(hPict_Back >= 0);
-	hModel_ = Model::Load("BackSky.fbx");
-	assert(hModel_ >= 0);
-
 
 	Instantiate<Frame>(this);
-	
 	Instantiate<TitleText>(this);
-	//Instantiate<TitleButton>(this);
-	TitleButton* pTitleButton[2];
-	const std::string ButtonName[2] = { "TitleStartButton","TitleRuleButton" };
-	for (int i = 0; i < 2; i++)
+
+	TitleButton* pTitleButton[BUTTON_NUM];
+	const std::string ButtonName[BUTTON_NUM] = { "TitleStartButton","TitleRuleButton" };
+	for (int i = 0; i < BUTTON_NUM; i++)
 	{
 		pTitleButton[i] = ButtonManager::CreateButtonScreen<TitleButton>(this, ButtonName[i], i,0);
 		pTitleButton[i]->SetObjectName(ButtonName[i]);
@@ -71,9 +73,6 @@ void TitleScene::Update()
 	Frame* nowFrame = (Frame*)FindObject("Frame");
 	if (nowFrame->GetFrame() % BALL_DROP_INTERVAL == 0 && nowFrame->GetFrame() >= DROP_START_FRAME)
 	{
-		//☆
-		/*SceneManager* pSceneMnager = (SceneManager*)FindObject("SceneManager");
-		Instantiate<TitleBack>(pSceneMnager);*/
 		InstantiateFront<TitleBall>(this);
 	}
 	
@@ -87,27 +86,10 @@ void TitleScene::Update()
 //描画
 void TitleScene::Draw()
 {
-	/*Model::SetTransform(hModel_, transSky);
-	Model::Draw(hModel_);*/
 	Transform transBack = transform_;
 	transBack.position_ = XMFLOAT3(0, 0, 0);
 	Image::SetTransform(hPict_Back, transBack);
 	Image::Draw(hPict_Back);
-	//Image::SetTransform(hPict_Select, transButton);
-	//Image::Draw(hPict_Select);
-
-	//
-	/*8, 5;
-	960; 225;
-	1920; 1080;
-	Image::SetRect(hPict_, 600, 0, 400, 450);
-	transBack.position_ = XMFLOAT3(((float)400/1920 + 600.0f/ 960.0f) - 1, 1 - (float)450/1080, 0);
-	Image::SetTransform(hPict_, transBack);
-	Image::Draw(hPict_);*/
-
-	//Image::ResetRect(hPict_);
-	//Image::SetTransform(hPict_, transform_);
-	//Image::Draw(hPict_);
 }
 
 //開放
@@ -115,6 +97,7 @@ void TitleScene::Release()
 {
 }
 
+//スキップ
 bool TitleScene::GetIsSkip()
 {
 	return isSkip;

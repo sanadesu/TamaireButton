@@ -6,6 +6,29 @@
 #include "Engine/Easing.h"
 #include "TitleScene.h"
 #include "TitleButton.h"
+
+//定数
+namespace
+{
+    static const int POS_X = -15;
+    static const int MOVE_RANGE = 50;
+    static const int BOUND_WIDTH = 15;//登場する時の横幅
+    static const int PLAYER_POS_Y = -2;//プレイヤーの高さ
+    static const int RED_ANGLE = 170;//赤キャラの角度
+    static const int WHITE_ANGLE = 190;//白キャラの角度
+    static const int WHITE_START = 30;//赤キャラから遅れて登場するフレーム数
+    static const int SWING_WIDTH = 30;//揺れる幅
+    static const float PLAYER_SIZE = 2.0f;//プレイヤーの大きさ
+    static const float SWING_ROTATE = 0.01f;//左右に擦れる時の1フレームに回転する値
+    static const float SWING_POS = 0.05f;//左右に揺れるときの1フレームに動く値
+    static const float BOUND_EASE_START = 0.5f;//イージングをどこから始めるか
+    static const float PLAYER_ROTATE = 3.6f;//出てくるときの1フレームの回転量
+    static const float BOUND_DOWN = 0.01f;//イージングの変化量
+    static const float SWING_SLOPE = 60.0f;//ゆらゆらの傾き具合
+    static const float SWING_MOVE = 5.0f;//ゆらゆらの左右移動具合
+    static const float SWING_POS_RED = 17.5f;//ゆらゆらの左右移動具合
+    static const float SWING_POS_WHITE = 12.5f;//ゆらゆらの左右移動具合
+}
 //コンストラクタ
 TitlePlayer::TitlePlayer(GameObject* parent)
     :GameObject(parent, "TitlePlayer"), hModel_(-1)
@@ -34,9 +57,9 @@ void TitlePlayer::Initialize()
     hModel_ = Model::Load("RedPlayer.fbx");
     assert(hModel_ >= 0);
     transform_.position_.z += 30;
-    transform_.scale_.x *= SIZE;
-    transform_.scale_.y *= SIZE;
-    transform_.scale_.z *= SIZE;
+    transform_.scale_.x *= PLAYER_SIZE;
+    transform_.scale_.y *= PLAYER_SIZE;
+    transform_.scale_.z *= PLAYER_SIZE;
 }
 
 //更新
@@ -145,7 +168,6 @@ void TitlePlayer::Update()
                 transform_.rotate_.z = (Easing::EaseInOutCubic(easePlayer) * SWING_SLOPE) - (SWING_SLOPE / 2);
                 transform_.position_.x = (Easing::EaseInOutCubic(easePlayer) * SWING_MOVE) + SWING_POS_WHITE;
             }
-                
         }
 
         //揺れを反対方向にする

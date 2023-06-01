@@ -15,6 +15,14 @@
 #include "Engine/Audio.h"
 #include "Result.h"
 
+//定数
+namespace
+{
+	static const int ALL_BALL = 60;//ボールの数
+	static const int END_TIME = 7200;//ゲーム時間
+	static const float VOLUME = 0.7f;//音量
+}
+
 //コンストラクタ
 PlayScene::PlayScene(GameObject* parent)
 	: GameObject(parent, "PlayScene"), hPict_(-1), hSound_(-1)

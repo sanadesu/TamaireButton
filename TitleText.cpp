@@ -12,6 +12,15 @@
 #include <vector>
 #include <chrono>
 
+//定数
+namespace
+{
+	static const int RED_TEXT_EASE_START = 10;//[紅]拡大スタート
+	static const int WHITE_TEXT_EASE_START = 40;//[白]拡大スタート	
+	static const int SLIDE_TEXT_EASE_START = 80;//スライドスタート
+	static const float EASE_SCALE = 0.025f;//[紅白]の拡大量
+	static const float EASE_MOVE = 0.01f;//スライドの移動量
+}
 
 //コンストラクタ
 TitleText::TitleText(GameObject* parent)
@@ -28,6 +37,8 @@ void TitleText::Initialize()
 	easeX = 0;
 	easeScaleRed = 0;
 	easeScaleWhite = 0;
+	nowFrame = (Frame*)FindObject("Frame");
+	pTitle = (TitleScene*)FindObject("TitleScene");
 }
 
 //更新
@@ -66,7 +77,6 @@ void TitleText::Update()
 			}
 		}
 	}
-	
 }
 
 //描画
@@ -103,11 +113,6 @@ void TitleText::Draw()
 	transText.position_.x = -Easing::EaseOutElastic(easeX) * 1.7f + 1.7f;
 	Image::SetTransform(hPict_, transText);
 	Image::Draw(hPict_);
-
-	/*Image::ResetRect(hPict_);
-	Image::SetTransform(hPict_, transform_);
-	Image::Draw(hPict_);*/
-
 }
 
 //開放

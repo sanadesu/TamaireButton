@@ -15,6 +15,33 @@
 
 #define THIRD_VIEW 1 //三人称視点か一人称視点 一人称はわかりづらいからなし
 
+//定数
+namespace
+{
+    static const int CIRCLE_RANGE = 360;//丸の範囲
+    static const int PORY_LENGTH = 42;//軌道を保存する長さ
+    static const int NOT_HAVE = -1;//ボールを持っていない
+    static const int DROP_TIME = 120;//玉を当てられたときに拾えない時間
+    static const int CIRCLE_RADIUS = 21;//ゴールから端までの長さ
+    static const int COM_ROTATE = 137;//コンピューターが端まで行った時の回転量
+    static const int RANDOM_VALUE = 3000;//ボールを投げるランダム値
+    static const float ROTATE_SPEED = 1.5f;//回転の速さ
+    static const float DECIMAL_CHANGE = 1000.0f;//小数にする
+    static const float THROW_POWER_Y = 0.5f;
+    static const float POWER_ADJUSTMENT = 0.22f;
+    static const float PLAYER_INTERVAL = 3.0f;//初期プレイヤー間隔
+    static const float GOAL_ROTATE = 180.0f;//投げる方向に回転する
+    static const float POWER = 0.01;//１フレームごとにためる力
+    static const float GRADATION_VALUE = 0.02f;//エフェクトのグラデーション変化量
+    static const float NOTTHROW_RANGE = 50.0f;//投げられない範囲
+    static const float START_POS_X = 0.0f;
+    static const float START_POS_Z = -6.0f;
+    static const float HIT_SIZE = 1.7f;//当たり判定
+    static const float PLAYER_MOVE = 0.1f;//移動距離
+    static const float GRAVITY = 0.05f;//重力
+    static const float RESISTANCE = 0.97f;//抵抗
+}
+
 //コンストラクタ
 Player::Player(GameObject* parent)
     :GameObject(parent, "Player"),

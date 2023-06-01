@@ -9,6 +9,22 @@
 #include "Frame.h"
 #include "Rule.h"
 #include "Engine/Input.h"
+
+//定数
+namespace
+{
+	static const int COLOR = 255;//透明じゃない
+	static const int ADD_COLOR = 5;//徐々に不透明にしていく
+	static const int BUTTON_ALPHA = 120;//ボタンを見えるようにする開始フレーム数
+	static const float RULE_BUTTON_POS = 0.87f;//ルールボタンの場所
+	static const float POS_X = 0;//切り取り開始位置(X)
+	static const float POS_Y = 780.0f;//切り取り開始位置(Y)
+	static const float WIDTH = 1920.0f;//切り取り範囲(横)
+	static const float HEIGHT = 300.0f;//切り取り範囲(縦)
+	static const float START_POX_X = 0.43f;
+	static const float START_POX_Y = -0.67f;
+}
+
 //コンストラクタ
 TitleButton::TitleButton(GameObject* pParent, const std::string name, int buttonID_, int screenID_)
 	: Button(pParent, "TitleButton")
@@ -32,7 +48,6 @@ void TitleButton::SubInitialize()
 		SetImage("RuleButton.png", transform_);
 	}
 	
-	
 	ButtonManager::AddButton((Button*)this,0);
 
 	alpha = 0;
@@ -54,11 +69,10 @@ void TitleButton::SubUpdate()
 	
 	if(pRuleButton->GetTitleState() == TITLE)
 		ButtonSwith();
-
 	
 	Frame* nowFrame = (Frame*)FindObject("Frame");
 	//徐々に見えるようにする
-	if (nowFrame->GetFrame() >= 120 || pTitle->GetIsSkip())
+	if (nowFrame->GetFrame() >= BUTTON_ALPHA || pTitle->GetIsSkip())
 	{
 		if (alpha < COLOR)
 			alpha += ADD_COLOR;
@@ -114,7 +128,6 @@ void TitleButton::Event()
 			}
 		}
 	}
-	
 }
 
 //選択された瞬間

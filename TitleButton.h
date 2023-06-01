@@ -15,15 +15,7 @@ class TitleButton : public Button
 		MAX
 	};
 
-	const int COLOR = 255;//透明じゃない
-	const int ADD_COLOR = 5;//徐々に不透明にしていく
-	const float RULE_BUTTON_POS = 0.87f;//ルールボタンの場所
-	const float POS_X = 0;//切り取り開始位置(X)
-	const float POS_Y = 780.0f;//切り取り開始位置(Y)
-	const float WIDTH = 1920.0f;//切り取り範囲(横)
-	const float HEIGHT = 300.0f;//切り取り範囲(縦)
-	const float START_POX_X = 0.43f;
-	const float START_POX_Y = -0.67f;
+
 
 
 	int buttonID;

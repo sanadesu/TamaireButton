@@ -14,7 +14,7 @@
 #include "SettingStartButton.h"
 #include "Number.h"
 
-float NUM_X = 0.435f;
+static const float NUM_X = 0.435f;
 
 //コンストラクタ
 SettingScene::SettingScene(GameObject* parent)

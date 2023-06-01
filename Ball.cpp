@@ -5,6 +5,22 @@
 #include "PlayScene.h"
 #include "PlayStop.h"
 
+//定数
+namespace
+{
+    static const int DIAMETER = 3800;//地面にランダムにボール配置
+    static const int HALF = 2;
+    static const int CHANGE_DECIMAL = 100;//小数に変化
+    static const int CIRCLE_RANGE = 360;//地面範囲
+    static const int NEAR_GOAL = 15;//ゴールの近く
+    static const int CIRCLE_OUTSIDE = 450;//ボールの生存範囲
+    static const float BALLSIZE = 0.18f;//ボール半径
+    static const float GRAVITY = 0.05f;//重力
+    static const float RESISTANCE = 0.97f;//抵抗
+    static const float BOUND = 0.6f;//バウンドの大きさ
+    static const float END_MOVE = 0.001f;//ボールが止まる値
+}
+
 //コンストラクタ
 Ball::Ball(GameObject* parent)
     :GameObject(parent, "Ball")

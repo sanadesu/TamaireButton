@@ -34,29 +34,6 @@ class Player : public GameObject
     int hModel_;    //モデル番号
     int hSound_Throw;
 
-    const int CIRCLE_RANGE = 360;//丸の範囲
-    const int PORY_LENGTH = 42;//軌道を保存する長さ?-1
-    const int NOT_HAVE = -1;
-    const int DROP_TIME = 120;//玉を当てられたときに拾えない時間
-    const int CIRCLE_RADIUS = 21;//ゴールから端までの長さ
-    const int COM_ROTATE = 137;//コンピューターが端まで行った時の回転量
-    const int RANDOM_VALUE = 3000;//ボールを投げるランダム値
-    const float ROTATE_SPEED = 1.5f;//回転の速さ
-    const float DECIMAL_CHANGE = 1000.0f;//小数にする
-    const float THROW_POWER_Y = 0.5f;
-    const float POWER_ADJUSTMENT = 0.22f;
-    const float PLAYER_INTERVAL = 3.0f;//初期プレイヤー間隔
-    const float GOAL_ROTATE = 180.0f;//投げる方向に回転する
-    const float POWER = 0.01;//１フレームごとにためる力
-    const float GRADATION_VALUE = 0.02f;//エフェクトのグラデーション変化量
-    const float NOTTHROW_RANGE = 50.0f;//投げられない範囲
-    const float START_POS_X = 0.0f;
-    const float START_POS_Z = -6.0f;
-    const float HIT_SIZE = 1.7f;//当たり判定
-    const float PLAYER_MOVE = 0.1f;//移動距離
-    const float GRAVITY = 0.05f;//重力
-    const float RESISTANCE = 0.97f;//抵抗
-
     int dropTime;//ボールを拾えない時間
     int nowState;//現在の状態
     int rightHand;//ボールをもっているか
