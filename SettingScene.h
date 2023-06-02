@@ -14,26 +14,8 @@ class SettingScene : public GameObject
 		ARROW_MAX
 	};
 
-
-	
-	//int hPict_;    //画像番号
-	//int hPict_Back;
-	/*
-	int hPict_Frame;
-	int hPict_Number;*/
-
-	//int hSound_Button;    //サウンド番号
-	//int hSound_Move;
-
 	int player;
-	//int playerNum;
-	//int comNum;
-	//int frameNum;
-	////bool stickMove;
-	////std::pair<float, float> framePos[5];
-	//Transform transPlayerNum;
-	//Transform transComNum;
-	/*Transform transFrame;*/
+
 public:
 	static int mode;
 	//コンストラクタ
@@ -51,7 +33,5 @@ public:
 
 	//開放
 	void Release() override;
-
-
 };
 

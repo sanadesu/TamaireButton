@@ -8,7 +8,10 @@ class SettingArrowButton : public Button
 {
 	enum PlayerNum
 	{
-
+		ONE_PERSON = 1,
+		TWO_PERSON,
+		TREE_PERSON,
+		FOUR_PERSON
 	};
 
 	enum Pict

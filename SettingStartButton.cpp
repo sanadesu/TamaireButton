@@ -5,6 +5,14 @@
 #include "Engine/Image.h"
 #include "Number.h"
 #include "Engine/Easing.h"
+
+//定数
+namespace
+{
+	const float EASE_VAL = 0.04f;
+	const float START_EASE = 1.4f;
+}
+
 //コンストラクタ
 SettingStartButton::SettingStartButton(GameObject* parent)
 	: Button(parent, "SettingButton")
@@ -16,7 +24,6 @@ void SettingStartButton::SubInitialize()
 {
 	easeSave = 1;
 	easeX = 0;
-	startEase = 1.4f;
 	Number* pNumber1 = (Number*)FindObject("Number1");
 	Number* pNumber2 = (Number*)FindObject("Number2");
 	playerNum = 1;
@@ -25,9 +32,6 @@ void SettingStartButton::SubInitialize()
 	pNumber2->SetNum(comNum, 0.06f);
 
 	transform_.position_.y = -0.7f;
-
-	//hPict_ = Image::Load("SelectTriangle");
-	//transform_.scale_ = XMFLOAT3(30, 30, 30);
 	SetImage("NormalCircle.png", transform_);
 
 	ButtonManager::AddButton((Button*)this,0);
@@ -40,13 +44,8 @@ void SettingStartButton::SubUpdate()
 	if (easeSave != 0)
 	{
 		//スライドして登場させる
-		easeSave = startEase - easeX;
-
+		easeSave = START_EASE - easeX;
 		easeSave = std::min<float>(std::max<float>(easeSave, 0), 1);
-		/*if (easeSave < 0)
-			easeSave = 0;
-		else if (easeSave > 1)
-			easeSave = 1;*/
 		transform_.position_.x = -Easing::EaseInQuart(easeSave) * 2;
 		easeX += EASE_VAL;
 	}
@@ -65,36 +64,8 @@ void SettingStartButton::Event()
 	transform_.position_ = XMFLOAT3(0, 0, 0);
 	SetImage("Load.png", transform_);
 
-	//ロード画像に変更したい？
-	//isLoad = true;
-	//別クラス？
-	//hPict_[Pict::PICT_BUTTON] = Image::Load("Load.png");
-	//assert(hPict_[Pict::PICT_BUTTON] >= 0);
-
 	SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
 	pSceneManager->ChangeScene(SCENE_ID_PLAY);
-	//クラス増やす
-	//矢印なら左右
-	//矢印関数作る
-	//決定なら個別の処理
-	//これはシーン切り替え
-	//スタートボタンクラスに移動
-	//ScreenSplit::SetScreenSplit(playerNum);
-	//ScreenSplit::SetPlayPerson(playerNum);
-	//ScreenSplit::SetAllPerson(playerNum + comNum);
-
-	////ロードクラス作るどっかに
-	////ロード画像に変更したい？
-	//isLoad = true;
-	////別クラス？
-	////hPict_[Pict::PICT_BUTTON] = Image::Load("Load.png");
-	////assert(hPict_[Pict::PICT_BUTTON] >= 0);
-	//SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-	//pSceneManager->ChangeScene(SCENE_ID_PLAY);
-
-	//矢印
-	//rotate.z == 0 なら減らす関数　左スクロール
-	//rotate.z == 180なら増やす関数　右スクロール
 }
 
 //選択された瞬間

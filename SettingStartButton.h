@@ -6,31 +6,11 @@
 //■■シーンを管理するクラス
 class SettingStartButton : public Button
 {
-	enum Pict
-	{
-		PICT_BUTTON,
-		PICT_NUMBER,
-		PICT_MAX
-	};
-
-	enum Sound
-	{
-		SOUND_BUTTON,
-		SOUND_MOVE,
-		SOUND_MAX
-	};
-
-	const float EASE_VAL = 0.04f;
-	//int hPict_;    //画像番号
-//	int hSound_;    //サウンド番号
-
 	int playerNum;
 	int comNum;
 
 	float easeX;
 	float easeSave;
-	float startEase;
-	//float arrowPosX;
 	bool isStickMove;
 	bool isLoad;
 	std::pair<float, float> framePos[5];

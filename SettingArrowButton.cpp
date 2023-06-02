@@ -117,45 +117,45 @@ void SettingArrowButton::Event()
 	switch (arrowID)
 	{
 	case 0://êlêîå∏ÇÁÇ∑
-		if (playerNum > 1)
+		if (playerNum > ONE_PERSON)
 			playerNum--;
-		if (playerNum > 2)
+		if (playerNum > TWO_PERSON)
 		{
-			comNum = 4 - playerNum;
+			comNum = FOUR_PERSON - playerNum;
 		}
-		else if (playerNum == 2 && comNum % 2 == 1)
+		else if (playerNum == TWO_PERSON && comNum % 2 == 1)
 		{
-			comNum = 2;
+			comNum = TWO_PERSON;
 		}
-		else if (playerNum == 1 && comNum % 2 == 0)
+		else if (playerNum == ONE_PERSON && comNum % 2 == 0)
 		{
-			comNum = 3;
+			comNum = TREE_PERSON;
 		}
 		break;
 	case 1://êlêîëùÇ‚Ç∑
-		if (playerNum < 4)
+		if (playerNum < FOUR_PERSON)
 			playerNum++;
-		if (playerNum > 2)
+		if (playerNum > TWO_PERSON)
 		{
-			comNum = 4 - playerNum;
+			comNum = FOUR_PERSON - playerNum;
 		}
-		else if (playerNum == 2 && comNum % 2 == 1)
+		else if (playerNum == TWO_PERSON && comNum % 2 == 1)
 		{
-			comNum = 2;
+			comNum = TWO_PERSON;
 		}
 		break;
 	case 2://CPUëùÇ‚Ç∑
-		if (playerNum <= 2 && comNum >= 2)
+		if (playerNum <= TWO_PERSON && comNum >= TWO_PERSON)
 		{
-			if (comNum > 1)
-				comNum -= 2;
+			if (comNum > ONE_PERSON)
+				comNum -= TWO_PERSON;
 		}
 		break;
 	case 3://CPUå∏ÇÁÇ∑
-		if (playerNum <= 2 && comNum <= 1)
+		if (playerNum <= TWO_PERSON && comNum <= ONE_PERSON)
 		{
-			if (comNum < 3)
-				comNum += 2;
+			if (comNum < TREE_PERSON)
+				comNum += TWO_PERSON;
 		}
 		break;
 	default:
