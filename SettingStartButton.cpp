@@ -9,8 +9,10 @@
 //定数
 namespace
 {
-	const float EASE_VAL = 0.04f;
-	const float START_EASE = 1.4f;
+	static const float EASE_VAL = 0.04f;//イージングの変化量(スライド)
+	static const float START_EASE = 1.4f;//スライド開始,イージング
+	static const float START_BUTTON_Y = -0.7f;//スタートボタンの位置(Y)
+	static const float NUM_X = 0.435f;//数字の位置(X)
 }
 
 //コンストラクタ
@@ -28,12 +30,13 @@ void SettingStartButton::SubInitialize()
 	Number* pNumber2 = (Number*)FindObject("Number2");
 	playerNum = 1;
 	comNum = 3;
-	pNumber1->SetNum(playerNum, 0.06f);
-	pNumber2->SetNum(comNum, 0.06f);
+	pNumber1->SetNum(playerNum, 0, NUM_X);
+	pNumber2->SetNum(comNum, 0, NUM_X);
 
-	transform_.position_.y = -0.7f;
+	transform_.position_.y = START_BUTTON_Y;
 	SetImage("NormalCircle.png", transform_);
 
+	//ボタン追加
 	ButtonManager::AddButton((Button*)this,0);
 }
 
@@ -54,9 +57,6 @@ void SettingStartButton::SubUpdate()
 //ボタンが押されたときにする処理
 void SettingStartButton::Event()
 {
-	//後で色選択とかチーム分けとか追加、協力と対戦ができるように
-			//スタート
-	//ナンバークラスから持ってくる
 	ScreenSplit::SetScreenSplit(playerNum);
 	ScreenSplit::SetPlayPerson(playerNum);
 	ScreenSplit::SetAllPerson(playerNum + comNum);

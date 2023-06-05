@@ -32,7 +32,7 @@ class Player : public GameObject
     };
 
     int hModel_;    //モデル番号
-    int hSound_Throw;
+    int hSound_Throw;//投げる音
 
     int dropTime;//ボールを拾えない時間
     int nowState;//現在の状態
@@ -56,8 +56,8 @@ class Player : public GameObject
 
 
     XMFLOAT3 camPos;//カメラの場所
-    Particle* pParticle_;
-    string stateText;
+    Particle* pParticle_;//パワー溜めるエフェクト
+    string stateText;//状態表示
 
     Transform prevPos; //1フレーム前の場所
     Transform poryTrans;//ボールの軌道の場所
@@ -68,7 +68,7 @@ class Player : public GameObject
     Ball* pBallThrow;//投げられているボール
     Ground* pGround;//ボールの管理に使う
     ResultText* pResultText;
-    PlayStop* pPlayStop;
+    PlayStop* pPlayStop;//動けるか
     Text* pText;
 
 public:

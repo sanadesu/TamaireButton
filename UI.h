@@ -5,9 +5,7 @@
 //ŸŸŸ‚ğŠÇ—‚·‚éƒNƒ‰ƒX
 class UI : public GameObject
 {
-   
-    //‰æ‘œ”Ô†
-    int hPict_;
+    int hPict_;//‰æ‘œ”Ô†
     bool IsEnd;       //I—¹‚µ‚Ä‚é‚©
     Text* pText;
 public:

@@ -34,12 +34,15 @@ namespace
     static const float POWER = 0.01;//１フレームごとにためる力
     static const float GRADATION_VALUE = 0.02f;//エフェクトのグラデーション変化量
     static const float NOTTHROW_RANGE = 50.0f;//投げられない範囲
-    static const float START_POS_X = 0.0f;
-    static const float START_POS_Z = -6.0f;
     static const float HIT_SIZE = 1.7f;//当たり判定
     static const float PLAYER_MOVE = 0.1f;//移動距離
     static const float GRAVITY = 0.05f;//重力
     static const float RESISTANCE = 0.97f;//抵抗
+    static const float SOUND_VOLUME = 0.8f;//音量
+    static const float SOUND_COUNT = 3;//同時に鳴らせる回数
+
+    static const float COLLISION_POS = -0.2f;//当たり判定の場所
+    static const XMFLOAT3 START_POS = XMFLOAT3(0, 1.5f, -6);//プレイヤー位置
 }
 
 //コンストラクタ
@@ -61,13 +64,13 @@ Player::~Player()
 void Player::Initialize()
 {
     //サウンドデータのロード
-    hSound_Throw = Audio::Load("Throw.wav", false, 0.8f, 1);
+    hSound_Throw = Audio::Load("Throw.wav", false, SOUND_VOLUME, SOUND_COUNT);
     assert(hSound_Throw >= 0);
 
-    transform_.position_ = XMFLOAT3(START_POS_X, 1.5f, START_POS_Z);
+    transform_.position_ = START_POS;
 
     //当たり判定
-    SphereCollider* collision = new SphereCollider(XMFLOAT3(0, -0.2f,0), HIT_SIZE);
+    SphereCollider* collision = new SphereCollider(XMFLOAT3(0, COLLISION_POS,0), HIT_SIZE);
     AddCollider(collision);
 
     nowState = WALK_STATE;
@@ -76,10 +79,10 @@ void Player::Initialize()
     leftHand = -1;
     dropTime = 0;
     pGround = (Ground*)FindObject("Ground");
-    powerY = 0.0f;
-    powerZ = 0.0f;
-    trajectoryY = 0.0f;
-    trajectoryZ = 0.0f;
+    powerY = 0;
+    powerZ = 0;
+    trajectoryY = 0;
+    trajectoryZ = 0;
     
 #if THIRD_VIEW
     viewY = 8.0f; //Y座標
@@ -455,13 +458,10 @@ void Player::Update()
         transform_.rotate_.y += LeftStick.x / 2;
         LeftStick.x /= 10;
         LeftStick.y /= 10;
-        //transform_.position_.x += LeftStick.x;
-        //transform_.position_.z += LeftStick.y;
 
         transform_ = FrontDirection(LeftStick.x, 0, LeftStick.y, transform_.rotate_.y, transform_);
 
         XMFLOAT3 RightStick = Input::GetPadStickR(playerID);
-        //RightSrick.x /= 2;
         if (Input::IsKey(DIK_LEFT) && playerID == 0)
         {
             RightStick.x = -1;

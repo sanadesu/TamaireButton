@@ -4,10 +4,9 @@
 //◆◆◆を管理するクラス
 class BackGround : public GameObject
 {
-    int hModel_;    //モデル番号
+    int hModel_;    //モデル
     int hModel_Sky;
-    int hModelSky;
-    Transform transSky;
+    Transform transSky;//空のトランスフォーム
     
 public:
     //コンストラクタ

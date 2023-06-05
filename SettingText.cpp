@@ -3,6 +3,20 @@
 #include "Engine/Easing.h"
 #include "Engine/Easing.h"
 
+//定数
+namespace
+{
+	static const int ROU_COUNT = 2;
+	static const float TOP_TEXT_HEIGHT = 500.0f;//1行目の表示範囲(縦)
+	static const float BOTTOM_TEXT_Y = 500.0f;//2行目の上端の値
+	static const float BOTTOM_TEXT_HEIGHT = 300.0f;//2行目の表示範囲(縦)
+	static const float TEXT_WIDTH = 1920.0f;//表示範囲(横)
+	static const float EASE_START_TOP = 1.0f;//1行目のイージング
+	static const float EASE_START_BOTTOM = 1.2f;//2行目のイージング
+	static const float EASE_VAL = 0.04f;//イージングの変化量
+
+}
+
 //コンストラクタ
 SettingText::SettingText(GameObject* parent)
 	: GameObject(parent, "SettingText"), hPict_{-1,-1}
@@ -22,7 +36,20 @@ void SettingText::Initialize()
 		assert(hPict_[i] >= 0);
 	}
 
+	easeSave = 0;
 	easeX = 0;
+	float y[] = { 0,BOTTOM_TEXT_Y };
+	float heigght[] = {TOP_TEXT_HEIGHT ,BOTTOM_TEXT_HEIGHT};
+	float start[] = { EASE_START_TOP ,EASE_START_BOTTOM };
+	for (int i = 0; i < ROU_COUNT; i++)
+	{
+		textY[i] = y[i];
+		textHeight[i] = heigght[i]; 
+		easeStart[i] = start[i];
+	}
+
+	screenWidth = GetPrivateProfileInt("SCREEN", "Width", 800, ".\\setup.ini");		//スクリーンの幅
+	screenHeight = GetPrivateProfileInt("SCREEN", "Height", 600, ".\\setup.ini");	//スクリーンの高さ
 }
 
 //更新
@@ -34,81 +61,23 @@ void SettingText::Update()
 //描画
 void SettingText::Draw()
 {
-	Transform transText = transform_;
-	float x, y, width, height;
+	for (int i = 0; i < ROU_COUNT; i++)
+	{
+		transform_.position_ = Image::SetRectPos(hPict_[Pict::PICT_SELECT], 0, textY[i], TEXT_WIDTH, textHeight[i]);
 
-	float screenWidth = GetPrivateProfileInt("SCREEN", "Width", 800, ".\\setup.ini");		//スクリーンの幅
-	float screenHeight = GetPrivateProfileInt("SCREEN", "Height", 600, ".\\setup.ini");	//スクリーンの高さ
+		easeSave = easeStart[i] - easeX;
+		if (easeSave < 0)
+			easeSave = 0;
+		else if (easeSave > 1)
+			easeSave = 1;
 
-	const float EASE_VAL = 0.04f;
-	float easeSave = 0;
+		transform_.position_.x -= Easing::EaseInQuart(easeSave) * 2;
 
-	x = 0;
-	y = 0;
-	width = 1920.0f;
-	height = 500.0f;
-	//上
-	Image::SetRect(hPict_[Pict::PICT_SELECT], x, y, width, height);
-	//transText.scale_ = XMFLOAT3(Easing::EaseOutBack(easeScaleRed), Easing::EaseOutBack(easeScaleRed), 0);
-	transText.position_ = XMFLOAT3(((float)width / screenWidth + x / (screenWidth / 2)) - 1, 1 - ((float)height / screenHeight + y / (screenHeight / 2)), 0);
-	easeSave = 1.0f - easeX;
-	if (easeSave < 0)
-		easeSave = 0;
-	else if (easeSave > 1)
-		easeSave = 1;
-	transText.position_.x -= Easing::EaseInQuart(easeSave) * 2;
-	
-	Image::SetTransform(hPict_[Pict::PICT_SELECT], transText);
-	Image::Draw(hPict_[Pict::PICT_SELECT]);
-
-	//ピクセルの値をtransform_.position_に変換する公式？できた
-	//XMFLOAT3(((float)width / screenWidth + x / (screenWidth / 2)) - 1, 1 - ((float)height / screenHeight + y / (screenHeight / 2)), 0);
-
-
-	y = 500;
-	height = 300.0f;
-	//中
-	Image::SetRect(hPict_[Pict::PICT_SELECT], x, y, width, height);
-	//transText.scale_ = XMFLOAT3(Easing::EaseOutBack(easeScaleRed), Easing::EaseOutBack(easeScaleRed), 0);
-	transText.position_ = XMFLOAT3(((float)width / screenWidth + x / (screenWidth / 2)) - 1, 1 - ((float)height / screenHeight + y / (screenHeight / 2)), 0);
-	easeSave = 1.2f - easeX;
-	if (easeSave < 0)
-		easeSave = 0;
-	else if (easeSave > 1)
-		easeSave = 1;
-	transText.position_.x -= Easing::EaseInQuart(easeSave) * 2;
-	
-	Image::SetTransform(hPict_[Pict::PICT_SELECT], transText);
-	Image::Draw(hPict_[Pict::PICT_SELECT]);
-
-	y = 800;
-	height = 1080.0f;
-	//下
-	//Image::SetRect(hPict_[Pict::PICT_SELECT], x, y, width, height);
-	////transText.scale_ = XMFLOAT3(Easing::EaseOutBack(easeScaleRed), Easing::EaseOutBack(easeScaleRed), 0);
-	//transText.position_ = XMFLOAT3(((float)width / screenWidth + x / (screenWidth / 2)) - 1, 1 - ((float)height / screenHeight + y / (screenHeight / 2)), 0);
-	//easeSave = 1.4f - easeX;
-	//if (easeSave < 0)
-	//	easeSave = 0;
-	//else if (easeSave > 1)
-	//	easeSave = 1;
-	//transText.position_.x -= Easing::EaseInQuart(easeSave) * 2;
-	//
-	//	
-	//Image::SetTransform(hPict_[Pict::PICT_SELECT], transText);
-	//Image::Draw(hPict_[Pict::PICT_SELECT]);
-
+		Image::SetTransform(hPict_[Pict::PICT_SELECT], transform_);
+		Image::Draw(hPict_[Pict::PICT_SELECT]);
+	}
 
 	easeX += EASE_VAL;
-
-	//むりやりやっちゃった後で直す
-	//SettingButton* pSet = (SettingButton*)FindObject("SettingButton");
-	/*if (pSet->IsLoad())
-	{
-		Image::SetTransform(hPict_[Pict::PICT_LOAD], transform_);
-		Image::Draw(hPict_[Pict::PICT_LOAD]);
-	}*/
-	
 }
 
 //開放

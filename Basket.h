@@ -5,10 +5,7 @@
 class Basket : public GameObject
 {
     int hModel_;    //モデル番号
-
-    const float HIT_HEIGHT = 5.0f;
-    const float HIT_SIZE = 1.0f;
-    const XMFLOAT3 BASKET_POS = XMFLOAT3(0, 5.0f, 0);
+    
 public:
     //コンストラクタ
     Basket(GameObject* parent);
@@ -32,6 +29,6 @@ public:
    //引数：pTarget 当たった相手
     void OnCollision(GameObject* pTarget) override;
 
-    //☆
-    XMFLOAT3 GetBasketPos() { return BASKET_POS; }
+    //ゴールの中心位置
+    XMFLOAT3 GetBasketPos();
 };

@@ -14,10 +14,7 @@ class SettingScene : public GameObject
 		ARROW_MAX
 	};
 
-	int player;
-
 public:
-	static int mode;
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
 	SettingScene(GameObject* parent);

@@ -5,6 +5,15 @@
 #include "Engine/Direct3D.h"
 #include"Ball.h"
 
+//定数
+namespace
+{
+    static const float BACK_GROUND_SCALE = 2;
+    static const float SKY_SCALE = BACK_GROUND_SCALE + 0.1f;
+    static const float POS_Y = 7;
+    static const float ROTATE_SPEED = 0.01f;
+}
+
 //コンストラクタ
 BackGround::BackGround(GameObject* parent)
     :GameObject(parent, "BackGround"), hModel_(-1),hModel_Sky(-1)
@@ -25,29 +34,25 @@ void BackGround::Initialize()
     hModel_Sky = Model::Load("BackSky.fbx");
     assert(hModel_Sky >= 0);
    
-    transform_.scale_ = XMFLOAT3(2, 2, 2);
+    transform_.scale_ = XMFLOAT3(BACK_GROUND_SCALE, BACK_GROUND_SCALE, BACK_GROUND_SCALE);
     transSky = transform_;
-    transform_.position_.y = 7;
-    transSky.scale_ = XMFLOAT3(2.1f,2.1f,2.1f);
-    //transform_.scale_ = XMFLOAT3(35.1f, 35.1f, 35.1f);
+    transform_.position_.y = POS_Y;
+    transSky.scale_ = XMFLOAT3(SKY_SCALE, SKY_SCALE, SKY_SCALE);
 }
 
 //更新
 void BackGround::Update()
 {
-    transSky.rotate_.y += 0.01f;
+    transSky.rotate_.y += ROTATE_SPEED;
 }
 
 //描画
 void BackGround::Draw()
 {
-    //Direct3D::SetShader(Direct3D::SHADER_NORMAL);//
     Model::SetTransform(hModel_Sky, transSky);
     Model::Draw(hModel_Sky);
     Model::SetTransform(hModel_, transform_);
     Model::Draw(hModel_);
-  
-    //Direct3D::SetShader(Direct3D::SHADER_TOON);
 
 }
 

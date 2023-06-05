@@ -26,6 +26,7 @@ void Number::Initialize()
 	num = 0;
     dividedTime = 0;
     saveTime = 0;
+    space = 0;
     for (int i = 0; i < MAX_DIGITS; i++)
     {
         hPict_[i] = Image::Load("Number.png");
@@ -42,14 +43,20 @@ void Number::Update()
 //•`‰æ
 void Number::Draw()
 {
-    for (int i = 0; i < MAX_DIGITS; i++)
+    if (Direct3D::lr == 0)
     {
-        if (hPict_[i] != -1)
+        transform_.position_.x -= space;
+        for (int i = 0; i < MAX_DIGITS; i++)
         {
-            //Image::SetRect(hPict_[i], int(saveTime / dividedTime) * 150, 0, 150, 256);
-            Image::SetTransform(hPict_[i], transform_);
-            Image::Draw(hPict_[i]);
+            if (hPict_[i] != -1)
+            {
+                //Image::SetRect(hPict_[i], int(saveTime / dividedTime) * 150, 0, 150, 256);
+                Image::SetTransform(hPict_[i], transform_);
+                Image::Draw(hPict_[i]);
+            }
+            transform_.position_.x += space;
         }
+        transform_.position_.x -= space * 2;
     }
 }
 	
@@ -59,8 +66,9 @@ void Number::Release()
 {
 }
 
-void Number::SetNum(int num_, float space_)
+void Number::SetNum(int num_, float space_, float posX_)
 {
+    space = space_;
 	num = num_ * CHANGE_DIGITS;
     dividedTime = 0;
     int repeat = 0;
@@ -75,16 +83,17 @@ void Number::SetNum(int num_, float space_)
         //2Œ…
         dividedTime = CHANGE_DIGITS * 10;
         repeat = 2;
+        transform_.position_.x = posX_ + space_ / 2;
     }
     else
     {
         //1Œ…
         dividedTime = CHANGE_DIGITS;
         repeat = 1;
+        transform_.position_.x = posX_ + space_;
     }
 
     saveTime = num;
-    transform_.position_.x -= space_;
     for (int i = 0; i <= MAX_DIGITS; i++)
     {
         if (i < repeat)
@@ -92,7 +101,6 @@ void Number::SetNum(int num_, float space_)
             Image::SetRect(hPict_[i], int(saveTime / dividedTime) * NUM_INTERVAL, 0, WIDTH, HEIGHT);
             saveTime = saveTime % dividedTime;
             dividedTime /= 10;
-            transform_.position_.x += space_;
         }
         else
         {

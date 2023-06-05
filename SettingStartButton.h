@@ -1,26 +1,14 @@
 #pragma once
 #include "Engine/Button.h"
 
-//using namespace Button;
-
-//■■シーンを管理するクラス
 class SettingStartButton : public Button
 {
-	int playerNum;
-	int comNum;
+	int playerNum;//プレイヤー人数
+	int comNum;//COM人数
 
-	float easeX;
-	float easeSave;
-	bool isStickMove;
-	bool isLoad;
-	std::pair<float, float> framePos[5];
-
-	Transform transButton;
-	Transform transPlayerNum;
-	Transform transComNum;
+	float easeX;//スライドして登場するときのイージング値
+	float easeSave;//イージングの値保存
 public:
-	int arrowID;
-
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
 	SettingStartButton(GameObject* parent);
@@ -31,16 +19,7 @@ public:
 	//更新
 	void SubUpdate() override;
 
-	////描画
-	//void Draw() override;
-
-	////開放
-	//void Release() override;
-
-	//bool IsLoad();
-
-
-//ボタンが押されたときにする処理
+	//ボタンが押されたときにする処理
 	void Event() override;
 
 	//選択された瞬間

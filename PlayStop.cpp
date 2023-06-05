@@ -7,6 +7,13 @@
 #include "StopButton.h"
 #include "StopText.h"
 
+//定数
+namespace
+{
+	static const int SOUND_COUNT = 10;
+	static const float VOLUME = 0.8f;
+}
+
 //コンストラクタ
 PlayStop::PlayStop(GameObject* parent)
 	: GameObject(parent, "PlayStop")
@@ -20,12 +27,13 @@ void PlayStop::Initialize()
 	Instantiate<StopButton>(this);
 	Instantiate<StopText>(this);
 
-	hSound_ = Audio::Load("Move.wav", false, 0.8f, 10);
+	hSound_ = Audio::Load("Move.wav", false, VOLUME, SOUND_COUNT);
 	assert(hSound_ >= 0);
 
 	for(int i = 0;i < Stop::STOP_MAX;i++)
 		isStop[i] = true;
 	isStop[Stop::STOP_PAUSE] = false;
+	pTime = (Time*)FindObject("Time");
 }
 
 //更新

@@ -12,16 +12,14 @@ class PlayStop : public GameObject
 		STOP_READY,
 		STOP_START,
 		STOP_PAUSE,
-		//STOP_RESULT,
 		STOP_MAX
 	};
-	int hSound_;
-	bool isStop[Stop::STOP_MAX];
-	//bool isReady[ScreenSplit::GetAllPerson()];
-	bool isReady[4];
+	int hSound_;//音
+	bool isStop[Stop::STOP_MAX];//止めるかどうか
+	bool isReady[4];//準備が完了したか
 
-	Time* pTime = (Time*)FindObject("Time");
-	UI* pUI;
+	Time* pTime;//スタートさせる
+	UI* pUI;//ゲーム中かどうか
 
 public:
 	//コンストラクタ
@@ -40,16 +38,24 @@ public:
 	//開放
 	void Release() override;
 
-	//一時停止
+	//一時停止セット
 	void SetIsStopPause(bool isStop_);
+
+	//一時停止取得
 	bool GetIsStopPause();
 
+	//準備中セット
 	void SetIsReady(bool isReady_,int ID);
+
+	//準備中取得
 	bool GetIsStopReady();
 
+	//止まっているか取得
 	bool GetIsStop();
 
+	//動けるようになる
 	void GameStart();
 
+	//再開する
 	void SetIsStart(bool IsStart_);
 };

@@ -12,9 +12,9 @@ class PlayScene : public GameObject
 	int hPict_;    //画像番号
 	int hSound_;//音
 	
-	Ball* pBall[80];
-	Player* pPlayer[4];
-	Ground* pGround;
+	Ball* pBall[80];//ボールの個数
+	Player* pPlayer[4];//プレイヤー
+	Ground* pGround;//フィールド
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）

@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine/GameObject.h"
+#include "Number.h"
 
 //◆◆◆を管理するクラス
 class Time : public GameObject
@@ -8,28 +9,22 @@ class Time : public GameObject
     {
         PICT_FRONT,
         PICT_BACK,
-        PICT_PLACE_ONE,
-        PICT_PLACE_TEN,
-        PICT_PLACE_HUNDRED,
         PICT_READY,
         PICT_START,
         PICT_MAX
     };
-    const float FONT_SPACE = 0.06f;
 
-    float ease = 0.9f;
-    int hSound_;
-    int hPict_[Pict::PICT_MAX];
+    int hSound_;//音
+    int hPict_[Pict::PICT_MAX];//画像
+    int time;//1/60秒タイム
+    int startTime;//開始のカウント
+    int textAlpha;//よーいどんの透明度
+    float textScale;//よーいどんのサイズ
 
-    int textAlpha;
-    float textScale;
-    float fontScale;
-    int time;
-    int startTime;
-
-    Transform transTime;
-    Transform transLeft;
-    Transform transText;
+    Number* pNumber;//残り時間数字表示
+    Transform transTime;//残り時間時計
+    Transform transLeft;//残り時間時計
+    Transform transText;//よーいどんトランスフォーム
 public:
     //コンストラクタ
     Time(GameObject* parent);
@@ -52,11 +47,12 @@ public:
     //残り時間セット
     void SetTime(float time_);
 
+    //残り時間取得
     int GetTime();
 
+    //開始前時間取得
     int GetStartTime();
 
-    void BGMStop();
-
+    //よーいどんを表示する
     void SetStart();
 };

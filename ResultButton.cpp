@@ -4,6 +4,7 @@
 #include "Engine/Image.h"
 #include "Result.h"
 #include "UI.h"
+#include "Engine/Audio.h"
 //コンストラクタ
 ResultButton::ResultButton(GameObject* pParent,std::string name, int buttonID_ ,int screenID_)
 	: Button(pParent, "ResultButton"),hPict_(-1)
@@ -58,7 +59,9 @@ void ResultButton::Event()
 	UI* pUI = (UI*)FindObject("UI");
 	//ロード
 	pUI->LoadSet();
-
+	Audio::Release();
+	int hSound_ = Audio::Load("Button.wav", false, 0.8f, 1);
+	Audio::Play(hSound_);
 	if (buttonID == 0)
 	{
 		pSceneManager->SameScene();

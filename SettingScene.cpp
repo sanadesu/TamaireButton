@@ -13,11 +13,10 @@
 //定数
 namespace
 {
-	static const int NUMERIC_COUNT = 2;
-	static const float NUM_X = 0.435f;
-	static const float NUM_UP_Y = 0.36f;
-	static const float NUM_DOWN_Y = -0.23f;
-
+	static const int NUMERIC_COUNT = 2;//数字の個数
+	static const float NUM_X = 0.435f;//数字の位置(X)
+	static const float NUM_UP_Y = 0.36f;//1行目、数字の位置(Y)
+	static const float NUM_DOWN_Y = -0.23f;//2行目、数字の位置(Y)
 }
 
 //コンストラクタ
@@ -33,9 +32,9 @@ void SettingScene::Initialize()
 	Instantiate<SettingBack>(this);
 	Instantiate<SettingText>(this);
 
-	Number* pNumber[NUMERIC_COUNT];
 	const char* numberName[NUMERIC_COUNT] = { "Number1","Number2" };
 	XMFLOAT3 numPos[NUMERIC_COUNT] = { XMFLOAT3(NUM_X,NUM_UP_Y,0),XMFLOAT3(NUM_X,NUM_DOWN_Y,0) };
+	Number* pNumber[NUMERIC_COUNT];
 
 	for (int i = 0; i < NUMERIC_COUNT; i++)
 	{
@@ -50,7 +49,6 @@ void SettingScene::Initialize()
 
 	SettingStartButton* pStartButton = Instantiate<SettingStartButton>(this);
 	pStartButton->SetObjectName("SettingStartButton");
-	player = 1;
 }
 
 //更新

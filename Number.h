@@ -8,6 +8,7 @@ class Number : public GameObject
 	int num;
 	int dividedTime;
 	int saveTime;
+	float space;
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
@@ -26,7 +27,7 @@ public:
 	void Release() override;
 
 	//数字セット
-	void SetNum(int num_, float space_);
+	void SetNum(int num_, float space_, float posX_);
 
 	
 };

@@ -6,10 +6,7 @@
 //■■シーンを管理するクラス
 class AssistReady : public GameObject
 {
-	//static const int a = ScreenSplit::GetPlayerPerson();
-	//bool isReady[ScreenSplit::GetPlayerPerson()];
-	//std::vector<bool> isReaady;//(ScreenSplit::GetPlayerPerson(),false);
-	bool isFirstTime;
+	int split;//画面分割数
 	Text* pText;
 public:
 	//コンストラクタ

@@ -14,7 +14,14 @@ class SettingText : public GameObject
 
 	int hPict_[Pict::PICT_MAX];    //画像番号
 
-	float easeX;
+	float easeSave;//イージングの数値保存
+	float easeX;//イージングのX軸
+	float screenWidth;//スクリーン横幅
+	float screenHeight;//スクリーン縦幅
+	float textY[2];
+	float textHeight[2];
+	float easeStart[2];
+
 	Frame* nowFrame = (Frame*)FindObject("Frame");
 public:
 	//コンストラクタ

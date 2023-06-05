@@ -165,8 +165,8 @@ void SettingArrowButton::Event()
 	pStartButton->SetComNum(comNum);
 	pStartButton->SetPlayerNum(playerNum);
 
-	pNumber1->SetNum(pStartButton->GetPlayerNum(),0);
-	pNumber2->SetNum(pStartButton->GetComNum(), 0);
+	pNumber1->SetNum(pStartButton->GetPlayerNum(),0, NUM_POS);
+	pNumber2->SetNum(pStartButton->GetComNum(), 0, NUM_POS);
 }
 
 //‘I‘ğ‚³‚ê‚½uŠÔ

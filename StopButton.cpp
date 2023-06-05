@@ -52,10 +52,10 @@ void StopButton::Update()
 				//ƒ^ƒCƒgƒ‹‚Ö
 				UI* pUI = (UI*)FindObject("UI");
 				pUI->LoadSet();
-				//‰¹Ž~‚ß‚é
-				//Audio::Release();
 				Time* pTime = (Time*)FindObject("Time");
-				pTime->BGMStop();
+				//‰¹Ž~‚ß‚é
+				Audio::Release();
+				hSound_[Sound::SOUND_BUTTON] = Audio::Load("Button.wav", false, 0.8f, 1);
 				Audio::Play(hSound_[Sound::SOUND_BUTTON]);
 				SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
 				pSceneManager->ChangeScene(SCENE_ID_TITLE);

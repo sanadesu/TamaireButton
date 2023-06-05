@@ -5,9 +5,7 @@
 class Ground : public GameObject
 {
     int hModel_;    //モデル番号
-
-    const float GROUND_HEIGHT = -0.27;
-    int groundBall;
+    int groundBall;//フィールド内のボールの数
 
 public:
     //コンストラクタ
@@ -28,8 +26,10 @@ public:
     //開放
     void Release() override;
 
+    //ボール数セット
     void SetGroundBall(int groundBall_);
 
+    //ボール数取得
     int GetGroundBall();
 
 };

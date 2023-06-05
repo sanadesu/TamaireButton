@@ -13,137 +13,67 @@
 #include "ReadyArrowButton.h"
 #include "ReadyOKButton.h"
 
+//定数
+namespace 
+{
+	static const int UI_READY_COUNT = 5;
+	static const int ARROW_NUM = 2;
+}
+
+struct ReadyUI
+{
+	ReadyBack* pReadyBack;
+	ReadyText* pReadyText;
+	AssistText* pAssistText;
+	ReadyArrowButton* pReadyArrowButton[ARROW_NUM];
+	ReadyOKButton* pReadyOKButton;
+}; ReadyUI playerUI[UI_READY_COUNT];
+
 //コンストラクタ
 AssistReady::AssistReady(GameObject* parent)
 	: GameObject(parent, "AssistReady")
 {
 }
 
-struct ReadyUI
-{
-	ReadyBack* pReadyBack;
-	//ReadyButton* pReadyButton;
-	ReadyText* pReadyText;
-	AssistText* pAssistText;
-	ReadyArrowButton* pReadyArrowButton[2];
-	ReadyOKButton* pReadyOKButton;
-}; ReadyUI playerUI[5];
-
 //初期化
 void AssistReady::Initialize()
 {
 	const char* buttonName[] = { "ReadyArrowButton1", "ReadyArrowButton2"};
 	if (ScreenSplit::GetPlayerPerson() != 3)
-	{
-		for (int i = 0; i < ScreenSplit::GetPlayerPerson(); i++)
-		{
-			playerUI[i].pReadyBack = Instantiate<ReadyBack>(this);
-			playerUI[i].pReadyBack->SetSplit(i + ScreenSplit::GetPlayerPerson() - 1);
-			for (int j = 0; j < 2; j++)
-			{
-				playerUI[i].pReadyArrowButton[j] = ButtonManager::CreateButtonScreen<ReadyArrowButton>(this, buttonName[j], j, i);
-				playerUI[i].pReadyArrowButton[j]->SetSplit(i + ScreenSplit::GetPlayerPerson() - 1);
-				
-			}
-			playerUI[i].pReadyOKButton = ButtonManager::CreateButtonScreen<ReadyOKButton>(this, "ReadyOKButton", 0, i);
-			playerUI[i].pReadyOKButton->SetSplit(i + ScreenSplit::GetPlayerPerson() - 1);
-			//playerUI[i].pReadyButton = Instantiate<ReadyButton>(this);
-			//playerUI[i].pReadyButton->SetSplit(i + ScreenSplit::GetPlayerPerson() - 1);
-			playerUI[i].pReadyText = Instantiate<ReadyText>(this);
-			playerUI[i].pReadyText->SetSplit(i + ScreenSplit::GetPlayerPerson() - 1);
-			playerUI[i].pAssistText = Instantiate<AssistText>(this);
-			playerUI[i].pAssistText->SetSplit(i + ScreenSplit::GetPlayerPerson() - 1);
-		}
-	}
+		split = ScreenSplit::GetPlayerPerson() - 1;
 	else
+		split = ScreenSplit::GetPlayerPerson();
+
+	for (int i = 0; i < ScreenSplit::GetPlayerPerson(); i++)
 	{
-		for (int i = 0; i < ScreenSplit::GetPlayerPerson(); i++)
+		playerUI[i].pReadyBack = Instantiate<ReadyBack>(this);
+		playerUI[i].pReadyBack->SetSplit(i + split);
+		for (int j = 0; j < 2; j++)
 		{
-			playerUI[i].pReadyBack = Instantiate<ReadyBack>(this);
-			playerUI[i].pReadyBack->SetSplit(i + ScreenSplit::GetPlayerPerson());
-			for (int j = 0; j < 2; j++)
-			{
-				playerUI[i].pReadyArrowButton[j] = ButtonManager::CreateButtonScreen<ReadyArrowButton>(this, buttonName[j], j,i);
-				playerUI[i].pReadyArrowButton[j]->SetSplit(i + ScreenSplit::GetPlayerPerson());
-			}
-			playerUI[i].pReadyOKButton = ButtonManager::CreateButtonScreen<ReadyOKButton>(this, "ReadyOKButton", 0, i);
-			playerUI[i].pReadyOKButton->SetSplit(i + ScreenSplit::GetPlayerPerson());
-			//playerUI[i].pReadyButton = Instantiate<ReadyButton>(this);
-			//playerUI[i].pReadyButton->SetSplit(i + ScreenSplit::GetPlayerPerson());
-			playerUI[i].pReadyText = Instantiate<ReadyText>(this);
-			playerUI[i].pReadyText->SetSplit(i + ScreenSplit::GetPlayerPerson());
-			playerUI[i].pAssistText = Instantiate<AssistText>(this);
-			playerUI[i].pAssistText->SetSplit(i + ScreenSplit::GetPlayerPerson());
+			playerUI[i].pReadyArrowButton[j] = ButtonManager::CreateButtonScreen<ReadyArrowButton>(this, buttonName[j], j, i);
+			playerUI[i].pReadyArrowButton[j]->SetSplit(i + split);
+
 		}
+		playerUI[i].pReadyOKButton = ButtonManager::CreateButtonScreen<ReadyOKButton>(this, "ReadyOKButton", 0, i);
+		playerUI[i].pReadyOKButton->SetSplit(i + split);
+		playerUI[i].pReadyText = Instantiate<ReadyText>(this);
+		playerUI[i].pReadyText->SetSplit(i + split);
+		playerUI[i].pAssistText = Instantiate<AssistText>(this);
+		playerUI[i].pAssistText->SetSplit(i + split);
 	}
 
-	isFirstTime = true;
 	pText = new Text;
 	pText->Initialize();
-	//switch (ScreenSplit::GetPlayerPerson())
-	//{
-	//case 1:
-	//	Instantiate<ReadyBack>(this)->SetSplit(0);
-	//	Instantiate<ReadyButton>(this)->SetSplit(0);
-	//	Instantiate<ReadyText>(this)->SetSplit(0);
-	//	Instantiate<AssistText>(this)->SetSplit(0);
-	//	break;
-	//case 2:
-	//	Instantiate<ReadyBack>(this)->SetSplit(1);
-	//	Instantiate<ReadyBack>(this)->SetSplit(2);
-	//	Instantiate<ReadyButton>(this)->SetSplit(1);
-	//	Instantiate<ReadyButton>(this)->SetSplit(2);
-	//	Instantiate<ReadyText>(this)->SetSplit(1);
-	//	Instantiate<ReadyText>(this)->SetSplit(2);
-	//	Instantiate<AssistText>(this)->SetSplit(1);
-	//	Instantiate<AssistText>(this)->SetSplit(2);
-	//	break;
-	//case 3:
-	//	Instantiate<ReadyBack>(this)->SetSplit(3);
-	//	Instantiate<ReadyBack>(this)->SetSplit(4);
-	//	Instantiate<ReadyBack>(this)->SetSplit(5);
-	//	Instantiate<ReadyButton>(this)->SetSplit(3);
-	//	Instantiate<ReadyButton>(this)->SetSplit(4);
-	//	Instantiate<ReadyButton>(this)->SetSplit(5);
-	//	Instantiate<ReadyText>(this)->SetSplit(3);
-	//	Instantiate<ReadyText>(this)->SetSplit(4);
-	//	Instantiate<ReadyText>(this)->SetSplit(5);
-	//	Instantiate<AssistText>(this)->SetSplit(3);
-	//	Instantiate<AssistText>(this)->SetSplit(4);
-	//	Instantiate<AssistText>(this)->SetSplit(5);
-	//	break;
-	//case 4:
-	//	Instantiate<ReadyBack>(this)->SetSplit(3);
-	//	Instantiate<ReadyBack>(this)->SetSplit(4);
-	//	Instantiate<ReadyBack>(this)->SetSplit(5);
-	//	Instantiate<ReadyBack>(this)->SetSplit(6);
-	//	Instantiate<ReadyButton>(this)->SetSplit(3);
-	//	Instantiate<ReadyButton>(this)->SetSplit(4);
-	//	Instantiate<ReadyButton>(this)->SetSplit(5);
-	//	Instantiate<ReadyButton>(this)->SetSplit(6);
-	//	Instantiate<ReadyText>(this)->SetSplit(3);
-	//	Instantiate<ReadyText>(this)->SetSplit(4);
-	//	Instantiate<ReadyText>(this)->SetSplit(5);
-	//	Instantiate<ReadyText>(this)->SetSplit(6);
-	//	Instantiate<AssistText>(this)->SetSplit(3);
-	//	Instantiate<AssistText>(this)->SetSplit(4);
-	//	Instantiate<AssistText>(this)->SetSplit(5);
-	//	Instantiate<AssistText>(this)->SetSplit(6);
-	//	break;
-	//default:
-	//	break;
-	//}
 }
 
 //更新
 void AssistReady::Update()
 {
-	if (/*isFirstTime &&*/ AllReady())
+	if (AllReady())
 	{
-		isFirstTime = false;
 		PlayStop* pPlayStop = (PlayStop*)FindObject("PlayStop");
 		//スタート
-		pPlayStop->GameStart();//一回だけにする
+		pPlayStop->GameStart();
 		ButtonManager::ButtonRelease();
 		KillMe();
 	}
@@ -182,7 +112,6 @@ bool AssistReady::AllReady()
 {
 	for (int i = 0; i < ScreenSplit::GetPlayerPerson(); i++)
 	{
-		//if (playerUI[i].pReadyButton->GetReady() == false)
 		if(playerUI[i].pReadyOKButton->IsDead() == false)
 			return false;
 	}
@@ -192,9 +121,7 @@ bool AssistReady::AllReady()
 void AssistReady::ReadyKill(int ScreenNum)
 {
 	playerUI[ScreenNum].pReadyBack->BlackBack();
-	//playerUI[ScreenNum].pReadyButton->KillMe();
-	//playerUI[ScreenNum].pReadyArrowButton->KillMe();
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < ARROW_NUM; i++)
 		playerUI[ScreenNum].pReadyArrowButton[i]->KillMe();
 
 	playerUI[ScreenNum].pReadyOKButton->KillMe();
