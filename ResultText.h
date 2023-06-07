@@ -3,8 +3,8 @@
 #include "Time.h"
 #include "UI.h"
 #include "Engine/Text.h"
+#include "Number.h"
 
-//◆◆◆を管理するクラス
 class ResultText : public GameObject
 { 
     //使用する画像の種類
@@ -34,6 +34,9 @@ class ResultText : public GameObject
     int redSum;     //赤玉の得点 
     int ResultTextCount;//リザルト表示のカウント
 
+    Number* pRedNumber;//赤得点表示
+    Number* pWhiteNumber;//白得点表示
+    Text* pText;//デバッグ時文字
     Time* pTime;//ゲーム残り時間
     bool isEnd;//ゲームが終わったかどうか
 public:

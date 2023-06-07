@@ -3,14 +3,19 @@
 #include "Engine/Easing.h"
 #include "Engine/Input.h"
 #include "Engine/Audio.h"
+#include "Engine/ButtonManager.h"
 #include "StopBack.h"
 #include "StopButton.h"
 #include "StopText.h"
+#include "PauseButton.h"
+
 
 //íËêî
 namespace
 {
 	static const int SOUND_COUNT = 10;
+	static const int BUTTON_COUNT = 2;
+	static const int SCREEN_ID = 5;
 	static const float VOLUME = 0.8f;
 }
 
@@ -24,7 +29,9 @@ PlayStop::PlayStop(GameObject* parent)
 void PlayStop::Initialize()
 {
 	Instantiate<StopBack>(this);
-	Instantiate<StopButton>(this);
+	//Instantiate<StopButton>(this);
+	//Instantiate<PauseButton>(this);
+	
 	Instantiate<StopText>(this);
 
 	hSound_ = Audio::Load("Move.wav", false, VOLUME, SOUND_COUNT);
@@ -44,6 +51,11 @@ void PlayStop::Update()
 	if ((Input::IsKeyDown(DIK_LCONTROL) || Input::IsKeyDown(DIK_RCONTROL) || Input::IsPadButtonDown(XINPUT_GAMEPAD_START))
 		&& pUI->GetIsEnd() == false)
 	{
+		const char* buttonName[] = { "PlayButton" ,"TitleButton" };
+		for (int i = 0; i < BUTTON_COUNT; i++)
+		{
+			ButtonManager::CreateButtonScreen<PauseButton>(this, buttonName[i], i, SCREEN_ID);
+		}
 		if (isStop[Stop::STOP_PAUSE])
 		{
 			isStop[Stop::STOP_PAUSE] = false;
@@ -51,6 +63,15 @@ void PlayStop::Update()
 
 			pTime->SetStart();
 			isStop[Stop::STOP_START] = true;
+			
+			/*for (int i = 0; i < BUTTON_COUNT; i++)
+			{
+				PauseButton* pPauseButton = (PauseButton*)FindObject(buttonName[i]);
+				pPauseButton->KillMe();
+			}*/
+			//PauseButton* pPauseButton = (PauseButton*)FindObject("PlayButton");
+			//pPauseButton->KillMe();
+			ButtonManager::ButtonRelease();
 		}
 		else
 		{
@@ -124,4 +145,9 @@ void PlayStop::GameStart()
 void PlayStop::SetIsStart(bool IsStart_)
 {
 	isStop[Stop::STOP_START] = IsStart_;
+}
+
+bool PlayStop::GetIsStart()
+{
+	return isStop[Stop::STOP_START];
 }

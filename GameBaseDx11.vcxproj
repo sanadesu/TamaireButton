@@ -147,6 +147,7 @@
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="memo.cpp" />
     <ClCompile Include="Number.cpp" />
+    <ClCompile Include="PauseButton.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Engine\Text.cpp" />
@@ -212,6 +213,7 @@
     <ClInclude Include="Frame.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="Number.h" />
+    <ClInclude Include="PauseButton.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="PlayStop.h" />

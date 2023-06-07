@@ -293,61 +293,6 @@ void Button::SelectMove(int screenID_move)
 		isStickMove = false;
 		ButtonManager::SetSelectChange(true);
 	}
-
-	//座標でボタン選択
-	//横はxだけ見る
-	//縦はどっちも見て近いほう
-	//画像を変えるに変更
-	//選択された瞬間に選択画像に変更
-	//選択解除された瞬間に元の画像に変更
-	//△が4個場所変えて表示、決定1個
-	//クラス2個
-
-
-	//ボタン何個でもできるように変える
-	//if ((Input::IsKeyDown(DIK_UP) || Input::IsPadButtonDown(XINPUT_GAMEPAD_DPAD_UP, 0) || (Input::GetPadStickL(0).y > 0 && isStickMove)) && frameNum > 1)
-	//{
-	//	if (frameNum >= 2)//横ボタン数
-	//		frameNum -= 2;//横ボタン数
-	//	
-	//	isStickMove = false;
-	//}
-	//if ((Input::IsKeyDown(DIK_DOWN) || Input::IsPadButtonDown(XINPUT_GAMEPAD_DPAD_DOWN, 0) || (Input::GetPadStickL(0).y < 0 && isStickMove)) && frameNum < 4)
-	//{
-	//	//if (frameNum += 2 > 4)//横ボタン数、最大ボタン
-	//	//{
-	//	//	//何もしない
-	//	//}
-	//	//else
-	//		frameNum += 2;//横ボタン数
-	//	
-	//	if (frameNum > 4)//最大ボタン数
-	//		frameNum = 4;//ここはボタンの並びが不規則の時変えないといけない、どうするか未定
-	//	isStickMove = false;
-	//}
-	//if ((Input::IsKeyDown(DIK_RIGHT) || Input::IsPadButtonDown(XINPUT_GAMEPAD_DPAD_RIGHT, 0) || (Input::GetPadStickL(0).x > 0 && isStickMove)) && frameNum < 4 && frameNum % 2 == 0)
-	//{
-	//	if (frameNum % 2 == 1)//横ボタン数、横ボタン数-1
-	//	{
-	//		//なにもしない
-	//	}
-	//	else
-	//	frameNum++;
-	//	isStickMove = false;
-	//}
-	//if ((Input::IsKeyDown(DIK_LEFT) || Input::IsPadButtonDown(XINPUT_GAMEPAD_DPAD_LEFT, 0) || (Input::GetPadStickL(0).x < 0 && isStickMove)) && frameNum > 0 && frameNum % 2 == 1)
-	//{
-	//	if (frameNum % 2 == 0)//横ボタン数、横ボタン数-1
-	//	{
-	//		//なにもしない
-	//	}
-	//	else
-	//		frameNum--;
-	//	isStickMove = false;
-	//}
-
-	//if(Input::IsPadButtonDown())
-	//Audio::Play(hSound_[Sound::SOUND_MOVE]);
 }
 
 //選択された瞬間
@@ -417,8 +362,6 @@ void Button::ButtonSwith()
 		}
 		else
 			IsSelectReleas();
-		//SetIsNextSelect(false);
-		//ButtonManager::SetSelectChange(false);
 	}
 }
 

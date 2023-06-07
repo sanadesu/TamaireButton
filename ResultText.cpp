@@ -10,21 +10,23 @@
 //定数
 namespace
 {
-    static const int END_TEXT = 1;//ゲーム終了
     static const int DRUM_START = 50;//ドラム鳴らすタイミング
     static const int WHITE_SCORE = 100;//白ボール個数表示
     static const int RED_SCORE = 150;//赤ボール個数表示
-    static const int RESULTTEXT = 200;//結果表示
+    static const int RESULT_TEXT = 200;//結果表示
     static const int SOUND_COUNT = 10;//音を同時に鳴らせる回数
     static const float SOUND_VOLUME = 1.0f;//音量
-
+    static const float FONT_SPACE = 0.15f;//数字の間隔
+    static const float POS_X = 0.5f;//場所X
+    static const float POS_Y = 0.4;//場所Y
 }
 
 //コンストラクタ
 ResultText::ResultText(GameObject* parent)
     :GameObject(parent, "ResultText"),
     hPict_{-1, -1, -1, -1, -1, -1, -1},
-    hSound_{-1,-1,-1}
+    hSound_{-1,-1,-1},
+    pText(nullptr)
 {
 
 }
@@ -63,10 +65,12 @@ void ResultText::Initialize()
         assert(hSound_[Sound::SOUND_DRUM] >= 0);
     }
 
+    
     whiteSum = 0;
     redSum = 0;
     ResultTextCount = 0;
-
+    pText = new Text;
+    pText->Initialize();
 	pTime = (Time*)FindObject("Time");
 	isEnd = false;
 }
@@ -77,20 +81,31 @@ void ResultText::Update()
 	//制限時間
 	if (pTime->GetTime() <= 0)
 	{
-        ResultTextCount++;
-        if(ResultTextCount == END_TEXT)
+        switch (ResultTextCount)
         {
+        case 0:
             Audio::Play(hSound_[Sound::SOUND_END]);
-        }
-        if (ResultTextCount == DRUM_START)
-        {
+            break;
+        case DRUM_START:
             Audio::Play(hSound_[Sound::SOUND_DRUM]);
-        }
-        if (ResultTextCount == RESULTTEXT)
-        {
+            break;
+        case RESULT_TEXT:
             Audio::Stop(hSound_[Sound::SOUND_DRUM]);
             Audio::Play(hSound_[Sound::SOUND_RESULT]);
+            break;
+        case WHITE_SCORE:
+            pWhiteNumber = InstantiateID<Number>(this, XMFLOAT3(0, 0, 0), 0);
+            pWhiteNumber->SetNum(whiteSum, FONT_SPACE, -POS_X);
+            break;
+        case RED_SCORE:
+            pRedNumber = InstantiateID<Number>(this, XMFLOAT3(0, 0, 0), 0);
+            pRedNumber->SetNum(redSum, FONT_SPACE, POS_X);
+            break;
+        default:
+            break;
         }
+
+        ResultTextCount++;
 
 		isEnd = true;
 	}
@@ -103,74 +118,33 @@ void ResultText::Draw()
     {
         if (pTime->GetTime() <= 0)
         {
-            //結果表示
-            int divided = 10;
-            Transform numTrans = transform_;
-            numTrans.position_.x = -0.6f;
-
-            int whiteScore = whiteSum;
-            int redScore = redSum;
-
-            if (ResultTextCount > WHITE_SCORE)
-            {
-                //白得点
-                for (int i = PICT_SECOND_NUMBER; i >= PICT_FIRST_NUMBER; i--)
-                {
-                    Image::SetRect(hPict_[i], int(whiteScore / divided) * 150, 0, 150, 256);
-                    Image::SetTransform(hPict_[i], numTrans);
-                    Image::Draw(hPict_[i]);
-                    whiteScore = whiteScore % divided;
-                    divided /= 10;
-                    numTrans.position_.x += 0.15f;
-                }
-            }
-
-            divided = 10;
-            numTrans.position_.x = 0.45f;
-            if (ResultTextCount > RED_SCORE)
-            {
-                //赤得点
-                for (int i = PICT_SECOND_NUMBER; i >= PICT_FIRST_NUMBER; i--)
-                {
-                    Image::SetRect(hPict_[i], int(redScore / divided) * 150, 0, 150, 256);
-                    Image::SetTransform(hPict_[i], numTrans);
-                    Image::Draw(hPict_[i]);
-                    redScore = redScore % divided;
-                    divided /= 10;
-                    numTrans.position_.x += 0.15f;
-                }
-            }
-
             Transform redTrans = transform_;
             Transform whiteTrans = transform_;
-            redTrans.position_.x = 0.5f;
-            redTrans.position_.y = 0.4f;
-            whiteTrans.position_.x = -0.5f;
-            whiteTrans.position_.y = 0.4f;
+            redTrans.position_.x = POS_X;
+            redTrans.position_.y = POS_Y;
+            whiteTrans.position_.x = -POS_X;
+            whiteTrans.position_.y = POS_Y;
             Image::SetTransform(hPict_[PICT_WHITE_TEXT], whiteTrans);
             Image::Draw(hPict_[PICT_WHITE_TEXT]);
             Image::SetTransform(hPict_[PICT_RED_TEXT], redTrans);
             Image::Draw(hPict_[PICT_RED_TEXT]);
 
-            redTrans.position_.y = -0.5f;
-            whiteTrans.position_.y = 0;
-            whiteTrans.position_.x = 0;
-            if (ResultTextCount > RESULTTEXT)
+            if (ResultTextCount > RESULT_TEXT)
             {
                 //白勝ち
                 if (redSum < whiteSum)
                 {
-                    Image::SetTransform(hPict_[PICT_WIN], whiteTrans);
+                    Image::SetTransform(hPict_[PICT_WIN], transform_);
                     Image::Draw(hPict_[PICT_WIN]);
                 }//赤勝ち
                 else if (whiteSum < redSum)
                 {
-                    Image::SetTransform(hPict_[PICT_LOSE], whiteTrans);
+                    Image::SetTransform(hPict_[PICT_LOSE], transform_);
                     Image::Draw(hPict_[PICT_LOSE]);
                 }//引き分け
                 else
                 {
-                    Image::SetTransform(hPict_[PICT_DRAW], whiteTrans);
+                    Image::SetTransform(hPict_[PICT_DRAW], transform_);
                     Image::Draw(hPict_[PICT_DRAW]);
                 }
             }

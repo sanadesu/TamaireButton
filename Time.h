@@ -2,7 +2,6 @@
 #include "Engine/GameObject.h"
 #include "Number.h"
 
-//ŸŸŸ‚ğŠÇ—‚·‚éƒNƒ‰ƒX
 class Time : public GameObject
 {
     enum Pict

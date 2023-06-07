@@ -228,6 +228,7 @@
     <ClCompile Include="ResultButton.cpp">
       <Filter>PlayScene\Result</Filter>
     </ClCompile>
+    <ClCompile Include="PauseButton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -413,6 +414,7 @@
     <ClInclude Include="ResultButton.h">
       <Filter>PlayScene\Result</Filter>
     </ClInclude>
+    <ClInclude Include="PauseButton.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">

@@ -17,6 +17,7 @@ class PlayStop : public GameObject
 	int hSound_;//音
 	bool isStop[Stop::STOP_MAX];//止めるかどうか
 	bool isReady[4];//準備が完了したか
+	bool isStart;//スタートしたか
 
 	Time* pTime;//スタートさせる
 	UI* pUI;//ゲーム中かどうか
@@ -56,6 +57,9 @@ public:
 	//動けるようになる
 	void GameStart();
 
-	//再開する
+	//再開セット
 	void SetIsStart(bool IsStart_);
+
+	//再開したか取得
+	bool GetIsStart();
 };

@@ -50,7 +50,6 @@ void Number::Draw()
         {
             if (hPict_[i] != -1)
             {
-                //Image::SetRect(hPict_[i], int(saveTime / dividedTime) * 150, 0, 150, 256);
                 Image::SetTransform(hPict_[i], transform_);
                 Image::Draw(hPict_[i]);
             }

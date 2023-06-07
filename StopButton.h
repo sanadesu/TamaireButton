@@ -2,7 +2,6 @@
 #include "Engine/GameObject.h" 
 #include "PlayStop.h"
 
-//■■シーンを管理するクラス
 class StopButton : public GameObject
 {
 	enum Sound
