@@ -7,12 +7,24 @@
 #include "Engine/SceneManager.h"
 #include "Engine/Audio.h"
 
+//定数
+namespace
+{
+    static const int END_TEXT = 1;//ゲーム終了
+    static const int DRUM_START = 50;//ドラム鳴らすタイミング
+    static const int WHITE_SCORE = 100;//白ボール個数表示
+    static const int RED_SCORE = 150;//赤ボール個数表示
+    static const int RESULTTEXT = 200;//結果表示
+    static const int SOUND_COUNT = 10;//音を同時に鳴らせる回数
+    static const float SOUND_VOLUME = 1.0f;//音量
+
+}
+
 //コンストラクタ
 ResultText::ResultText(GameObject* parent)
     :GameObject(parent, "ResultText"),
     hPict_{-1, -1, -1, -1, -1, -1, -1},
-    hSound_{-1,-1,-1},
-    pText(nullptr)
+    hSound_{-1,-1,-1}
 {
 
 }
@@ -44,10 +56,10 @@ void ResultText::Initialize()
         //ロード
         for (int i = 0; i < Sound::SOUND_MAX; i++)
         {
-            hSound_[i] = Audio::Load(soundFileName[i], false, 1.5f, 10);
+            hSound_[i] = Audio::Load(soundFileName[i], false, SOUND_VOLUME, SOUND_COUNT);
             assert(hSound_[i] >= 0);
         }
-        hSound_[Sound::SOUND_DRUM] = Audio::Load(soundFileName[Sound::SOUND_DRUM], true, 1.5f, 10);
+        hSound_[Sound::SOUND_DRUM] = Audio::Load(soundFileName[Sound::SOUND_DRUM], true, SOUND_VOLUME, SOUND_COUNT);
         assert(hSound_[Sound::SOUND_DRUM] >= 0);
     }
 
@@ -55,10 +67,7 @@ void ResultText::Initialize()
     redSum = 0;
     ResultTextCount = 0;
 
-    pText = new Text;
-    pText->Initialize();
 	pTime = (Time*)FindObject("Time");
-	pUI = (UI*)FindObject("UI");
 	isEnd = false;
 }
 
@@ -69,72 +78,22 @@ void ResultText::Update()
 	if (pTime->GetTime() <= 0)
 	{
         ResultTextCount++;
-        if(ResultTextCount == 1)
+        if(ResultTextCount == END_TEXT)
         {
             Audio::Play(hSound_[Sound::SOUND_END]);
         }
-        if (ResultTextCount == 50)
+        if (ResultTextCount == DRUM_START)
         {
             Audio::Play(hSound_[Sound::SOUND_DRUM]);
-            //Audio::Play(Sound::SOUND_ResultText);
         }
-        if (ResultTextCount == 150)
-        {
-            //Audio::Play(hSound_[Sound::SOUND_ResultText]);
-        }
-        if (ResultTextCount == 200)
+        if (ResultTextCount == RESULTTEXT)
         {
             Audio::Stop(hSound_[Sound::SOUND_DRUM]);
             Audio::Play(hSound_[Sound::SOUND_RESULT]);
         }
 
-        // 文字出すイージング
-        // 
-        // swittiにする？
-        // {
-        // if(ResultTextCount > 60 終了後)
-        // {
-        // 白表示
-        // }
-        // else if()
-        // {
-        // 赤表示
-        // }
-        // else if()結果
-        // 最後ボタン
-        // 
-        // }
-		//動けない
-		//for (int i = 0; i < ScreenSplit::GetAllPerson(); i++)
-		{
-			//pPlayer[i]->SetIsEnd(TRUE);
-			isEnd = true;
-		}
-		
-		//if (isEnd && 時間)
-		{
-			//結果表示 後で移動
-			//pUI->SetIsEnd(TRUE);
-
-
-
-
-           
-
-
-
-
-			//もう一回
-			if (Input::IsPadButtonDown(XINPUT_GAMEPAD_A, 0) || Input::IsKeyDown(DIK_A))
-			{
-				////ロード
-				//pUI->LoadSet();
-				//SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-				//pSceneManager->SameScene();
-			}
-		}
+		isEnd = true;
 	}
-
 }
 
 //描画
@@ -145,104 +104,75 @@ void ResultText::Draw()
         if (pTime->GetTime() <= 0)
         {
             //結果表示
-            if (/*IsEnd 時間？*/"")
+            int divided = 10;
+            Transform numTrans = transform_;
+            numTrans.position_.x = -0.6f;
+
+            int whiteScore = whiteSum;
+            int redScore = redSum;
+
+            if (ResultTextCount > WHITE_SCORE)
             {
-                int divided = 10;
-                Transform numTrans = transform_;
-                numTrans.position_.x = -0.6f;
-
-                int whiteScore = whiteSum;//もってくる？こっちでカウントする
-                int redScore = redSum;
-
-                if (ResultTextCount > 100)
+                //白得点
+                for (int i = PICT_SECOND_NUMBER; i >= PICT_FIRST_NUMBER; i--)
                 {
-                    //白得点
-                    for (int i = PICT_SECOND_NUMBER; i >= PICT_FIRST_NUMBER; i--)
-                    {
-                        //numTrans.position_.x = -0.1f;
-                        //number関数
-                        Image::SetRect(hPict_[i], int(whiteScore / divided) * 150, 0, 150, 256);
-                        Image::SetTransform(hPict_[i], numTrans);
-                        Image::Draw(hPict_[i]);
-                        whiteScore = whiteScore % divided;
-                        divided /= 10;
-                        numTrans.position_.x += 0.15f;
-                    }
+                    Image::SetRect(hPict_[i], int(whiteScore / divided) * 150, 0, 150, 256);
+                    Image::SetTransform(hPict_[i], numTrans);
+                    Image::Draw(hPict_[i]);
+                    whiteScore = whiteScore % divided;
+                    divided /= 10;
+                    numTrans.position_.x += 0.15f;
                 }
-                
+            }
 
-                /*pText->Draw(510, 420, whiteSum);
-                pText->Draw(420, 420, "White");*/
-
-                divided = 10;
-                numTrans.position_.x = 0.45f;
-                if (ResultTextCount > 150)
+            divided = 10;
+            numTrans.position_.x = 0.45f;
+            if (ResultTextCount > RED_SCORE)
+            {
+                //赤得点
+                for (int i = PICT_SECOND_NUMBER; i >= PICT_FIRST_NUMBER; i--)
                 {
-                    //赤得点
-                    for (int i = PICT_SECOND_NUMBER; i >= PICT_FIRST_NUMBER; i--)
-                    {
-                        //numTrans.position_.x = -0.1f;
-                        Image::SetRect(hPict_[i], int(redScore / divided) * 150, 0, 150, 256);
-                        Image::SetTransform(hPict_[i], numTrans);
-                        Image::Draw(hPict_[i]);
-                        redScore = redScore % divided;
-                        divided /= 10;
-                        numTrans.position_.x += 0.15f;
-                    }
+                    Image::SetRect(hPict_[i], int(redScore / divided) * 150, 0, 150, 256);
+                    Image::SetTransform(hPict_[i], numTrans);
+                    Image::Draw(hPict_[i]);
+                    redScore = redScore % divided;
+                    divided /= 10;
+                    numTrans.position_.x += 0.15f;
                 }
-                
+            }
 
-                /* pText->Draw(1510, 420, redSum);
-                 pText->Draw(1420, 420, "Red");
-                 */
+            Transform redTrans = transform_;
+            Transform whiteTrans = transform_;
+            redTrans.position_.x = 0.5f;
+            redTrans.position_.y = 0.4f;
+            whiteTrans.position_.x = -0.5f;
+            whiteTrans.position_.y = 0.4f;
+            Image::SetTransform(hPict_[PICT_WHITE_TEXT], whiteTrans);
+            Image::Draw(hPict_[PICT_WHITE_TEXT]);
+            Image::SetTransform(hPict_[PICT_RED_TEXT], redTrans);
+            Image::Draw(hPict_[PICT_RED_TEXT]);
 
-
-                Transform redTrans = transform_;
-                Transform whiteTrans = transform_;
-                redTrans.position_.x = 0.5f;
-                redTrans.position_.y = 0.4f;
-                whiteTrans.position_.x = -0.5f;
-                whiteTrans.position_.y = 0.4f;
-                Image::SetTransform(hPict_[PICT_WHITE_TEXT], whiteTrans);
-                Image::Draw(hPict_[PICT_WHITE_TEXT]);
-                Image::SetTransform(hPict_[PICT_RED_TEXT], redTrans);
-                Image::Draw(hPict_[PICT_RED_TEXT]);
-
-                redTrans.position_.y = -0.5f;
-                whiteTrans.position_.y = 0;
-                whiteTrans.position_.x = 0;
-                //whiteTrans.position_.x = -0.55f;
-                if (ResultTextCount > 200)
+            redTrans.position_.y = -0.5f;
+            whiteTrans.position_.y = 0;
+            whiteTrans.position_.x = 0;
+            if (ResultTextCount > RESULTTEXT)
+            {
+                //白勝ち
+                if (redSum < whiteSum)
                 {
-                    //白勝ち
-                    if (redSum < whiteSum)
-                    {
-                        Image::SetTransform(hPict_[PICT_WIN], whiteTrans);
-                        Image::Draw(hPict_[PICT_WIN]);
-                        /* Image::SetTransform(hPict_[PICT_LOSE], redTrans);
-                         Image::Draw(hPict_[PICT_LOSE]);*/
-                         /*     pText->Draw(450, 450, "WIN");
-                              pText->Draw(1450, 450, "LOSE");*/
-                    }//赤勝ち
-                    else if (whiteSum < redSum)
-                    {
-                        /* Image::SetTransform(hPict_[PICT_WIN], redTrans);
-                         Image::Draw(hPict_[PICT_WIN]);*/
-                        Image::SetTransform(hPict_[PICT_LOSE], whiteTrans);
-                        Image::Draw(hPict_[PICT_LOSE]);
-                        /* pText->Draw(450, 450, "LOSE");
-                         pText->Draw(1450, 450, "WIN");*/
-                    }//引き分け
-                    else
-                    {
-                        Transform transDraw = transform_;
-
-                        Image::SetTransform(hPict_[PICT_DRAW], whiteTrans);
-                        Image::Draw(hPict_[PICT_DRAW]);
-                        //pText->Draw(930, 450, "DRAW");
-                    }
+                    Image::SetTransform(hPict_[PICT_WIN], whiteTrans);
+                    Image::Draw(hPict_[PICT_WIN]);
+                }//赤勝ち
+                else if (whiteSum < redSum)
+                {
+                    Image::SetTransform(hPict_[PICT_LOSE], whiteTrans);
+                    Image::Draw(hPict_[PICT_LOSE]);
+                }//引き分け
+                else
+                {
+                    Image::SetTransform(hPict_[PICT_DRAW], whiteTrans);
+                    Image::Draw(hPict_[PICT_DRAW]);
                 }
-                
             }
         }
         //デバッグ

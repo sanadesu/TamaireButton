@@ -5,8 +5,8 @@
 class Result : public GameObject
 {
 
-	Time* pTime;
-	bool isFirst;
+	Time* pTime;//ゲームが終わっているかどうか確認する
+	bool isFirst;//最初の一回だけやりたい処理
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）

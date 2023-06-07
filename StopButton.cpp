@@ -6,6 +6,13 @@
 #include "Engine/Audio.h"
 #include "UI.h"
 
+//定数
+namespace
+{
+	static const int SOUND_COUNT = 10;
+	static const float SOUND_VOLUME = 0.8f;
+}
+
 //コンストラクタ
 StopButton::StopButton(GameObject* parent)
 	: GameObject(parent, "StopButton"), hPict_(-1)
@@ -25,7 +32,7 @@ void StopButton::Initialize()
 	//ロード
 	for (int i = 0; i < Sound::SOUND_MAX; i++)
 	{
-		hSound_[i] = Audio::Load(soundFileName[i], false, 0.8f, 10);
+		hSound_[i] = Audio::Load(soundFileName[i], false, SOUND_VOLUME, SOUND_COUNT);
 		assert(hSound_[i] >= 0);
 	}
 }
@@ -55,7 +62,7 @@ void StopButton::Update()
 				Time* pTime = (Time*)FindObject("Time");
 				//音止める◎
 				Audio::Release();
-				hSound_[Sound::SOUND_BUTTON] = Audio::Load("Button.wav", false, 0.8f, 1);
+				hSound_[Sound::SOUND_BUTTON] = Audio::Load("Button.wav", false, SOUND_VOLUME, SOUND_COUNT);
 				Audio::Play(hSound_[Sound::SOUND_BUTTON]);
 				SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
 				pSceneManager->ChangeScene(SCENE_ID_TITLE);

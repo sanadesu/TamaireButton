@@ -5,6 +5,16 @@
 #include "Result.h"
 #include "UI.h"
 #include "Engine/Audio.h"
+
+//定数
+namespace
+{
+	static const float RESULT_POX_X = 0.43f;
+	static const float RESULT_POX_Y = -0.75f;
+	static const float BUTTON_POS = 0.4f;
+	static const float SOUND_VOLUME = 0.8f;
+}
+
 //コンストラクタ
 ResultButton::ResultButton(GameObject* pParent,std::string name, int buttonID_ ,int screenID_)
 	: Button(pParent, "ResultButton"),hPict_(-1)
@@ -17,7 +27,7 @@ void ResultButton::SubInitialize()
 {
 	if (buttonID == 0)
 	{
-		transform_.position_ = XMFLOAT3(-0.4f, RESULT_POX_Y, 0);
+		transform_.position_ = XMFLOAT3(-BUTTON_POS, RESULT_POX_Y, 0);
 		hPict_ = Image::Load("ResultRetrySelect.png");
 		assert(hPict_ >= 0); 
 		SetIsNextSelect(true);
@@ -26,11 +36,10 @@ void ResultButton::SubInitialize()
 	}
 	else
 	{
-		transform_.position_ = XMFLOAT3(0.4f, RESULT_POX_Y, 0);
+		transform_.position_ = XMFLOAT3(BUTTON_POS, RESULT_POX_Y, 0);
 
 		hPict_ = Image::Load("ResultTitleButton.png");
 		assert(hPict_ >= 0); 
-		//SetImage("ResultTitleButton.png", transform_);
 	}
 	ButtonManager::AddButton((Button*)this, 0);
 }
@@ -39,9 +48,9 @@ void ResultButton::SubInitialize()
 void ResultButton::SubUpdate()
 {
 	ButtonSwith();
-
 }
 
+//描画
 void ResultButton::Draw()
 {
 	if (Direct3D::lr == 0)
@@ -60,7 +69,7 @@ void ResultButton::Event()
 	//ロード
 	pUI->LoadSet();
 	Audio::Release();
-	int hSound_ = Audio::Load("Button.wav", false, 0.8f, 1);
+	int hSound_ = Audio::Load("Button.wav", false, SOUND_VOLUME, 1);
 	Audio::Play(hSound_);
 	if (buttonID == 0)
 	{
@@ -78,18 +87,12 @@ void ResultButton::IsSelect()
 {
 	//選択中にする
 	ButtonManager::SetNowButton(this);
+
+	//画像変える
 	if (buttonID == 0)
-	{
-		//画像変える
 		hPict_ = Image::Load("ResultRetrySelect.png");
-		//SetImage("ResultRetrySelect.png", transform_);
-	}
 	else
-	{
-		//画像変える
 		hPict_ = Image::Load("ResultTitleSelect.png");
-		//SetImage("ResultTitleSelect.png", transform_);
-	}
 }
 
 void ResultButton::IsSelectReleas()

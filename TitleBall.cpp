@@ -14,6 +14,7 @@ namespace
 	static const int BALL_SIZE = 4;//ボールの大きさ
 	static const float DOWN_SPEAD = 0.005f;//ボールが落ちる速さ
 	static const float DECIMAL_CHANGE = 10.0f;//ボールが落ちる速さ
+	static const float EASE_START = 0.01f;//ボールが落ちる速さ
 }
 
 //コンストラクタ
@@ -37,8 +38,9 @@ void TitleBall::Initialize()
 	transform_.position_.z = (float)(rand() % RANGE_Z) / DECIMAL_CHANGE + BALL_FRONT;//前に出す
 	transform_.position_.y = START_DOWN;
 
+	//サイズ変更
 	transform_.scale_ = XMFLOAT3(BALL_SIZE, BALL_SIZE, BALL_SIZE);
-	easeY = 0.1f;
+	easeY = EASE_START;
 }
 
 //更新

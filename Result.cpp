@@ -4,6 +4,13 @@
 #include "Engine/ButtonManager.h"
 #include "Engine/Input.h"
 
+//定数
+namespace
+{
+	static const int BUTTON_COUNT = 2;
+	static const int SCREEN_ID = 5;
+}
+
 //コンストラクタ
 Result::Result(GameObject* parent)
 	: GameObject(parent, "Result")
@@ -14,12 +21,6 @@ Result::Result(GameObject* parent)
 void Result::Initialize()
 {
 	Instantiate<ResultText>(this);
-	//Instantiate<ResultText>(this);
-	////Instantiate<ResultButton>(this);
-	//for (int i = 0; i < 2; i++)
-	//{
-	//	ButtonManager::CreateButton<ResultButton>(this, transform_.position_, i);
-	//}
 	pTime = (Time*)FindObject("Time");
 	isFirst = true;
 }
@@ -30,17 +31,11 @@ void Result::Update()
 	if (pTime->GetTime() <= 0 && isFirst)
 	{
 		isFirst = false;
-		//Instantiate<ResultButton>(this);
-		for (int i = 0; i < 2; i++)
+		for (int i = 0; i < BUTTON_COUNT; i++)
 		{
-			ButtonManager::CreateButtonScreen<ResultButton>(this, "ResultButton", i,5);
+			ButtonManager::CreateButtonScreen<ResultButton>(this, "ResultButton", i, SCREEN_ID);
 		}
 	}
-	
-	/*if (Input::IsKeyDown(DIK_F))
-	{
-		KillMe();
-	}*/
 }
 
 //描画

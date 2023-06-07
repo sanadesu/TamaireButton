@@ -5,9 +5,7 @@
 class TitleBall : public GameObject
 {
 	int hModel_;    //モデル番号
-
 	float easeY;
-	//std::vector<int> ballDrop;
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）

@@ -4,10 +4,8 @@
 //■■シーンを管理するクラス
 class ResultButton : public Button
 {
-	const float RESULT_POX_X = 0.43f;
-	const float RESULT_POX_Y = -0.75f;
-	int hPict_;
-	int buttonID;
+	int hPict_;//画像
+	int buttonID;//ボタン識別番号
 public:
 	//コンストラクタ
 	ResultButton(GameObject* pParent, std::string name, int buttonID_, int screenID_);
@@ -18,6 +16,7 @@ public:
 	//更新
 	void SubUpdate() override;
 
+	//描画
 	void Draw() override;
 
 	//ボタンが押されたときにする処理

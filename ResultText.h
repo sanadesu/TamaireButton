@@ -17,9 +17,6 @@ class ResultText : public GameObject
         PICT_DRAW,
         PICT_FIRST_NUMBER,
         PICT_SECOND_NUMBER,
-        //PICT_BUTTON_TITLE,
-        //PICT_BUTTON_PLAY,
-        //PICT_BUTTON_BACE,
         PICT_MAX
     };
 
@@ -30,18 +27,15 @@ class ResultText : public GameObject
         SOUND_RESULT,
         SOUND_MAX
     };
-
-    //画像番号
-    int hPict_[Pict::PICT_MAX];
-    int hSound_[Sound::SOUND_MAX];
+   
+    int hPict_[Pict::PICT_MAX]; //画像番号
+    int hSound_[Sound::SOUND_MAX];//音
     int whiteSum;   //白玉の得点
     int redSum;     //赤玉の得点 
     int ResultTextCount;//リザルト表示のカウント
 
-    Text* pText;
-    Time* pTime;
-    UI* pUI;
-    bool isEnd;
+    Time* pTime;//ゲーム残り時間
+    bool isEnd;//ゲームが終わったかどうか
 public:
     //コンストラクタ
     ResultText(GameObject* parent);
@@ -61,9 +55,12 @@ public:
     //開放
     void Release() override;
 
+    //白ボールの得点
     void WhiteCount() { whiteSum++; }
 
+    //赤ボールの得点
     void RedCount() { redSum++; }
 
+    //終わったか
     bool GetIsEnd();
 };
