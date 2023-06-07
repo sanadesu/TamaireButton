@@ -5,14 +5,13 @@
 #include "Engine/Direct3D.h"
 #include "Engine/Audio.h"
 #include "UI.h"
-#include "PlayStop.h"
 
 //定数
 namespace
 {
 
-	static const float BUTTON_POS_X = 0.4f;
-	static const float BUTTON_POX_Y = -0.75f;
+	static const float BUTTON_POS_X = 0.3f;
+	static const float BUTTON_POX_Y = -0.25f;
 
 }
 
@@ -29,7 +28,7 @@ void PauseButton::SubInitialize()
 	if (buttonID == 0)
 	{
 		transform_.position_ = XMFLOAT3(-BUTTON_POS_X, BUTTON_POX_Y, 0);
-		hPict_ = Image::Load("ResultRetrySelect.png");
+		hPict_ = Image::Load("PauseRetrySelect.png");
 		assert(hPict_ >= 0);
 		SetIsNextSelect(true);
 		IsSelect();
@@ -39,23 +38,29 @@ void PauseButton::SubInitialize()
 	{
 		transform_.position_ = XMFLOAT3(BUTTON_POS_X, BUTTON_POX_Y, 0);
 
-		hPict_ = Image::Load("ResultTitleButton.png");
+		hPict_ = Image::Load("PauseButtonTitle.png");
 		assert(hPict_ >= 0);
 	}
 	ButtonManager::AddButton((Button*)this, 0);
+	pPlayStop = (PlayStop*)FindObject("PlayStop");
+	pTime = (Time*)FindObject("Time");
 }
 
 //更新
 void PauseButton::SubUpdate()
 {
 	ButtonSwith();
+	PlayStop* pPlayStop = (PlayStop*)FindObject("PlayStop");
+	if (pPlayStop->GetIsRetry())
+	{
+		KillMe();
+	}
 }
 
 //描画
 void PauseButton::Draw()
 {
-	PlayStop* pPlayStop = (PlayStop*)FindObject("PlayStop");
-	if (Direct3D::lr == 0 && pPlayStop->GetIsStart() == false)
+	if (Direct3D::lr == 0)
 	{
 		Image::SetTransform(hPict_, transform_);
 		Image::Draw(hPict_);
@@ -70,13 +75,17 @@ void PauseButton::Event()
 	//ロード
 	//pUI->LoadSet();
 	//Audio::Release();
-
 	if (buttonID == 0)
 	{
-		//pSceneManager->SameScene();
+		//続ける
+		pPlayStop->SetIsStopPause(false);
+		pTime->SetStart();
+		pPlayStop->SetIsStart(true);
+		pPlayStop->SetIsRetry(true);
 	}
 	else
 	{
+
 		pSceneManager->ChangeScene(SCENE_ID_TITLE);
 	}
 	const char* buttonName[] = { "PlayButton" ,"TitleButton" };
@@ -97,16 +106,16 @@ void PauseButton::IsSelect()
 
 	//画像変える
 	if (buttonID == 0)
-		hPict_ = Image::Load("ResultRetrySelect.png");
+		hPict_ = Image::Load("PauseRetrySelect.png");
 	else
-		hPict_ = Image::Load("ResultTitleSelect.png");
+		hPict_ = Image::Load("PauseTitleSelect.png");
 }
 
 void PauseButton::IsSelectReleas()
 {
 	//画像戻す
 	if (buttonID == 0)
-		hPict_ = Image::Load("ResultRetryButton.png");
+		hPict_ = Image::Load("PauseButtonRetry.png");
 	else
-		hPict_ = Image::Load("ResultTitleButton.png");
+		hPict_ = Image::Load("PauseButtonTitle.png");
 }

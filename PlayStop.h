@@ -18,6 +18,7 @@ class PlayStop : public GameObject
 	bool isStop[Stop::STOP_MAX];//止めるかどうか
 	bool isReady[4];//準備が完了したか
 	bool isStart;//スタートしたか
+	bool isRetry;//再開
 
 	Time* pTime;//スタートさせる
 	UI* pUI;//ゲーム中かどうか
@@ -60,6 +61,8 @@ public:
 	//再開セット
 	void SetIsStart(bool IsStart_);
 
+	void SetIsRetry(bool isRetry_);
+
 	//再開したか取得
-	bool GetIsStart();
+	bool GetIsRetry();
 };

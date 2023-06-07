@@ -1,10 +1,14 @@
 #pragma once
 #include "Engine/Button.h"
+#include "PlayStop.h"
+#include "Time.h"
 class PauseButton :
     public Button
 {
 	int hPict_;//画像
 	int buttonID;//ボタン識別番号
+	PlayStop* pPlayStop;
+	Time* pTime;
 public:
 	//コンストラクタ
 	PauseButton(GameObject* pParent, std::string name, int buttonID_, int screenID_);

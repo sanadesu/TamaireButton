@@ -14,7 +14,7 @@ StopBack::StopBack(GameObject* parent)
 void StopBack::Initialize()
 {
 	//ƒ[ƒh
-	hPict_ = Image::Load("StopBack.png");
+	hPict_ = Image::Load("PauseBack.png");
 	assert(hPict_ >= 0);
 }
 

@@ -189,7 +189,6 @@
     <ClCompile Include="TitleButton.cpp" />
     <ClCompile Include="StopBack.cpp" />
     <ClCompile Include="StopButton.cpp" />
-    <ClCompile Include="StopText.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="TitleBall.cpp" />
     <ClCompile Include="TitlePlayer.cpp" />
@@ -255,7 +254,6 @@
     <ClInclude Include="TitleButton.h" />
     <ClInclude Include="StopBack.h" />
     <ClInclude Include="StopButton.h" />
-    <ClInclude Include="StopText.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="TitleBall.h" />
     <ClInclude Include="TitlePlayer.h" />

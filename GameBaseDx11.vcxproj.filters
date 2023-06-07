@@ -173,9 +173,6 @@
     <ClCompile Include="StopButton.cpp">
       <Filter>PlayScene\Pause</Filter>
     </ClCompile>
-    <ClCompile Include="StopText.cpp">
-      <Filter>PlayScene\Pause</Filter>
-    </ClCompile>
     <ClCompile Include="PlayStop.cpp">
       <Filter>PlayScene</Filter>
     </ClCompile>
@@ -228,7 +225,9 @@
     <ClCompile Include="ResultButton.cpp">
       <Filter>PlayScene\Result</Filter>
     </ClCompile>
-    <ClCompile Include="PauseButton.cpp" />
+    <ClCompile Include="PauseButton.cpp">
+      <Filter>PlayScene\Pause</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -362,9 +361,6 @@
     <ClInclude Include="StopButton.h">
       <Filter>PlayScene\Pause</Filter>
     </ClInclude>
-    <ClInclude Include="StopText.h">
-      <Filter>PlayScene\Pause</Filter>
-    </ClInclude>
     <ClInclude Include="PlayStop.h">
       <Filter>PlayScene</Filter>
     </ClInclude>
@@ -414,7 +410,9 @@
     <ClInclude Include="ResultButton.h">
       <Filter>PlayScene\Result</Filter>
     </ClInclude>
-    <ClInclude Include="PauseButton.h" />
+    <ClInclude Include="PauseButton.h">
+      <Filter>PlayScene\Pause</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">

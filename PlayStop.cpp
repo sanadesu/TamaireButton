@@ -6,7 +6,6 @@
 #include "Engine/ButtonManager.h"
 #include "StopBack.h"
 #include "StopButton.h"
-#include "StopText.h"
 #include "PauseButton.h"
 
 
@@ -29,17 +28,14 @@ PlayStop::PlayStop(GameObject* parent)
 void PlayStop::Initialize()
 {
 	Instantiate<StopBack>(this);
-	//Instantiate<StopButton>(this);
-	//Instantiate<PauseButton>(this);
-	
-	Instantiate<StopText>(this);
-
 	hSound_ = Audio::Load("Move.wav", false, VOLUME, SOUND_COUNT);
 	assert(hSound_ >= 0);
 
 	for(int i = 0;i < Stop::STOP_MAX;i++)
 		isStop[i] = true;
+
 	isStop[Stop::STOP_PAUSE] = false;
+	isRetry = false;
 	pTime = (Time*)FindObject("Time");
 }
 
@@ -55,7 +51,7 @@ void PlayStop::Update()
 		for (int i = 0; i < BUTTON_COUNT; i++)
 		{
 			ButtonManager::CreateButtonScreen<PauseButton>(this, buttonName[i], i, SCREEN_ID);
-		}
+		}//ÄŠJ
 		if (isStop[Stop::STOP_PAUSE])
 		{
 			isStop[Stop::STOP_PAUSE] = false;
@@ -63,20 +59,14 @@ void PlayStop::Update()
 
 			pTime->SetStart();
 			isStop[Stop::STOP_START] = true;
-			
-			/*for (int i = 0; i < BUTTON_COUNT; i++)
-			{
-				PauseButton* pPauseButton = (PauseButton*)FindObject(buttonName[i]);
-				pPauseButton->KillMe();
-			}*/
-			//PauseButton* pPauseButton = (PauseButton*)FindObject("PlayButton");
-			//pPauseButton->KillMe();
+			isRetry = true;
 			ButtonManager::ButtonRelease();
-		}
+		}//Ž~‚ß‚é
 		else
 		{
 			isStop[Stop::STOP_PAUSE] = true;
 			Audio::Play(hSound_);
+			isRetry = false;
 		}
 	}
 
@@ -147,7 +137,12 @@ void PlayStop::SetIsStart(bool IsStart_)
 	isStop[Stop::STOP_START] = IsStart_;
 }
 
-bool PlayStop::GetIsStart()
+void PlayStop::SetIsRetry(bool isRetry_)
 {
-	return isStop[Stop::STOP_START];
+	isRetry = isRetry_;
+}
+
+bool PlayStop::GetIsRetry()
+{
+	return isRetry;
 }
