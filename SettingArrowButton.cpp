@@ -4,7 +4,7 @@
 #include "Engine/SceneManager.h"
 #include "Engine/Image.h"
 #include "SettingStartButton.h"
-#include "Number.h"
+#include "Engine/Number.h"
 #include "Engine/Easing.h"
 
 //’è”

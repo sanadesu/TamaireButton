@@ -3,7 +3,6 @@
 #include "Engine/Easing.h"
 #include "Engine/Direct3D.h"
 #include "PlayStop.h"
-#include "ReadyButton.h"
 
 //コンストラクタ
 AssistText::AssistText(GameObject* parent)

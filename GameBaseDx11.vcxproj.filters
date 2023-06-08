@@ -166,11 +166,7 @@
       <Filter>SettingScene</Filter>
     </ClCompile>
     <ClCompile Include="Frame.cpp" />
-    <ClCompile Include="PoryLine.cpp" />
     <ClCompile Include="StopBack.cpp">
-      <Filter>PlayScene\Pause</Filter>
-    </ClCompile>
-    <ClCompile Include="StopButton.cpp">
       <Filter>PlayScene\Pause</Filter>
     </ClCompile>
     <ClCompile Include="PlayStop.cpp">
@@ -180,9 +176,6 @@
       <Filter>PlayScene\Ready</Filter>
     </ClCompile>
     <ClCompile Include="ReadyBack.cpp">
-      <Filter>PlayScene\Ready</Filter>
-    </ClCompile>
-    <ClCompile Include="ReadyButton.cpp">
       <Filter>PlayScene\Ready</Filter>
     </ClCompile>
     <ClCompile Include="ReadyText.cpp">
@@ -203,7 +196,6 @@
     <ClCompile Include="SettingArrowButton.cpp">
       <Filter>SettingScene</Filter>
     </ClCompile>
-    <ClCompile Include="Number.cpp" />
     <ClCompile Include="Engine\ButtonManager.cpp">
       <Filter>01Engine\ResourceManager</Filter>
     </ClCompile>
@@ -227,6 +219,12 @@
     </ClCompile>
     <ClCompile Include="PauseButton.cpp">
       <Filter>PlayScene\Pause</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Number.cpp">
+      <Filter>01Engine\ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\PoryLine.cpp">
+      <Filter>01Engine\ResourceManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -290,7 +288,6 @@
     <ClInclude Include="Engine\Text.h">
       <Filter>01Engine\ResourceManager</Filter>
     </ClInclude>
-    <ClInclude Include="PoryLine.h" />
     <ClInclude Include="Engine\Particle.h">
       <Filter>01Engine\GameObject</Filter>
     </ClInclude>
@@ -358,9 +355,6 @@
     <ClInclude Include="StopBack.h">
       <Filter>PlayScene\Pause</Filter>
     </ClInclude>
-    <ClInclude Include="StopButton.h">
-      <Filter>PlayScene\Pause</Filter>
-    </ClInclude>
     <ClInclude Include="PlayStop.h">
       <Filter>PlayScene</Filter>
     </ClInclude>
@@ -368,9 +362,6 @@
       <Filter>PlayScene\Ready</Filter>
     </ClInclude>
     <ClInclude Include="ReadyBack.h">
-      <Filter>PlayScene\Ready</Filter>
-    </ClInclude>
-    <ClInclude Include="ReadyButton.h">
       <Filter>PlayScene\Ready</Filter>
     </ClInclude>
     <ClInclude Include="ReadyText.h">
@@ -388,7 +379,6 @@
     <ClInclude Include="SettingArrowButton.h">
       <Filter>SettingScene</Filter>
     </ClInclude>
-    <ClInclude Include="Number.h" />
     <ClInclude Include="Engine\ButtonManager.h">
       <Filter>01Engine\ResourceManager</Filter>
     </ClInclude>
@@ -412,6 +402,12 @@
     </ClInclude>
     <ClInclude Include="PauseButton.h">
       <Filter>PlayScene\Pause</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Number.h">
+      <Filter>01Engine\ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\PoryLine.h">
+      <Filter>01Engine\ResourceManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

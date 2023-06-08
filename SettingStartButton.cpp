@@ -3,7 +3,7 @@
 #include "Engine/ScreenSplit.h"
 #include "Engine/SceneManager.h"
 #include "Engine/Image.h"
-#include "Number.h"
+#include "Engine/Number.h"
 #include "Engine/Easing.h"
 
 //’è”

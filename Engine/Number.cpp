@@ -1,7 +1,7 @@
 #include "Number.h"
-#include "Engine/Image.h"
-#include "Engine/Model.h"
-#include "Engine/Easing.h"
+#include "Image.h"
+#include "Model.h"
+#include "Easing.h"
 
 //’è”
 namespace

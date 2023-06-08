@@ -33,6 +33,9 @@ namespace ButtonManager
 
 	//選択変更取得
 	bool GetSelectChange();
+
+	//選択ボタンの動き　
+	void SelectMove(int screenID);
 	
 	//ゲームモード選択ボタン生成
 	template<class T>
@@ -66,4 +69,16 @@ namespace ButtonManager
 
 		return pNewObject;
 	}
+
+	//上を押したか
+	bool IsPushUP(int screenID_);
+
+	//上を押したか
+	bool IsPushDOWN(int screenID_);
+
+	//上を押したか
+	bool IsPushRIGHT(int screenID_);
+
+	//上を押したか
+	bool IsPushLEFT(int screenID_);
 }

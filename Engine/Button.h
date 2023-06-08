@@ -10,7 +10,6 @@
 class Button :public GameObject
 {
 private:
-	//bool isSelect;
 	enum Sound
 	{
 		SOUND_BUTTON,
@@ -20,23 +19,18 @@ private:
 
 	int hPict_;								//画像番号
 	int hSound_[Sound::SOUND_MAX];    //サウンド番号
-	int alpha;
-	int screenID;
-	bool isStickMove;
-	bool isNextSelect;
-	bool isNowSelect;
-	Button* firstButton;
-
-	XMFLOAT3 nowButtonPos;
-	//std::pair<float, float> framePos[5];
+	int alpha;//透明度
+	int screenID;//スクリーン番号
+	bool isStickMove;//スティックを動かしたか
+	bool isNextSelect;//次に選択にするボタンか
+	bool isNowSelect;//選択中のボタンか
+	Button* firstButton;//初めに選択するボタン
 	
+	bool IsPushUP(int screenID_);
 protected:
 
 	//ボタンが押されたときにする処理
 	virtual void Event();
-
-	//選択ボタンの動き　
-	virtual void SelectMove(int screenID);
 
 	//選択された瞬間
 	virtual void IsSelect();
@@ -53,11 +47,6 @@ protected:
 	//画像セット
 	void SetImage(const std::string& path ,Transform trans);
 	
-	//選択中ボタン
-	//void SetNowButton(XMFLOAT3 selectButton);
-
-	//次の選択ボタンセット
-	void SetIsNextSelect(bool state_);
 
 	//次の選択ボタン取得
 	bool GetIsNextSelect();
@@ -68,18 +57,20 @@ protected:
 	//選択ボタン取得
 	bool GetIsNowSelect();
 
+	//ボタンの切り替え
 	void ButtonSwith();
 
+	//初めに選択されるボタンセット
 	void SetIsFirst(Button* first);
 
-	Button* GetIsFirst();
-
+	/// <summary>
+	/// アルファ値セット
+	/// </summary>
+	/// <param name="alpha_">透明度,1～255まで</param>
 	void SetAlpha(int alpha_);
 
+	//スクリーンIDのセット
 	void SetScreenID(int screenID);
-
-
-
 public:
 
 	//コンストラクタ
@@ -98,5 +89,9 @@ public:
 	//開放
 	void Release() override;
 
+	//次の選択ボタンセット
+	void SetIsNextSelect(bool state_);
+
+	//シーンID取得
 	virtual int GetScreenID();
 };

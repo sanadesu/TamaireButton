@@ -6,18 +6,19 @@
 #include "Image.h"
 #include "ButtonManager.h"
 
+//定数
+namespace
+{
+	static const int ALL_CREEN_ID = 5;
+	static const int ALPHA_MAX = 255;
+
+}
 
 //コンストラクタ
 Button::Button(GameObject* parent, const std::string& name)
 	:GameObject(parent,"SettingButton"),hSound_{-1,-1}
 {
 }
-//
-////コンストラクタ
-//Button::Button(GameObject* pParent, const std::string name, int buttonID_, int screenID_)
-//	:GameObject(parent, "SettingButton")
-//{
-//}
 
 //初期化
 void Button::Initialize()
@@ -26,7 +27,7 @@ void Button::Initialize()
 	isNextSelect = false;
 	isNowSelect = false;
 	screenID = 0;
-	alpha = 255;
+	alpha = ALPHA_MAX;
 	//使用するサウンドファイル名
 	const char* soundFileName[] = { "Button.wav", "Move.wav" };
 
@@ -43,29 +44,17 @@ void Button::Initialize()
 //更新
 void Button::Update()
 {
-	if (ButtonManager::GetSelectChange() == false || GetIsFirst() == this)
+	if (ButtonManager::GetSelectChange() == false || firstButton == this)
 	{
-
-		//次のボタン
-		//if (ButtonManager::GetNowButton() != ButtonManager::GetNextButton() && ButtonManager::GetNextButton() != nullptr)
-		//{
-		//	ButtonManager::GetNowButton()->IsSelectReleas();//
-		//	//ボタンマネージャー呼ぶ
-		//	ButtonManager::GetNextButton()->IsSelect();
-		//}
-
 		//選択移動したとき
 		if (ButtonManager::GetNowButton(this->GetScreenID()) == this)
 		{
-			SelectMove(screenID);
+			ButtonManager::SelectMove(screenID);
 		}
 		ButtonManager::SetSelectChange(false);
 	}
 	
-
-	//SelectMove();
 	SubUpdate();
-
 
 	//決定したとき
 	if ((Input::IsKeyDown(DIK_SPACE) || Input::IsPadButtonDown(XINPUT_GAMEPAD_A, screenID)) && this == ButtonManager::GetNowButton(screenID))
@@ -88,213 +77,12 @@ void Button::Release()
 {
 }
 
+
+
 //ボタンが押されたときにする処理
 void Button::Event()
 {
 }
-
-//選択ボタンの動き　
-void Button::SelectMove(int screenID_move)
-{
-	if(screenID_move == 5)
-		screenID_move = 0;
-	if (Input::GetPadStickL(screenID_move).y == 0 && Input::GetPadStickL(screenID_move).x == 0)
-	{
-		isStickMove = true;
-	}
-
-	if (((Input::IsKeyDown(DIK_UP) && screenID_move == 0)||
-		Input::IsPadButtonDown(XINPUT_GAMEPAD_DPAD_UP, screenID_move) ||
-		(Input::GetPadStickL(screenID_move).y > 0 && isStickMove))  /* && screenID_move == this->GetScreenID()*/)
-	{
-		float selectingPosY = ButtonManager::GetSelectButtonPos(screenID_move).y;
-		//今いる場所 nowPos;
-		//float minPos = ButtonManager::GetNowButton()->GetPosition().y;
-		Button* nearButton = ButtonManager::GetNowButton(screenID_move);
-		
-		for (auto i : ButtonManager::GetButtonList(screenID_move))
-		{
-			/*if (selectingPosY < i->GetPosition().y &&
-				i->GetPosition().y != ButtonManager::GetSelectButtonPos().y &&
-				nearButton->GetPosition().y <= i->GetPosition().y)
-			{
-				if (i->GetPosition().y == nearButton->GetPosition().y)
-				{
-					if (abs(ButtonManager::GetSelectButtonPos().x - i->GetPosition().x) < abs(ButtonManager::GetSelectButtonPos().x - nearButton->GetPosition().x))
-						nearButton = i;
-				}
-				else
-					nearButton = i;
-			}*/
-
-			if (i->GetPosition().y > selectingPosY &&
-				(nearButton->GetPosition().y == selectingPosY ||
-				(nearButton->GetPosition().y >= i->GetPosition().y &&//
-				((i->GetPosition().y == nearButton->GetPosition().y &&//
-				abs(ButtonManager::GetSelectButtonPos(screenID_move).x - i->GetPosition().x) < abs(ButtonManager::GetSelectButtonPos(screenID_move).x - nearButton->GetPosition().x)) ||
-				i->GetPosition().y != nearButton->GetPosition().y))))
-			{
-				nearButton = i;
-			}
-		}
-		//ButtonManager::SetNextSelectButton(nearButton);
-		//SetIsNextSelect(nearButton);
-		ButtonManager::GetNowButton(screenID_move)->SetIsNextSelect(false);
-		nearButton->SetIsNextSelect(true);
-		
-		isStickMove = false;
-		ButtonManager::SetSelectChange(true);
-	}
-	if (((((Input::IsKeyDown(DIK_DOWN) && screenID_move == 0)|| 
-		Input::IsPadButtonDown(XINPUT_GAMEPAD_DPAD_DOWN, screenID_move) || (
-			Input::GetPadStickL(screenID_move).y < 0 && isStickMove)))&& 
-		ButtonManager::GetSelectChange() == false)/* && screenID_move == this->GetScreenID()*/)
-	{
-		//選択中ボタンの位置
-		float selectingPosY = ButtonManager::GetSelectButtonPos(screenID_move).y;
-		//float minPos = ButtonManager::GetSelectButtonPos().y;
-		//移動先ボタン
-		//auto nearButton = ButtonManager::GetButtonList().end();
-		Button* nearButton = ButtonManager::GetNowButton(screenID_move);
-		//--nearButton;
-		for (auto* i : ButtonManager::GetButtonList(screenID_move))
-		{
-				if (i->GetPosition().y < selectingPosY &&
-				(nearButton->GetPosition().y == selectingPosY ||
-				(nearButton->GetPosition().y <= i->GetPosition().y &&
-				((i->GetPosition().y == nearButton->GetPosition().y &&
-				abs(ButtonManager::GetSelectButtonPos(screenID_move).x - i->GetPosition().x) < abs(ButtonManager::GetSelectButtonPos(screenID_move).x - nearButton->GetPosition().x)) ||
-				i->GetPosition().y != nearButton->GetPosition().y))))
-				{
-					
-					nearButton = i;
-					
-					/*else if (nearButton->GetPosition().y <= i->GetPosition().y &&
-						((i->GetPosition().y == nearButton->GetPosition().y &&
-							abs(ButtonManager::GetSelectButtonPos().x - i->GetPosition().x) < abs(ButtonManager::GetSelectButtonPos().x - nearButton->GetPosition().x)) ||
-							i->GetPosition().y != nearButton->GetPosition().y))*/
-					{
-						/*if ((i->GetPosition().y == nearButton->GetPosition().y && 
-							abs(ButtonManager::GetSelectButtonPos().x - i->GetPosition().x) < abs(ButtonManager::GetSelectButtonPos().x - nearButton->GetPosition().x)) ||
-							i->GetPosition().y != nearButton->GetPosition().y)
-					*/	{
-							//if (abs(ButtonManager::GetSelectButtonPos().x - i->GetPosition().x) < abs(ButtonManager::GetSelectButtonPos().x - nearButton->GetPosition().x))
-								//nearButton = i;
-						}
-						/*else if(i->GetPosition().y != nearButton->GetPosition().y)
-							nearButton = i;*/
-
-
-
-						/*if (i->GetPosition().y == nearButton->GetPosition().y)
-						{
-							if (abs(ButtonManager::GetSelectButtonPos().x - i->GetPosition().x) < abs(ButtonManager::GetSelectButtonPos().x - nearButton->GetPosition().x))
-								nearButton = i;
-						}
-						else
-							nearButton = i;*/
-					}
-				}
-			
-		
-			
-			
-			
-			
-			
-			/*
-			if (selectingPosY > i->GetPosition().y &&
-				(i->GetPosition().y != ButtonManager::GetSelectButtonPos().y &&
-				nearButton->GetPosition().y >= i->GetPosition().y))*/
-
-			/*if(nearButton->GetPosition().y == selectingPosY ||
-				(i->GetPosition().y >= nearButton->GetPosition().y &&
-					selectingPosY > i->GetPosition().y))*/
-			//if(i->GetPosition().y < selectingPosY)
-			{
-				//if (nearButton->GetPosition().y > i->GetPosition().y &&
-					//nearButton->GetPosition().y < selectingPosY)
-				{
-					/*if (i->GetPosition().y == nearButton->GetPosition().y)
-					{
-						if (abs(ButtonManager::GetSelectButtonPos().x - i->GetPosition().x) < abs(ButtonManager::GetSelectButtonPos().x - nearButton->GetPosition().x))
-							nearButton = i;
-					}*/
-					//else
-						//nearButton = i;
-				}
-				/*else
-				{
-					nearButton = i;
-				}
-				*/
-			}
-		}
-		//選択中ボタン変更（全部）
-		//ButtonManager::GetNowButton()->IsSelectReleas();
-		//nearButton->IsSelect();
-		ButtonManager::GetNowButton(screenID_move)->SetIsNextSelect(false);
-		nearButton->SetIsNextSelect(true);
-		//ButtonManager::SetNextSelectButton(nearButton);
-		isStickMove = false;
-		ButtonManager::SetSelectChange(true);
-	}
-	if (((Input::IsKeyDown(DIK_RIGHT) && screenID_move == 0)|| 
-		Input::IsPadButtonDown(XINPUT_GAMEPAD_DPAD_RIGHT, screenID_move) ||
-		(Input::GetPadStickL(screenID_move).x > 0 && isStickMove))/* && screenID_move == this->GetScreenID()*/)
-	{
-		//自分とスクリーン一緒？？
- 		float selectingPosX = ButtonManager::GetSelectButtonPos(screenID_move).x;
-		//float minPos = ButtonManager::GetSelectButtonPos().y;
-		//移動先ボタン
-		Button* nearButton = ButtonManager::GetNowButton(screenID_move);
-		for (auto i : ButtonManager::GetButtonList(screenID_move))
-		{
-			if (i->GetPosition().y == ButtonManager::GetSelectButtonPos(screenID_move).y &&
-				(i->GetPosition().x > selectingPosX &&
-				(nearButton->GetPosition().x == selectingPosX ||
-					(nearButton->GetPosition().x >= i->GetPosition().x &&//
-						(i->GetPosition().x == nearButton->GetPosition().x &&//
-							//abs(ButtonManager::GetSelectButtonPos().y - i->GetPosition().y) < abs(ButtonManager::GetSelectButtonPos().y - nearButton->GetPosition().y)) ||
-							i->GetPosition().x != nearButton->GetPosition().x)))))
-			{
-				nearButton = i;
-			}
-		}
-		ButtonManager::GetNowButton(screenID_move)->SetIsNextSelect(false);
-		nearButton->SetIsNextSelect(true);
-
-		isStickMove = false;
-		ButtonManager::SetSelectChange(true);
-	}
-	if (((Input::IsKeyDown(DIK_LEFT) && screenID_move == 0)|| 
-		Input::IsPadButtonDown(XINPUT_GAMEPAD_DPAD_LEFT, screenID_move) || 
-		(Input::GetPadStickL(screenID_move).x < 0 && isStickMove)) /*&& screenID_move == this->GetScreenID()*/)
-	{
-		//選択中ボタンの位置
-		float selectingPosX = ButtonManager::GetSelectButtonPos(screenID_move).x;
-		//移動先ボタン
-		Button* nearButton = ButtonManager::GetNowButton(screenID_move);
-		for (auto* i : ButtonManager::GetButtonList(screenID_move))
-		{
-			if (i->GetPosition().y == ButtonManager::GetSelectButtonPos(screenID_move).y &&
-				(i->GetPosition().x < selectingPosX &&
-				(nearButton->GetPosition().x == selectingPosX ||
-					(nearButton->GetPosition().x <= i->GetPosition().x &&
-						(i->GetPosition().x == nearButton->GetPosition().x &&
-							i->GetPosition().x != nearButton->GetPosition().x)))))
-			{
-				nearButton = i;
-			}
-		}
-		//選択中ボタン変更（全部）
-		ButtonManager::GetNowButton(screenID_move)->SetIsNextSelect(false);
-		nearButton->SetIsNextSelect(true);
-		isStickMove = false;
-		ButtonManager::SetSelectChange(true);
-	}
-}
-
 //選択された瞬間
 void Button::IsSelect()
 {
@@ -305,10 +93,12 @@ void Button::IsSelectReleas()
 {
 }
 
+//サブアップデート
 void Button::SubUpdate()
 {
 }
 
+//サブ初期化
 void Button::SubInitialize()
 {
 }
@@ -349,6 +139,7 @@ bool Button::GetIsNowSelect()
 	return isNowSelect;
 }
 
+//ボタンの切り替え
 void Button::ButtonSwith()
 {
 	if (GetIsNextSelect() != GetIsNowSelect())
@@ -365,26 +156,25 @@ void Button::ButtonSwith()
 	}
 }
 
+//初めに選択されるボタンセット
 void Button::SetIsFirst(Button* first)
 {
 	firstButton = first;
 }
 
-Button* Button::GetIsFirst()
-{
-	return firstButton;
-}
-
+// アルファ値セット
 void Button::SetAlpha(int alpha_)
 {
 	alpha = alpha_;
 }
 
+//スクリーンIDのセット
 void Button::SetScreenID(int screenID_)
 {
 	screenID = screenID_;
 }
 
+//シーンID取得
 int Button::GetScreenID()
 {
 	return screenID;

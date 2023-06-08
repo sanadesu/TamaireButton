@@ -42,15 +42,14 @@ void PauseButton::SubInitialize()
 		assert(hPict_ >= 0);
 	}
 	ButtonManager::AddButton((Button*)this, 0);
-	pPlayStop = (PlayStop*)FindObject("PlayStop");
 	pTime = (Time*)FindObject("Time");
+	pPlayStop = (PlayStop*)FindObject("PlayStop");
 }
 
 //更新
 void PauseButton::SubUpdate()
 {
 	ButtonSwith();
-	PlayStop* pPlayStop = (PlayStop*)FindObject("PlayStop");
 	if (pPlayStop->GetIsRetry())
 	{
 		KillMe();
@@ -70,13 +69,10 @@ void PauseButton::Draw()
 //ボタンが押されたときにする処理
 void PauseButton::Event()
 {
-	UI* pUI = (UI*)FindObject("UI");
-	SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-	//ロード
-	//pUI->LoadSet();
-	//Audio::Release();
+	
 	if (buttonID == 0)
 	{
+		pPlayStop = (PlayStop*)FindObject("PlayStop");
 		//続ける
 		pPlayStop->SetIsStopPause(false);
 		pTime->SetStart();
@@ -85,17 +81,14 @@ void PauseButton::Event()
 	}
 	else
 	{
-
+		UI* pUI = (UI*)FindObject("UI");
+		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+		//ロード
+		pUI->LoadSet();
+		Audio::Release();
+		//タイトルへ移動
 		pSceneManager->ChangeScene(SCENE_ID_TITLE);
 	}
-	const char* buttonName[] = { "PlayButton" ,"TitleButton" };
-
-	/*for (int i = 0; i < 2; i++)
-	{
-		PauseButton* pPauseButton = (PauseButton*)FindObject(buttonName[i]);
-		pPauseButton->KillMe();
-	}*/
-	//KillMe();
 }
 
 //選択された瞬間

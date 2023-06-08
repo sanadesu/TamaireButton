@@ -1,7 +1,7 @@
 #pragma once
 #include <list>
-#include "Engine/Direct3D.h"
-#include "Engine/Texture.h"
+#include "Direct3D.h"
+#include "Texture.h"
 #include <DirectXMath.h>
 #include <string>
 using namespace DirectX;
@@ -36,7 +36,6 @@ class PoryLine
 public:
 	//コンストラクタ
 	PoryLine();
-
 
 	//現在の位置を記憶させる
 	//引数：pos	現在の位置

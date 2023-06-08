@@ -1,5 +1,5 @@
 #pragma once
-#include "Engine/GameObject.h" 
+#include "GameObject.h" 
 
 //■■シーンを管理するクラス
 class Number : public GameObject

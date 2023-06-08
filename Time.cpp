@@ -174,7 +174,7 @@ void Time::Draw()
         Image::SetTransform(hPict_[Pict::PICT_BACK], transLeft);
         Image::Draw(hPict_[Pict::PICT_BACK]);
 
-        if (time < 3600)
+        if (time < MAX_PLAY_TIME / 2)
         {
             Image::SetTransform(hPict_[Pict::PICT_FRONT], transTime);
             Image::Draw(hPict_[Pict::PICT_FRONT]);
@@ -188,7 +188,7 @@ void Time::Draw()
         Image::SetTransform(hPict_[Pict::PICT_BACK], transform_);
         Image::Draw(hPict_[Pict::PICT_BACK]);
 
-        if (time > 3600)
+        if (time > MAX_PLAY_TIME / 2)
         {
             Image::SetTransform(hPict_[Pict::PICT_FRONT], transTime);
             Image::Draw(hPict_[Pict::PICT_FRONT]);
@@ -211,11 +211,6 @@ void Time::Release()
 {
 }
 
-void Time::SetTime(float time_)
-{
-    //transform_.position_.x = (time_ * 0.000075) - 1.273f;
-  
-}
 
 int Time::GetTime()
 {

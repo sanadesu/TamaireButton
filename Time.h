@@ -1,6 +1,6 @@
 #pragma once
 #include "Engine/GameObject.h"
-#include "Number.h"
+#include "Engine/Number.h"
 
 class Time : public GameObject
 {
@@ -42,9 +42,6 @@ public:
 
     //開放
     void Release() override;
-
-    //残り時間セット
-    void SetTime(float time_);
 
     //残り時間取得
     int GetTime();

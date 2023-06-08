@@ -1,7 +1,7 @@
-#include "Engine/Global.h"
-#include "Engine/Camera.h"
+#include "Global.h"
+#include "Camera.h"
 #include "PoryLine.h"
-#include "Engine/Direct3D.h"
+#include "Direct3D.h"
 #include <vector>
 
 

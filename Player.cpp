@@ -25,6 +25,7 @@ namespace
     static const int CIRCLE_RADIUS = 21;//ゴールから端までの長さ
     static const int COM_ROTATE = 137;//コンピューターが端まで行った時の回転量
     static const int RANDOM_VALUE = 3000;//ボールを投げるランダム値
+    static const int SOUND_COUNT = 3;//同時に鳴らせる回数
     static const float ROTATE_SPEED = 1.5f;//回転の速さ
     static const float DECIMAL_CHANGE = 1000.0f;//小数にする
     static const float THROW_POWER_Y = 0.5f;
@@ -39,7 +40,9 @@ namespace
     static const float GRAVITY = 0.05f;//重力
     static const float RESISTANCE = 0.97f;//抵抗
     static const float SOUND_VOLUME = 0.8f;//音量
-    static const float SOUND_COUNT = 3;//同時に鳴らせる回数
+    static const float ROTATE_X = 1;//回転量
+    static const float MOVE_DISTANCE = 1;//移動量
+    static const float AUTOMATIC_ROTAT = 10;//自動回転量
 
     static const float COLLISION_POS = -0.2f;//当たり判定の場所
     static const XMFLOAT3 START_POS = XMFLOAT3(0, 1.5f, -6);//プレイヤー位置
@@ -57,7 +60,7 @@ Player::Player(GameObject* parent)
 //デストラクタ
 Player::~Player()
 {
-   // SAFE_DELETE(pLine);
+
 }
 
 //初期化
@@ -162,7 +165,6 @@ void Player::Update()
         //AIなら
         if (playerID >= ScreenSplit::GetPlayerPerson())
         {
-
             //ステートベースAI
             switch (nowState)
             {
@@ -217,14 +219,13 @@ void Player::Update()
                         }
                         else if (effectCollar < 2)
                         {
-
                             data.color = XMFLOAT4(effectCollar -1, 2 - effectCollar , 0, 1);
                         }
                         else
                         {
                             data.color = XMFLOAT4(effectCollar - 1, 0, 0, 1);
                         }
-                        //data.deltaColor = XMFLOAT4(0, -1.0 / 20, 0, -1.0 / 20);
+
                         pParticle_->Start(data);
                         
                         //グラデーション用
@@ -440,35 +441,35 @@ void Player::Update()
         XMFLOAT3 LeftStick = Input::GetPadStickL(playerID);
         if (Input::IsKey(DIK_W) && playerID == 0)
         {
-            LeftStick.y = 1;
+            LeftStick.y = MOVE_DISTANCE;
         }
         if (Input::IsKey(DIK_A) && playerID == 0)
         {
-            LeftStick.x = -1;
+            LeftStick.x = -MOVE_DISTANCE;
         }
         if (Input::IsKey(DIK_S) && playerID == 0)
         {
-            LeftStick.y = -1;
+            LeftStick.y = -MOVE_DISTANCE;
         }
         if (Input::IsKey(DIK_D) && playerID == 0)
         {
-            LeftStick.x = 1;
+            LeftStick.x = MOVE_DISTANCE;
         }
         //自動回転
         transform_.rotate_.y += LeftStick.x / 2;
-        LeftStick.x /= 10;
-        LeftStick.y /= 10;
+        LeftStick.x /= AUTOMATIC_ROTAT;
+        LeftStick.y /= AUTOMATIC_ROTAT;
 
         transform_ = FrontDirection(LeftStick.x, 0, LeftStick.y, transform_.rotate_.y, transform_);
 
         XMFLOAT3 RightStick = Input::GetPadStickR(playerID);
         if (Input::IsKey(DIK_LEFT) && playerID == 0)
         {
-            RightStick.x = -1;
+            RightStick.x = -ROTATE_X;
         }
         if (Input::IsKey(DIK_RIGHT) && playerID == 0)
         {
-            RightStick.x = 1;
+            RightStick.x = ROTATE_X;
         }
 
 #if THIRD_VIEW
