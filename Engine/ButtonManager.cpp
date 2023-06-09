@@ -176,7 +176,7 @@ namespace ButtonManager
 			for (auto* i : ButtonManager::GetButtonList(screenID_move))
 			{
 				//下にあるボタンをベクターに入れる
-				if (i->GetPosition().x < selectingPosX && i->GetPosition().y == GetSelectButtonPos(screenID_move).y)
+				if (i->GetPosition().x > selectingPosX && i->GetPosition().y == GetSelectButtonPos(screenID_move).y)
 					vNearButton.push_back({ i->GetPosition().x,i });
 			}
 
@@ -184,14 +184,11 @@ namespace ButtonManager
 			{
 				nearButton = vNearButton[0].second;
 			}
-			else
+			else if (vNearButton.size() > 0)
 			{
-				//ソートする
-				sort(vNearButton.rbegin(), vNearButton.rend());
-
-				
-				nearButton = vNearButton[0].second;
-				
+					//ソートする
+					sort(vNearButton.rbegin(), vNearButton.rend());
+					nearButton = vNearButton[0].second;
 			}
 
 			//選択中ボタン変更（全部）
