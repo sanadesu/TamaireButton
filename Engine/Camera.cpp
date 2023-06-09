@@ -18,22 +18,6 @@ void Camera::Initialize()
 	//プロジェクション行列
 	_proj = XMMatrixPerspectiveFovLH(XM_PIDIV4, (FLOAT)Direct3D::screenWidth_ / (FLOAT)Direct3D::screenHeight_, 0.1f, 1000.0f);
 
-	////プロジェクション行列//★
-	//if (ScreenSplit::GetScreenSplit() == 1)
-	//{
-	//	_proj = XMMatrixPerspectiveFovLH(XM_PIDIV4, (FLOAT)Direct3D::screenWidth_ / (FLOAT)Direct3D::screenHeight_ , 0.1f, 1000.0f);
-	//}
-	//if (ScreenSplit::GetScreenSplit() == 2)
-	//{
-	
-	//_proj = XMMatrixPerspectiveFovLH(XM_PIDIV4, (FLOAT)Direct3D::screenWidth_ / (FLOAT)Direct3D::screenHeight_ / 2.0f, 0.1f, 1000.0f);
-	
-	//	_proj = XMMatrixPerspectiveFovLH(XM_PIDIV4, (FLOAT)Direct3D::screenWidth_ / (FLOAT)Direct3D::screenHeight_ / 2.0f, 0.1f, 1000.0f);
-	//}
-	//if (ScreenSplit::GetScreenSplit() == 4)
-	//{
-	//	_proj = XMMatrixPerspectiveFovLH(XM_PIDIV4, (FLOAT)Direct3D::screenWidth_ * 2 / (FLOAT)Direct3D::screenHeight_ / 2.0f, 0.1f, 1000.0f);
-	//}
 }
 
 //更新（ビュー行列作成）

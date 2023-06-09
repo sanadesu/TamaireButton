@@ -16,8 +16,6 @@ class SettingText : public GameObject
 
 	float easeSave;//イージングの数値保存
 	float easeX;//イージングのX軸
-	float screenWidth;//スクリーン横幅
-	float screenHeight;//スクリーン縦幅
 	float textY[2];
 	float textHeight[2];
 	float easeStart[2];

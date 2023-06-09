@@ -85,9 +85,6 @@ void TitleText::Draw()
 	Transform transText = transform_;
 	transText.position_ = XMFLOAT3(0, 0, 0);
 	float x,y,width,height;
-
-	float screenWidth = GetPrivateProfileInt("SCREEN", "Width", 800, ".\\setup.ini");		//スクリーンの幅
-	float screenHeight = GetPrivateProfileInt("SCREEN", "Height", 600, ".\\setup.ini");	//スクリーンの高さ
 	
 	x = 600.0f;
 	y = 0;

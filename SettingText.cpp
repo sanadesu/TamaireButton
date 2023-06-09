@@ -47,9 +47,6 @@ void SettingText::Initialize()
 		textHeight[i] = heigght[i]; 
 		easeStart[i] = start[i];
 	}
-
-	screenWidth = GetPrivateProfileInt("SCREEN", "Width", 800, ".\\setup.ini");		//スクリーンの幅
-	screenHeight = GetPrivateProfileInt("SCREEN", "Height", 600, ".\\setup.ini");	//スクリーンの高さ
 }
 
 //更新

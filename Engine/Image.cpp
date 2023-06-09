@@ -154,17 +154,12 @@ namespace Image
 		_datas[handle]->rect.right = width;
 		_datas[handle]->rect.bottom = height;
 
-		float screenWidth = GetPrivateProfileInt("SCREEN", "Width", 800, ".\\setup.ini");		//スクリーンの幅
-		float screenHeight = GetPrivateProfileInt("SCREEN", "Height", 600, ".\\setup.ini");	//スクリーンの高さ
-	
-		return XMFLOAT3(((float)width / screenWidth + x / (screenWidth / 2)) - 1, 1 - ((float)height / screenHeight + y / (screenHeight / 2)), 0);
+		return XMFLOAT3(((float)width / (float)Direct3D::screenWidth_ + x / ((float)Direct3D::screenWidth_ / 2)) - 1, 1 - ((float)height / (float)Direct3D::screenHeight_ + y / ((float)Direct3D::screenHeight_ / 2)), 0);
 	}
 
 	XMFLOAT3 PixelPos(int handle, int x, int y)
 	{
-		float screenWidth = GetPrivateProfileInt("SCREEN", "Width", 800, ".\\setup.ini");		//スクリーンの幅
-		float screenHeight = GetPrivateProfileInt("SCREEN", "Height", 600, ".\\setup.ini");	//スクリーンの高さ
-		return XMFLOAT3(((float)1 / screenWidth + x / (screenWidth / 2)) - 1, 1 - ((float)1 / screenHeight + y / (screenHeight / 2)), 0);
+		return XMFLOAT3(((float)1 / (float)Direct3D::screenWidth_ + x / ((float)Direct3D::screenWidth_ / 2)) - 1, 1 - ((float)1 / (float)Direct3D::screenHeight_ + y / ((float)Direct3D::screenHeight_ / 2)), 0);
 	}
 
 	//切り抜き範囲をリセット（画像全体を表示する）
