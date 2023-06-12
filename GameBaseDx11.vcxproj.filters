@@ -165,7 +165,6 @@
     <ClCompile Include="SettingBack.cpp">
       <Filter>SettingScene</Filter>
     </ClCompile>
-    <ClCompile Include="Frame.cpp" />
     <ClCompile Include="StopBack.cpp">
       <Filter>PlayScene\Pause</Filter>
     </ClCompile>
@@ -224,6 +223,9 @@
       <Filter>01Engine\ResourceManager</Filter>
     </ClCompile>
     <ClCompile Include="Engine\PoryLine.cpp">
+      <Filter>01Engine\ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Frame.cpp">
       <Filter>01Engine\ResourceManager</Filter>
     </ClCompile>
   </ItemGroup>
@@ -351,7 +353,6 @@
     <ClInclude Include="SettingBack.h">
       <Filter>SettingScene</Filter>
     </ClInclude>
-    <ClInclude Include="Frame.h" />
     <ClInclude Include="StopBack.h">
       <Filter>PlayScene\Pause</Filter>
     </ClInclude>
@@ -407,6 +408,9 @@
       <Filter>01Engine\ResourceManager</Filter>
     </ClInclude>
     <ClInclude Include="Engine\PoryLine.h">
+      <Filter>01Engine\ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Frame.h">
       <Filter>01Engine\ResourceManager</Filter>
     </ClInclude>
   </ItemGroup>

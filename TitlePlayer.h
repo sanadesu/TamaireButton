@@ -1,6 +1,6 @@
 #pragma once
 #include "Engine/GameObject.h"
-#include "Frame.h"
+#include "Engine/Frame.h"
 
 static const int EASE_MAX = 1;//イージングの最大値
 
