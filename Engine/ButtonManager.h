@@ -81,4 +81,7 @@ namespace ButtonManager
 
 	//ã‚ğ‰Ÿ‚µ‚½‚©
 	bool IsPushLEFT(int screenID_);
+
+	//Ÿ‚É‘I‘ğ‚·‚éƒ{ƒ^ƒ“
+	void NextSelectButton(int screenID_, bool isPlus_, bool isHorizontal);
 }

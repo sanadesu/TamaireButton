@@ -140,12 +140,12 @@
     <ClCompile Include="Engine\Button.cpp" />
     <ClCompile Include="Engine\ButtonManager.cpp" />
     <ClCompile Include="Engine\Easing.cpp" />
+    <ClCompile Include="Engine\Frame.cpp" />
     <ClCompile Include="Engine\Number.cpp" />
     <ClCompile Include="Engine\Particle.cpp" />
     <ClCompile Include="Engine\PoryLine.cpp" />
     <ClCompile Include="Engine\ScreenSplit.cpp" />
     <ClCompile Include="Engine\Stopwach.cpp" />
-    <ClCompile Include="Frame.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="memo.cpp" />
     <ClCompile Include="PauseButton.cpp" />
@@ -204,12 +204,12 @@
     <ClInclude Include="Engine\Button.h" />
     <ClInclude Include="Engine\ButtonManager.h" />
     <ClInclude Include="Engine\Easing.h" />
+    <ClInclude Include="Engine\Frame.h" />
     <ClInclude Include="Engine\Number.h" />
     <ClInclude Include="Engine\Particle.h" />
     <ClInclude Include="Engine\PoryLine.h" />
     <ClInclude Include="Engine\ScreenSplit.h" />
     <ClInclude Include="Engine\Stopwach.h" />
-    <ClInclude Include="Frame.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="PauseButton.h" />
     <ClInclude Include="Player.h" />

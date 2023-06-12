@@ -1,6 +1,6 @@
 #include "Frame.h"
-#include "Engine/Image.h"
-#include "Engine/Easing.h"
+#include "Image.h"
+#include "Easing.h"
 
 //コンストラクタ
 Frame::Frame(GameObject* parent)

@@ -56,6 +56,15 @@ class Player : public GameObject
 
 
     XMFLOAT3 camPos;//カメラの場所
+    XMFLOAT3 LeftStick;//移動量を入れる
+    XMFLOAT3 RightStick;//回転量を入れる
+    XMFLOAT3 move;//プレイヤー移動量
+    XMVECTOR vMove;//↑ベクター
+    //カメラ
+    XMVECTOR vCam;
+    XMVECTOR vPos;
+    XMMATRIX mRotate;
+
     Particle* pParticle_;//パワー溜めるエフェクト
     string stateText;//状態表示
 
@@ -99,15 +108,16 @@ public:
     //角度取得
     float GetAngle();
 
-    //攻撃を受ける
+    //攻撃されたかセット
     void SetDamage(bool damage_);
 
-    //攻撃治る
+    //攻撃されたか取得
     bool GetDamage();
 
     //プレイヤーの場所取得
     Transform GetPlayerPosition(bool right_);
 
+    //プレイヤーカメラ
     Transform FrontDirection(float x_, float y_, float z_, float direction_, Transform trans_);
 
     //カメラの場所取得
@@ -124,4 +134,46 @@ public:
 
     //アシスト取得
     bool GetIsAssist();
+
+    //ダメージ中
+    void Damage();
+
+    //攻撃された
+    void Attacked();
+
+    //投げる強さのエフェクト色
+    void EffectGradationColor();
+
+    //歩く
+    void WalkMotion();
+
+    //パワー溜める
+    void ChargeMotion();
+
+    //投げる
+    void ThrowMotion();
+
+    //投げるボタンを押してるか
+    bool IsPowerPush();
+
+    //投げるボタンを離したか
+    bool IsThrowPull();
+
+    //ボールの軌道予測
+    void AssistTrajectory();
+
+    //最初にやることをセット
+    void FirstSet();
+
+    //力をためる
+    void ChargePower();
+
+    //投げる
+    void Throw();
+
+    //キーボード移動操作
+    void KeyboardOperation();
+
+    //デバッグ時のみ行う処理
+    void Debug();
 };

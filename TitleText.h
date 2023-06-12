@@ -1,6 +1,6 @@
 #pragma once
 #include "Engine/GameObject.h"
-#include "Frame.h"
+#include "Engine/Frame.h"
 #include "TitleScene.h"
 
 class TitleText : public GameObject

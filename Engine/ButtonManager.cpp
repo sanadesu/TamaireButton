@@ -77,151 +77,18 @@ namespace ButtonManager
 	{
 		if (screenID_move == ALL_SCREEN_ID)
 			screenID_move = 0;
+
 		if (Input::GetPadStickL(screenID_move).y == 0 && Input::GetPadStickL(screenID_move).x == 0)
-		{
 			isStickMove = true;
-		}
 
 		if (IsPushUP(screenID_move))
-		{
-			float selectingPosY = ButtonManager::GetSelectButtonPos(screenID_move).y;
-			//今いる場所 nowPos;
-			Button* nearButton = ButtonManager::GetNowButton(screenID_move);
-			std::vector<std::pair<float, Button*>> vNearButton;
-			
-			for (auto i : GetButtonList(screenID_move))
-			{
-				//上にあるボタンをベクターに入れる
-				if (i->GetPosition().y > selectingPosY)
-					vNearButton.push_back({ i->GetPosition().y,i });
-			}
-			
-			if (vNearButton.size() == 1)
-			{
-				nearButton = vNearButton[0].second;
-			}
-			else
-			{
-				//ソートする
-				sort(vNearButton.begin(), vNearButton.end());
-
-				//一番近いボタンを決める
-				if (vNearButton.size() != 0)
-				{
-					if (vNearButton[0].first == vNearButton[1].first &&
-						abs(vNearButton[0].second->GetPosition().x - GetSelectButtonPos(screenID_move).x) > abs(vNearButton[1].second->GetPosition().x - GetSelectButtonPos(screenID_move).x))
-					{
-						vNearButton[0] = vNearButton[1];
-					}
-					nearButton = vNearButton[0].second;
-				}
-			}
-				
-			ButtonManager::GetNowButton(screenID_move)->SetIsNextSelect(false);
-			nearButton->SetIsNextSelect(true);
-
-			isStickMove = false;
-			ButtonManager::SetSelectChange(true);
-		}
+			NextSelectButton(screenID_move, true, false);
 		if (IsPushDOWN(screenID_move))
-		{
-			//選択中ボタンの位置
-			float selectingPosY = ButtonManager::GetSelectButtonPos(screenID_move).y;
-			//移動先ボタン
-			Button* nearButton = ButtonManager::GetNowButton(screenID_move);
-			std::vector<std::pair<float, Button*>> vNearButton;
-			for (auto* i : ButtonManager::GetButtonList(screenID_move))
-			{
-				//下にあるボタンをベクターに入れる
-				if (i->GetPosition().y < selectingPosY)
-					vNearButton.push_back({ i->GetPosition().y,i });
-			}
-
-			if (vNearButton.size() == 1)
-			{
-				nearButton = vNearButton[0].second;
-			}
-			else
-			{
-				//ソートする
-				sort(vNearButton.rbegin(), vNearButton.rend());
-
-				//一番近いボタンを決める
-				if (vNearButton.size() > 0)
-				{
-
-					if (vNearButton[0].first == vNearButton[1].first &&
-						abs(vNearButton[0].second->GetPosition().x - GetSelectButtonPos(screenID_move).x) > abs(vNearButton[1].second->GetPosition().x - GetSelectButtonPos(screenID_move).x))
-					{
-						vNearButton[0] = vNearButton[1];
-					}
-					nearButton = vNearButton[0].second;
-				}
-			}
-			
-			//選択中ボタン変更（全部）
-			ButtonManager::GetNowButton(screenID_move)->SetIsNextSelect(false);
-			nearButton->SetIsNextSelect(true);
-
-			isStickMove = false;
-			ButtonManager::SetSelectChange(true);
-		}
+			NextSelectButton(screenID_move, false, false);
 		if (IsPushRIGHT(screenID_move))
-		{
-			//選択中ボタンの位置
-			float selectingPosX = ButtonManager::GetSelectButtonPos(screenID_move).x;
-			//移動先ボタン
-			Button* nearButton = ButtonManager::GetNowButton(screenID_move);
-			std::vector<std::pair<float, Button*>> vNearButton;
-			for (auto* i : ButtonManager::GetButtonList(screenID_move))
-			{
-				//下にあるボタンをベクターに入れる
-				if (i->GetPosition().x > selectingPosX && i->GetPosition().y == GetSelectButtonPos(screenID_move).y)
-					vNearButton.push_back({ i->GetPosition().x,i });
-			}
-
-			if (vNearButton.size() == 1)
-			{
-				nearButton = vNearButton[0].second;
-			}
-			else if (vNearButton.size() > 0)
-			{
-					//ソートする
-					sort(vNearButton.rbegin(), vNearButton.rend());
-					nearButton = vNearButton[0].second;
-			}
-
-			//選択中ボタン変更（全部）
-			ButtonManager::GetNowButton(screenID_move)->SetIsNextSelect(false);
-			nearButton->SetIsNextSelect(true);
-
-			isStickMove = false;
-			ButtonManager::SetSelectChange(true);
-		}
+			NextSelectButton(screenID_move, true, true);
 		if (IsPushLEFT(screenID_move))
-		{
-			//選択中ボタンの位置
-			float selectingPosX = ButtonManager::GetSelectButtonPos(screenID_move).x;
-			//移動先ボタン
-			Button* nearButton = ButtonManager::GetNowButton(screenID_move);
-			for (auto* i : ButtonManager::GetButtonList(screenID_move))
-			{
-				if (i->GetPosition().y == ButtonManager::GetSelectButtonPos(screenID_move).y &&
-					(i->GetPosition().x < selectingPosX &&
-						(nearButton->GetPosition().x == selectingPosX ||
-							(nearButton->GetPosition().x <= i->GetPosition().x &&
-								(i->GetPosition().x == nearButton->GetPosition().x &&
-									i->GetPosition().x != nearButton->GetPosition().x)))))
-				{
-					nearButton = i;
-				}
-			}
-			//選択中ボタン変更（全部）
-			ButtonManager::GetNowButton(screenID_move)->SetIsNextSelect(false);
-			nearButton->SetIsNextSelect(true);
-			isStickMove = false;
-			ButtonManager::SetSelectChange(true);
-		}
+			NextSelectButton(screenID_move, false, true);
 	}
 
 	//上を押したか
@@ -234,6 +101,8 @@ namespace ButtonManager
 		else
 			return false;
 	}
+
+	//下を押したか
 	bool IsPushDOWN(int screenID_)
 	{
 		if(((Input::IsKeyDown(DIK_DOWN) && screenID_ == 0) ||
@@ -244,6 +113,8 @@ namespace ButtonManager
 		else
 			return false;
 	}
+
+	//右を押したか
 	bool IsPushRIGHT(int screenID_)
 	{
 		if ((Input::IsKeyDown(DIK_RIGHT) && screenID_ == 0) ||
@@ -253,6 +124,8 @@ namespace ButtonManager
 		else
 			return false;
 	}
+
+	//左を押したか
 	bool IsPushLEFT(int screenID_)
 	{
 		if ((Input::IsKeyDown(DIK_LEFT) && screenID_ == 0) ||
@@ -261,5 +134,77 @@ namespace ButtonManager
 			return true;
 		else
 			return false;
+	}
+
+	//次に選択するボタン
+	void NextSelectButton(int screenID_, bool isPlus_, bool isHorizontal)
+	{
+		//移動先ボタン
+		Button* nearButton = ButtonManager::GetNowButton(screenID_);
+		std::vector<std::pair<float, Button*>> vNearButton;
+
+		//全ボタン
+		for (auto* i : ButtonManager::GetButtonList(screenID_))
+		{
+			//該当ボタンをベクターに入れる
+			if (isPlus_)
+			{
+				if (isHorizontal)
+				{
+					if (i->GetPosition().x > ButtonManager::GetSelectButtonPos(screenID_).x && i->GetPosition().y == GetSelectButtonPos(screenID_).y)
+						vNearButton.push_back({ i->GetPosition().x,i });
+				}
+				else
+				{
+					if (i->GetPosition().y > ButtonManager::GetSelectButtonPos(screenID_).y)
+						vNearButton.push_back({ i->GetPosition().y,i });
+				}
+			}
+			else
+			{
+				if (isHorizontal)
+				{
+					if (i->GetPosition().x < ButtonManager::GetSelectButtonPos(screenID_).x && i->GetPosition().y == GetSelectButtonPos(screenID_).y)
+						vNearButton.push_back({ i->GetPosition().x,i });
+				}
+				else
+				{
+					if (i->GetPosition().y < ButtonManager::GetSelectButtonPos(screenID_).y)
+						vNearButton.push_back({ i->GetPosition().y,i });
+				}
+			}
+		}
+
+		if (vNearButton.size() == 1)
+		{
+			nearButton = vNearButton[0].second;
+		}
+		else if (vNearButton.size() > 0)
+		{
+			//ソートする
+			if (isPlus_)
+				sort(vNearButton.begin(), vNearButton.end());
+			else
+				sort(vNearButton.rbegin(), vNearButton.rend());
+
+			if (isHorizontal == false)
+			{
+				//一番近いボタンを決める
+				if (vNearButton[0].first == vNearButton[1].first &&
+					abs(vNearButton[0].second->GetPosition().x - GetSelectButtonPos(screenID_).x) > abs(vNearButton[1].second->GetPosition().x - GetSelectButtonPos(screenID_).x))
+				{
+					vNearButton[0] = vNearButton[1];
+				}
+			}
+
+			nearButton = vNearButton[0].second;
+		}
+
+		//選択中ボタン変更（全部）
+		ButtonManager::GetNowButton(screenID_)->SetIsNextSelect(false);
+		nearButton->SetIsNextSelect(true);
+
+		isStickMove = false;
+		ButtonManager::SetSelectChange(true);
 	}
 }
