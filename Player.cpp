@@ -411,13 +411,13 @@ void Player::Damage()
         {
             if (playerID % 2 == 0)
             {
-                hModel_ = Model::Load("WhitePlayerD0.fbx");
+                hModel_ = Model::Load("WhitePlayerD.fbx");
                 assert(hModel_ >= 0);
                 Model::SetShederType(hModel_, Direct3D::SHADER_TOON);
             }
             else
             {
-                hModel_ = Model::Load("RedPlayerD0.fbx");
+                hModel_ = Model::Load("RedPlayerD.fbx");
                 assert(hModel_ >= 0);
                 Model::SetShederType(hModel_, Direct3D::SHADER_TOON);
             }
@@ -678,7 +678,7 @@ void Player::FirstSet()
         if (playerID % 2 == 0)
         {
             //白チーム
-            hModel_ = Model::Load("WhitePlayerD0.fbx");
+            hModel_ = Model::Load("WhitePlayerD.fbx");
             hModel_ = Model::Load("WhitePlayer.fbx");
             assert(hModel_ >= 0);
             Model::SetShederType(hModel_, Direct3D::SHADER_TOON);
@@ -687,7 +687,7 @@ void Player::FirstSet()
         else
         {
             //赤チーム
-            hModel_ = Model::Load("RedPlayerD0.fbx");
+            hModel_ = Model::Load("RedPlayerD.fbx");
             hModel_ = Model::Load("RedPlayer.fbx");
             assert(hModel_ >= 0);
             Model::SetShederType(hModel_, Direct3D::SHADER_TOON);

@@ -29,7 +29,7 @@ BackGround::~BackGround()
 //‰Šú‰»
 void BackGround::Initialize()
 {
-    hModel_ = Model::Load("BackGround1.fbx");
+    hModel_ = Model::Load("BackGround.fbx");
     assert(hModel_ >= 0);
     hModel_Sky = Model::Load("BackSky.fbx");
     assert(hModel_Sky >= 0);
