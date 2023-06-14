@@ -10,7 +10,6 @@
 
 #include<memory>
 
-//◆◆◆を管理するクラス
 class Player : public GameObject
 {
     //なし　数字でおっけー
@@ -47,6 +46,7 @@ class Player : public GameObject
     float goalLength;//ゴールまでの長さ
     float cameraZ; //カメラZ座標
     float effectCollar;//エフェクトグラデーション用
+    float throwPower;//投げる力
 
     bool IsFirst;//最初だけやりたい処理
     bool isDamage;            //攻撃を受けたか
@@ -131,9 +131,6 @@ public:
 
     //アシストセット
     void SetIsAssist(bool assist_);
-
-    //アシスト取得
-    bool GetIsAssist();
 
     //ダメージ中
     void Damage();

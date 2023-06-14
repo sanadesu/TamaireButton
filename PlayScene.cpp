@@ -14,6 +14,7 @@
 #include "Engine/Camera.h"
 #include "Engine/Audio.h"
 #include "Result.h"
+#include "StartSignal.h"
 
 //’è”
 namespace
@@ -56,6 +57,7 @@ void PlayScene::Initialize()
 
 	Instantiate<Basket>(this);
 	Instantiate<Time>(this);
+	Instantiate<StartSignal>(this);
 	Instantiate<PlayStop>(this);
 	Instantiate<AssistReady>(this);
 	Instantiate<UI>(this);

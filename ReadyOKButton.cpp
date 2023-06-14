@@ -30,9 +30,6 @@ void ReadyOKButton::SubInitialize()
 	}
 	transform_.position_.y = -0.3f;
 	transform_.scale_.y = scaleY;
-	/*SetIsNextSelect(true);
-	IsSelect();
-	SetIsFirst(this);*/
 }
 
 void ReadyOKButton::SubUpdate()
@@ -64,7 +61,6 @@ void ReadyOKButton::Event()
 	isReady = true;
 	//Á‚·
 	pAssistReady->ReadyKill(screenID);
-	//KillMe();
 }
 
 //‘I‘ğ‚³‚ê‚½uŠÔ
@@ -72,10 +68,8 @@ void ReadyOKButton::IsSelect()
 {
 	//‘I‘ğ’†‚É‚·‚é
 	ButtonManager::SetNowButton(this);
-	//transform_.position_.x = 0.5f;
 	//‰æ‘œ•Ï‚¦‚é
 	hPict_ = Image::Load("ReadySelect.png");
-	//SetImage("ReadySelect.png", transform_);
 }
 
 //‘I‘ğ‰ğœ‚³‚ê‚½uŠÔ
@@ -83,7 +77,6 @@ void ReadyOKButton::IsSelectReleas()
 {
 	//‰æ‘œ–ß‚·
 	hPict_ = Image::Load("ReadyButton.png");
-	//SetImage("ReadyButton.png", transform_);
 }
 
 bool ReadyOKButton::GetReady()

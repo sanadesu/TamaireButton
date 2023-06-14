@@ -35,7 +35,7 @@ void PlayStop::Initialize()
 
 	isStop[Stop::STOP_PAUSE] = false;
 	isRetry = false;
-	pTime = (Time*)FindObject("Time");
+	pStartSignal = (StartSignal*)FindObject("StartSignal");
 }
 
 //XV
@@ -56,7 +56,7 @@ void PlayStop::Update()
 			isStop[Stop::STOP_PAUSE] = false;
 			Audio::Play(hSound_);
 
-			pTime->SetStart();
+			pStartSignal->SetStart();
 			isStop[Stop::STOP_START] = true;
 			isRetry = true;
 			ButtonManager::ButtonRelease();
@@ -69,7 +69,7 @@ void PlayStop::Update()
 		}
 	}
 
-	if (pTime->GetStartTime() <= 0)
+	if (pStartSignal->GetStartTime() <= 0)
 		isStop[Stop::STOP_START] = false;
 
 	for (int i = 0; i < ScreenSplit::GetAllPerson(); i++)

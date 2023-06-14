@@ -1,7 +1,7 @@
 #pragma once
 #include "Engine/GameObject.h" 
 #include "Engine/ScreenSplit.h"
-#include "Time.h"
+#include "StartSignal.h"
 #include "UI.h"
 
 //■■シーンを管理するクラス
@@ -20,7 +20,7 @@ class PlayStop : public GameObject
 	bool isStart;//スタートしたか
 	bool isRetry;//再開
 
-	Time* pTime;//スタートさせる
+	StartSignal* pStartSignal;//スタートさせる
 	UI* pUI;//ゲーム中かどうか
 
 public:

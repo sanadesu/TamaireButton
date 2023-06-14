@@ -60,14 +60,8 @@ void Time::Initialize()
     hPict_[Pict::PICT_START] = -1;
     hPict_[Pict::PICT_READY] = -1;
 
-    textAlpha = MAX_ALPHA;
-    textScale = START_TEXT_SIZE;
     time = MAX_PLAY_TIME;
-    startTime = MAX_START_TIME;
-
-    transText = transform_;
-    transText.scale_ = XMFLOAT3(Easing::EaseOutBack(textScale), Easing::EaseOutBack(textScale), Easing::EaseOutBack(textScale));
-
+    isFirst = true;
     if (ScreenSplit::GetPlayerPerson() < 3)
         transform_.position_.y = TIME_POS_Y;
 
@@ -77,6 +71,7 @@ void Time::Initialize()
     pNumber = InstantiateID<Number>(this, XMFLOAT3(0,0,0), 0);
     pNumber->SetNum(MAX_PLAY_TIME / CHANGE_SECONDS, FONT_SPACE,0);
     pNumber->SetScale(XMFLOAT3(NUM_SIZE, NUM_SIZE, NUM_SIZE));
+
     if(ScreenSplit::GetPlayerPerson() < 3)
         pNumber->SetPosition(0, TIME_POS_Y, 0);
     else
@@ -86,11 +81,18 @@ void Time::Initialize()
 //更新
 void Time::Update()
 {
-    PlayStop* pPlayStop = (PlayStop*)FindObject("PlayStop");
+    //最初だけ行う処理
+    if (isFirst)
+    {
+        pPlayStop = (PlayStop*)FindObject("PlayStop");
+        pStartSignal = (StartSignal*)FindObject("StartSignal");
+        isFirst = false;
+    }
+
     if (pPlayStop->GetIsStopReady() == false)
     {
         //スタートしたら
-        if (startTime < 0 && pPlayStop->GetIsStopPause() == false)
+        if (pStartSignal->GetStartTime() < 0 && pPlayStop->GetIsStopPause() == false)
         {
             pNumber->SetNum(time / CHANGE_SECONDS, FONT_SPACE,0);
             //制限時間
@@ -104,52 +106,6 @@ void Time::Update()
                 Audio::Play(hSound_);
             }
         }
-        else//スタートカウントダウン
-        {
-            if (startTime == MAX_START_TIME)
-            {
-                hPict_[Pict::PICT_READY] = Image::Load("Ready.png");
-
-                hSound_ = Audio::Load("Ready.wav", false, SOUND_VOLUME, SOUND_MAX_NUM);
-                assert(hSound_ >= 0);
-                Audio::Play(hSound_);
-            }
-            else if (startTime > START_TEXT_COUNT)
-            {
-                transText.scale_ = XMFLOAT3(Easing::EaseOutBack(textScale), Easing::EaseOutBack(textScale), Easing::EaseOutBack(textScale));
-                if (textScale < 1)
-                    textScale += EASE_START_TEXT_SCALE;
-                else
-                    textAlpha -= ALPHS_DECREASE;
-                
-            }
-            else if (startTime == START_TEXT_COUNT)
-            {
-                hPict_[Pict::PICT_READY] = -1;
-                hPict_[Pict::PICT_START] = Image::Load("Start.png");
-                textScale = 0;
-                transText.scale_ = XMFLOAT3(Easing::EaseOutCirc(textScale * TEXT_SCALE_UP), Easing::EaseOutCirc(textScale * TEXT_SCALE_UP), Easing::EaseOutCirc(textScale * TEXT_SCALE_UP));
-
-                hSound_ = Audio::Load("Go.wav", false, SOUND_VOLUME, SOUND_MAX_NUM);
-                assert(hSound_ >= 0);
-                Audio::Play(hSound_);
-
-                hSound_ = Audio::Load("PlayBGM.wav", true, SOUND_VOLUME, SOUND_MAX_NUM);
-                assert(hSound_ >= 0);
-                Audio::Play(hSound_);
-            }
-            else if (startTime > 0)
-            {
-                textScale += EASE_READY_TEXT_SCALE;
-                transText.scale_ = XMFLOAT3(Easing::EaseOutCirc(textScale * TEXT_SCALE_UP), Easing::EaseOutCirc(textScale * TEXT_SCALE_UP), Easing::EaseOutCirc(textScale * TEXT_SCALE_UP));
-            }
-            else if (startTime <= 0)
-            {
-                hPict_[Pict::PICT_START] = -1;
-            }
-            startTime--;
-        }
-
         transTime.rotate_.z = (float)-(MAX_PLAY_TIME - time) / ROTATE_SIZE;
 
 #ifdef _DEBUG
@@ -193,16 +149,6 @@ void Time::Draw()
             Image::SetTransform(hPict_[Pict::PICT_FRONT], transTime);
             Image::Draw(hPict_[Pict::PICT_FRONT]);
         }
-
-        for (int i = Pict::PICT_READY; i < Pict::PICT_MAX; i++)
-        {
-            if (hPict_[i] >= 0)
-            {
-                Image::SetAlpha(hPict_[Pict::PICT_READY], textAlpha);
-                Image::SetTransform(hPict_[i], transText);
-                Image::Draw(hPict_[i]);
-            }
-        }
     }
 }
 
@@ -215,14 +161,4 @@ void Time::Release()
 int Time::GetTime()
 {
     return time;
-}
-
-int Time::GetStartTime()
-{
-    return startTime;
-}
-
-void Time::SetStart()
-{
-    startTime = MAX_START_TIME;
 }

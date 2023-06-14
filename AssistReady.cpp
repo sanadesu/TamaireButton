@@ -51,7 +51,6 @@ void AssistReady::Initialize()
 		{
 			playerUI[i].pReadyArrowButton[j] = ButtonManager::CreateButtonScreen<ReadyArrowButton>(this, buttonName[j], j, i);
 			playerUI[i].pReadyArrowButton[j]->SetSplit(i + split);
-
 		}
 		playerUI[i].pReadyOKButton = ButtonManager::CreateButtonScreen<ReadyOKButton>(this, "ReadyOKButton", 0, i);
 		playerUI[i].pReadyOKButton->SetSplit(i + split);

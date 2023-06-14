@@ -42,7 +42,7 @@ void PauseButton::SubInitialize()
 		assert(hPict_ >= 0);
 	}
 	ButtonManager::AddButton((Button*)this, 0);
-	pTime = (Time*)FindObject("Time");
+	pStartSignal = (StartSignal*)FindObject("StartSignal");
 	pPlayStop = (PlayStop*)FindObject("PlayStop");
 }
 
@@ -75,7 +75,7 @@ void PauseButton::Event()
 		pPlayStop = (PlayStop*)FindObject("PlayStop");
 		//‘±‚¯‚é
 		pPlayStop->SetIsStopPause(false);
-		pTime->SetStart();
+		pStartSignal->SetStart();
 		pPlayStop->SetIsStart(true);
 		pPlayStop->SetIsRetry(true);
 	}

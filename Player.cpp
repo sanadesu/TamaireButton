@@ -24,7 +24,8 @@ namespace
     static const int DROP_TIME = 120;//玉を当てられたときに拾えない時間
     static const int CIRCLE_RADIUS = 21;//ゴールから端までの長さ
     static const int COM_ROTATE = 137;//コンピューターが端まで行った時の回転量
-    static const int RANDOM_VALUE = 3000;//ボールを投げるランダム値
+    static const int RANDOM_VALUE_ALL = 9500;//ボールを投げるランダム値
+    static const int RANDOM_VALUE_MAX = 4000;//ボールを投げるランダム値
     static const int SOUND_COUNT = 3;//同時に鳴らせる回数
     static const int COLOR_MAX = 2;//エフェクト色の最大値
 
@@ -97,6 +98,7 @@ void Player::Initialize()
     cameraZ = 0.1f;
 #endif
     effectCollar = 0;
+    throwPower = 0;
     stateText = "Player";
 
     moveLimit = 0.0f;
@@ -395,12 +397,6 @@ void Player::SetIsAssist(bool assist_)
     isAssist = assist_;
 }
 
-//アシスト取得
-bool Player::GetIsAssist()
-{
-    return isAssist;
-}
-
 //ダメージ中
 void Player::Damage()
 {
@@ -530,6 +526,7 @@ void Player::WalkMotion()
     //ボールを2個持ってる&ゴールから一定距離離れているか
     if (pBallLeft != nullptr && moveLimit > NOTTHROW_RANGE)
     {
+        throwPower = ((rand() % RANDOM_VALUE_ALL) - RANDOM_VALUE_MAX) / DECIMAL_CHANGE;
         //ボールの投げる強さを決める状態へ
         nowState = CHARGE_STATE;
     }
@@ -580,7 +577,7 @@ void Player::ChargeMotion()
         powerZ += POWER;
 
         //投げるか                                           
-        if (powerZ > powf(goalLength - ((rand() % RANDOM_VALUE) / DECIMAL_CHANGE), THROW_POWER_Y) * POWER_ADJUSTMENT)
+        if (powerZ > powf(goalLength - throwPower, THROW_POWER_Y) * POWER_ADJUSTMENT)
         {
             nowState = THROW_STATE;//ボールを投げる状態へ
         }
@@ -605,8 +602,7 @@ void Player::ThrowMotion()
     rightHand = leftHand;
     leftHand = NOT_HAVE;
     pBallRight = pBallLeft;
-    pBallLeft = nullptr;//ここまで？
-    //あとでAIかどうか判別 
+    pBallLeft = nullptr;
     //ボール持ってなかったら
     if (pBallRight == nullptr)
     {
@@ -615,7 +611,8 @@ void Player::ThrowMotion()
     }
     else//持ってたら
     {
-        //投げる
+        throwPower = ((rand() % RANDOM_VALUE_ALL) - RANDOM_VALUE_MAX) / DECIMAL_CHANGE;
+        //投げるへ
         nowState = CHARGE_STATE;
     }
 }
@@ -627,7 +624,7 @@ bool Player::IsPowerPush()
         (Input::IsPadButton(XINPUT_GAMEPAD_A, playerID) ||
             Input::IsPadButton(XINPUT_GAMEPAD_B, playerID) ||
             Input::IsPadButton(XINPUT_GAMEPAD_X, playerID) ||
-            Input::IsPadButton(XINPUT_GAMEPAD_Y, playerID))) &&
+            Input::IsPadButton(XINPUT_GAMEPAD_Y, playerID))) &&//コントローラー操作
         rightHand >= 0)
         return true;
     else
@@ -638,7 +635,10 @@ bool Player::IsPowerPush()
 bool Player::IsThrowPull()
 {
     if (((Input::IsKeyUp(DIK_SPACE) && playerID == 0) ||  //キーボード操作
-        (Input::IsPadButtonUp(XINPUT_GAMEPAD_A, playerID) || Input::IsPadButtonUp(XINPUT_GAMEPAD_B, playerID) || Input::IsPadButtonUp(XINPUT_GAMEPAD_X, playerID) || Input::IsPadButtonUp(XINPUT_GAMEPAD_Y, playerID))) &&
+        (Input::IsPadButtonUp(XINPUT_GAMEPAD_A, playerID) || 
+            Input::IsPadButtonUp(XINPUT_GAMEPAD_B, playerID) || 
+            Input::IsPadButtonUp(XINPUT_GAMEPAD_X, playerID) || 
+            Input::IsPadButtonUp(XINPUT_GAMEPAD_Y, playerID))) &&//コントローラー操作
         rightHand >= 0)
         return true;
     else

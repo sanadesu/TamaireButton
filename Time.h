@@ -1,6 +1,8 @@
 #pragma once
 #include "Engine/GameObject.h"
 #include "Engine/Number.h"
+#include "StartSignal.h"
+#include "PlayStop.h"
 
 class Time : public GameObject
 {
@@ -16,14 +18,14 @@ class Time : public GameObject
     int hSound_;//音
     int hPict_[Pict::PICT_MAX];//画像
     int time;//1/60秒タイム
-    int startTime;//開始のカウント
-    int textAlpha;//よーいどんの透明度
-    float textScale;//よーいどんのサイズ
 
+    bool isFirst;//1フレーム目にやりたい処理
+
+    StartSignal* pStartSignal;
+    PlayStop* pPlayStop;
     Number* pNumber;//残り時間数字表示
     Transform transTime;//残り時間時計
     Transform transLeft;//残り時間時計
-    Transform transText;//よーいどんトランスフォーム
 public:
     //コンストラクタ
     Time(GameObject* parent);
@@ -46,9 +48,4 @@ public:
     //残り時間取得
     int GetTime();
 
-    //開始前時間取得
-    int GetStartTime();
-
-    //よーいどんを表示する
-    void SetStart();
 };

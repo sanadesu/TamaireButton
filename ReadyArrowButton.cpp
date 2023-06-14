@@ -40,20 +40,13 @@ void ReadyArrowButton::SubInitialize()
 		SetIsFirst(this);
 	}
 
-	
-
-
 	const char* PlayerName[] = { "Player", "Player2", "Player3", "Player4" };
 	pPlayer = (Player*)FindObject(PlayerName[arrowID]);
 
 	if (ScreenSplit::GetPlayerPerson() != 3)
-	{
 		min = ScreenSplit::GetPlayerPerson() - 1;
-	}
 	else
-	{
 		min = 3;
-	}
 
 	if (ScreenSplit::GetPlayerPerson() == 2)
 	{
@@ -67,7 +60,6 @@ void ReadyArrowButton::SubInitialize()
 		posY = 465;
 		posX = 0;
 	}
-
 
 	transform_.position_ = Image::PixelPos(hPict_, arrowPos + posX, posY);
 	transform_.scale_ = XMFLOAT3(0.5f,scaleY * 0.5f,0.5f);
@@ -117,9 +109,6 @@ void ReadyArrowButton::Event()
 				break;
 		}
 	}
-
-
-	
 }
 
 //ëIëÇ≥ÇÍÇΩèuä‘

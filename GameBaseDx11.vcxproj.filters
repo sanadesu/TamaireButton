@@ -228,6 +228,9 @@
     <ClCompile Include="Engine\Frame.cpp">
       <Filter>01Engine\ResourceManager</Filter>
     </ClCompile>
+    <ClCompile Include="StartSignal.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -412,6 +415,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Frame.h">
       <Filter>01Engine\ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="StartSignal.h">
+      <Filter>PlayScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

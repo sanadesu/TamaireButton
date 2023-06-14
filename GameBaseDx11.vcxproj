@@ -185,6 +185,7 @@
     <ClCompile Include="SettingScene.cpp" />
     <ClCompile Include="SettingStartButton.cpp" />
     <ClCompile Include="SettingText.cpp" />
+    <ClCompile Include="StartSignal.cpp" />
     <ClCompile Include="TitleButton.cpp" />
     <ClCompile Include="StopBack.cpp" />
     <ClCompile Include="Time.cpp" />
@@ -248,6 +249,7 @@
     <ClInclude Include="SettingScene.h" />
     <ClInclude Include="SettingStartButton.h" />
     <ClInclude Include="SettingText.h" />
+    <ClInclude Include="StartSignal.h" />
     <ClInclude Include="TitleButton.h" />
     <ClInclude Include="StopBack.h" />
     <ClInclude Include="Time.h" />

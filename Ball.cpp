@@ -14,7 +14,8 @@ namespace
     static const int CIRCLE_RANGE = 360;//地面範囲
     static const int NEAR_GOAL = 15;//ゴールの近く
     static const int CIRCLE_OUTSIDE = 450;//ボールの生存範囲
-    static const float BALLSIZE = 0.18f;//ボール半径
+    static const float BALL_SIZE = 1.3f;//ボールの大きさ
+    static const float BALL_COL_SIZE = 0.23f;//ボールの当たり判定
     static const float GRAVITY = 0.05f;//重力
     static const float RESISTANCE = 0.97f;//抵抗
     static const float BOUND = 0.6f;//バウンドの大きさ
@@ -42,17 +43,10 @@ Ball::~Ball()
 void Ball::Initialize()
 {
     radiusPower = 0;
-
-
     powerZ = 0;
     powerY = 0;
     isThrowBall = false;
     isThrow = false;
-
-    //モデルデータのロード
-    /*hModel_ = Model::Load("WhiteBall.fbx");
-    assert(hModel_ >= 0);*/
-
 
     std::string fileName[] = { "WhiteBall.fbx","RedBall.fbx" };
     //モデルデータのロード
@@ -64,6 +58,8 @@ void Ball::Initialize()
         Model::SetShederType(hModel_[i], Direct3D::SHADER_TOON);
     }
 
+    transform_.scale_ = XMFLOAT3(BALL_SIZE, BALL_SIZE, BALL_SIZE);
+    transform_.position_.y = 0.2f;
     do
     {
         transform_.position_.x = (float)(rand() % DIAMETER - (DIAMETER / HALF)) / CHANGE_DECIMAL;
@@ -75,7 +71,7 @@ void Ball::Initialize()
     pGround = (Ground*)FindObject("Ground");
 
     //当たり判定
-    SphereCollider* collision = new SphereCollider(XMFLOAT3(0, 0, 0), BALLSIZE);
+    SphereCollider* collision = new SphereCollider(XMFLOAT3(0, 0, 0), BALL_COL_SIZE);
     AddCollider(collision);
 }
 
@@ -94,9 +90,6 @@ void Ball::Update()
             powerY += GRAVITY;
 
             // スピードの演算
-
-            //transform_.rotate_.y = playerRotateY;
-
             XMFLOAT3 move = { 0,-powerY,powerZ }; //移動量
             XMVECTOR vMove = XMLoadFloat3(&move); //移動量をベクトルに変換 
             XMMATRIX mRotate = XMMatrixRotationY(XMConvertToRadians(transform_.rotate_.y));   //Y軸でｙ°回転させる行列
@@ -108,9 +101,6 @@ void Ball::Update()
 
             XMStoreFloat3(&transform_.position_, vPos);
 
-
-            /*transform_.position_.z += powerZ[i];
-            transform_.position_.y -= powerY[i];*/
             powerZ *= RESISTANCE;//抵抗
 
             // バウンドの判定
@@ -206,7 +196,7 @@ void Ball::OnCollision(GameObject* pTarget)
         XMVECTOR vCenter = vBasket - vBall;//中心の向き
 
         vCenter = XMVector3Normalize(vCenter);
-        vCenter *= 0.2;
+        vCenter *= 0.4f;
 
         XMFLOAT3 centerRotate;
         XMStoreFloat3(&centerRotate, vCenter);
@@ -214,8 +204,6 @@ void Ball::OnCollision(GameObject* pTarget)
         transform_.position_.x += centerRotate.x;
         transform_.position_.y += centerRotate.y;
         transform_.position_.z += centerRotate.z;
-
-        //ClearCollider();
     }
 }
 

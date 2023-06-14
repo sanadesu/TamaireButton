@@ -8,8 +8,9 @@
 namespace
 {
     const float HIT_HEIGHT = 5.0f;
-    const float BASKET_SIZE = 1.0f;
-    const XMFLOAT3 BASKET_POS = XMFLOAT3(0, 5.0f, 0);
+    const float BASKET_SIZE = 1.5f;
+    const float BASKET_COL_SIZE = 1.8f;
+    const XMFLOAT3 BASKET_POS = XMFLOAT3(0, 5.5f, 0);
 }
 
 //コンストラクタ
@@ -28,7 +29,7 @@ Basket::~Basket()
 //初期化
 void Basket::Initialize()
 {
-    hModel_ = Model::Load("Goal.fbx");
+    hModel_ = Model::Load("GoalMini.fbx");
     assert(hModel_ >= 0);
     Model::SetShederType(hModel_, Direct3D::SHADER_TOON);
     transform_.scale_ = XMFLOAT3(BASKET_SIZE, BASKET_SIZE, BASKET_SIZE);
@@ -36,7 +37,7 @@ void Basket::Initialize()
     transform_.position_ = XMFLOAT3(0, 0, 0);
 
     //当たり判定
-    SphereCollider* collision = new SphereCollider(BASKET_POS, BASKET_SIZE);
+    SphereCollider* collision = new SphereCollider(BASKET_POS, BASKET_COL_SIZE);
     AddCollider(collision);
 
 }
