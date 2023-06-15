@@ -41,7 +41,7 @@ void ReadyArrowButton::SubInitialize()
 	}
 
 	const char* PlayerName[] = { "Player", "Player2", "Player3", "Player4" };
-	pPlayer = (Player*)FindObject(PlayerName[arrowID]);
+	pPlayer = (Player*)FindObject(PlayerName[screenID]);
 
 	if (ScreenSplit::GetPlayerPerson() != 3)
 		min = ScreenSplit::GetPlayerPerson() - 1;
@@ -64,7 +64,6 @@ void ReadyArrowButton::SubInitialize()
 	transform_.position_ = Image::PixelPos(hPict_, arrowPos + posX, posY);
 	transform_.scale_ = XMFLOAT3(0.5f,scaleY * 0.5f,0.5f);
 
-	isAssist = true;
 }
 
 void ReadyArrowButton::SubUpdate()

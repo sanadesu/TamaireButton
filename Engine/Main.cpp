@@ -14,6 +14,7 @@
 #include "GameObject.h"
 #include "../Player.h"
 #include "ScreenSplit.h"
+#include "VFX.h"
 
 #pragma comment(lib,"Winmm.lib")
 
@@ -122,12 +123,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				////カメラを更新
 				//Camera::Update();
 
+
 				//このフレームの描画開始
 				Direct3D::BeginDraw();
 
 				////全オブジェクトを描画
 				////ルートオブジェクトのDrawを呼んだあと、自動的に子、孫のUpdateが呼ばれる
 				//pRootObject->DrawSub();
+
+				//エフェクトの描画
+				VFX::Draw();
 
 				//デバックのみ
 				if (Input::IsKeyDown(DIK_ESCAPE))
@@ -148,7 +153,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							Camera::SetTarget(pPlayer->GetCameraTarget());
 						}
 						Camera::Update();
+
+						//エフェクトの更新
+						VFX::Update();
+
 						pRootObject->DrawSub();
+
+						//エフェクトの描画
+						VFX::Draw();
 						break;
 					case 2:
 						//左画面描画
@@ -165,9 +177,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						Camera::Update();
 
+						//エフェクトの更新
+						VFX::Update();
+
 						//全オブジェクトを描画
 						//ルートオブジェクトのDrawを呼んだあと、自動的に子、孫のUpdateが呼ばれる
 						pRootObject->DrawSub();
+
+						//エフェクトの描画
+						VFX::Draw();
 					}
 
 					//右画面描画
@@ -183,9 +201,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						Camera::Update();
 
+						//エフェクトの更新
+						VFX::Update();
+
 						//全オブジェクトを描画
 						//ルートオブジェクトのDrawを呼んだあと、自動的に子、孫のUpdateが呼ばれる
 						pRootObject->DrawSub();
+
+						//エフェクトの描画
+						VFX::Draw();
 					}
 
 					//全画面描画
@@ -198,10 +222,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 						Camera::Update();
+						//エフェクトの更新
+						VFX::Update();
 
 						//全オブジェクトを描画
 						//ルートオブジェクトのDrawを呼んだあと、自動的に子、孫のUpdateが呼ばれる
 						pRootObject->DrawSub();
+
+						//エフェクトの描画
+						VFX::Draw();
 					}
 					break;
 					case 3:
@@ -219,10 +248,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						}
 
 						Camera::Update();
+						//エフェクトの更新
+						VFX::Update();
 
 						//全オブジェクトを描画
 						//ルートオブジェクトのDrawを呼んだあと、自動的に子、孫のUpdateが呼ばれる
 						pRootObject->DrawSub();
+
+						//エフェクトの描画
+						VFX::Draw();
 					}
 
 					//右上画面描画
@@ -237,10 +271,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						}
 
 						Camera::Update();
+						//エフェクトの更新
+						VFX::Update();
 
 						//全オブジェクトを描画
 						//ルートオブジェクトのDrawを呼んだあと、自動的に子、孫のUpdateが呼ばれる
 						pRootObject->DrawSub();
+
+						//エフェクトの描画
+						VFX::Draw();
 					}
 					//左下画面描画
 					{
@@ -255,10 +294,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						}
 
 						Camera::Update();
+						//エフェクトの更新
+						VFX::Update();
 
 						//全オブジェクトを描画
 						//ルートオブジェクトのDrawを呼んだあと、自動的に子、孫のUpdateが呼ばれる
 						pRootObject->DrawSub();
+
+						//エフェクトの描画
+						VFX::Draw();
 					}
 
 						//右下画面描画
@@ -273,10 +317,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						}
 
 						Camera::Update();
+						//エフェクトの更新
+						VFX::Update();
 
 						//全オブジェクトを描画
 						//ルートオブジェクトのDrawを呼んだあと、自動的に子、孫のUpdateが呼ばれる
 						pRootObject->DrawSub();
+
+						//エフェクトの描画
+						VFX::Draw();
 					}
 
 					//全画面描画
@@ -289,10 +338,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						
 
 						Camera::Update();
+						//エフェクトの更新
+						VFX::Update();
 
 						//全オブジェクトを描画
 						//ルートオブジェクトのDrawを呼んだあと、自動的に子、孫のUpdateが呼ばれる
 						pRootObject->DrawSub();
+
+						//エフェクトの描画
+						VFX::Draw();
 					}
 					default:
 						break;
@@ -310,6 +364,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}
 
 	//いろいろ解放
+	VFX::Release();
 	Audio::AllRelease();
 	Model::AllRelease();
 	Image::AllRelease();

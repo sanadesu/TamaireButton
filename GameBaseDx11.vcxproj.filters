@@ -231,6 +231,9 @@
     <ClCompile Include="StartSignal.cpp">
       <Filter>PlayScene</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\VFX.cpp">
+      <Filter>01Engine\GameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -418,6 +421,9 @@
     </ClInclude>
     <ClInclude Include="StartSignal.h">
       <Filter>PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\VFX.h">
+      <Filter>01Engine\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

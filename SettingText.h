@@ -2,7 +2,6 @@
 #include "Engine/GameObject.h" 
 #include "Engine/Frame.h"
 
-//■■シーンを管理するクラス
 class SettingText : public GameObject
 {
 	enum Pict

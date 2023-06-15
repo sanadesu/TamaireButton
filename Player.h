@@ -4,7 +4,7 @@
 #include "Ground.h"
 #include"Ball.h"
 #include "Engine/Text.h"
-#include "Engine/Particle.h"
+//#include "Engine/Particle.h"
 #include "ResultText.h"
 #include "PlayStop.h"
 
@@ -12,16 +12,7 @@
 
 class Player : public GameObject
 {
-    //なし　数字でおっけー
-    enum PlayerNumber
-    {
-        FIRST,
-        SECOND,
-        THIRD,
-        FOURTH,
-        MAX_PLAYER
-    };
-
+    //状態
     enum State
     {
         WALK_STATE = 0,
@@ -54,7 +45,6 @@ class Player : public GameObject
     bool isDrop;            //玉を拾えないか
     bool isAssist;          //アシストありか
 
-
     XMFLOAT3 camPos;//カメラの場所
     XMFLOAT3 LeftStick;//移動量を入れる
     XMFLOAT3 RightStick;//回転量を入れる
@@ -65,7 +55,7 @@ class Player : public GameObject
     XMVECTOR vPos;
     XMMATRIX mRotate;
 
-    Particle* pParticle_;//パワー溜めるエフェクト
+    //Particle* pParticle_;//パワー溜めるエフェクト
     string stateText;//状態表示
 
     Transform prevPos; //1フレーム前の場所

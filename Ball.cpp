@@ -20,6 +20,7 @@ namespace
     static const float RESISTANCE = 0.97f;//抵抗
     static const float BOUND = 0.6f;//バウンドの大きさ
     static const float END_MOVE = 0.001f;//ボールが止まる値
+    static const float CENTER_MOVE = 0.5f;//ゴールした時中央に寄る値、大きいほど中央に行く
 }
 
 //コンストラクタ
@@ -188,19 +189,18 @@ void Ball::OnCollision(GameObject* pTarget)
         }
 
         isThrowBall = false;
-        //中心に向かって移動
+
+        //中心の計算
         Basket* pBasket = (Basket*)FindObject("Basket");
         XMFLOAT3 basketPos = pBasket->GetBasketPos();
         XMVECTOR vBasket = XMLoadFloat3(&basketPos);
         XMVECTOR vBall = XMLoadFloat3(&transform_.position_);
         XMVECTOR vCenter = vBasket - vBall;//中心の向き
-
         vCenter = XMVector3Normalize(vCenter);
-        vCenter *= 0.4f;
-
+        vCenter *= CENTER_MOVE;
         XMFLOAT3 centerRotate;
         XMStoreFloat3(&centerRotate, vCenter);
-        
+        //中心方向に移動
         transform_.position_.x += centerRotate.x;
         transform_.position_.y += centerRotate.y;
         transform_.position_.z += centerRotate.z;

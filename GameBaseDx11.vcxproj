@@ -146,6 +146,7 @@
     <ClCompile Include="Engine\PoryLine.cpp" />
     <ClCompile Include="Engine\ScreenSplit.cpp" />
     <ClCompile Include="Engine\Stopwach.cpp" />
+    <ClCompile Include="Engine\VFX.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="memo.cpp" />
     <ClCompile Include="PauseButton.cpp" />
@@ -211,6 +212,7 @@
     <ClInclude Include="Engine\PoryLine.h" />
     <ClInclude Include="Engine\ScreenSplit.h" />
     <ClInclude Include="Engine\Stopwach.h" />
+    <ClInclude Include="Engine\VFX.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="PauseButton.h" />
     <ClInclude Include="Player.h" />

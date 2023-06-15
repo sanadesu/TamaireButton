@@ -9,6 +9,7 @@
 #include "Engine/ScreenSplit.h"
 #include "Engine/Audio.h"
 #include "Engine/Direct3D.h"
+#include "Engine/VFX.h"
 
 #define _USE_MATH_DEFINES
 #include<math.h>
@@ -22,7 +23,7 @@ namespace
     static const int PORY_LENGTH = 42;//軌道を保存する長さ
     static const int NOT_HAVE = -1;//ボールを持っていない
     static const int DROP_TIME = 120;//玉を当てられたときに拾えない時間
-    static const int CIRCLE_RADIUS = 21;//ゴールから端までの長さ
+    static const int CIRCLE_RADIUS = 23;//ゴールから端までの長さ
     static const int COM_ROTATE = 137;//コンピューターが端まで行った時の回転量
     static const int RANDOM_VALUE_ALL = 9500;//ボールを投げるランダム値
     static const int RANDOM_VALUE_MAX = 4000;//ボールを投げるランダム値
@@ -123,7 +124,7 @@ void Player::Initialize()
 
     pText = new Text;
     pText->Initialize();
-    pParticle_ = Instantiate<Particle>(this);
+    //pParticle_ = Instantiate<Particle>(this);
 
     hModel_ = Model::Load("WhitePlayer.fbx");
     assert(hModel_ >= 0);
@@ -434,24 +435,24 @@ void Player::Damage()
             }
         }
         dropTime++;
+        return;
+    }
+
+    if (playerID % 2 == 0)
+    {
+        hModel_ = Model::Load("WhitePlayer.fbx");
+        assert(hModel_ >= 0);
+        Model::SetShederType(hModel_, Direct3D::SHADER_TOON);
     }
     else
     {
-        if (playerID % 2 == 0)
-        {
-            hModel_ = Model::Load("WhitePlayer.fbx");
-            assert(hModel_ >= 0);
-            Model::SetShederType(hModel_, Direct3D::SHADER_TOON);
-        }
-        else
-        {
-            hModel_ = Model::Load("RedPlayer.fbx");
-            assert(hModel_ >= 0);
-            Model::SetShederType(hModel_, Direct3D::SHADER_TOON);
-        }
-        dropTime = 0;
-        isDrop = false;
+        hModel_ = Model::Load("RedPlayer.fbx");
+        assert(hModel_ >= 0);
+        Model::SetShederType(hModel_, Direct3D::SHADER_TOON);
     }
+    dropTime = 0;
+    isDrop = false;
+    
 }
 
 //攻撃された
@@ -486,19 +487,19 @@ void Player::EffectGradationColor()
 {
     //投げる強さ表示エフェクト
     EmitterData data;
-    data.textureFileName = "Cloud.png";
+    data.textureFileName = "rlingB_R.png";
     data.position = Model::GetBonePosition(hModel_, "joint1");//表示位置は手
     data.position.y -= 0.5f;
     data.delay = 0;
     data.number = 50;
     data.lifeTime = 2;
-    data.dir = XMFLOAT3(0, 1, 0);
-    data.dirErr = XMFLOAT3(90, 90, 90);
+    data.direction = XMFLOAT3(0, 1, 0);
+    data.directionRnd = XMFLOAT3(90, 90, 90);
     data.speed = 0.3f;
-    data.speedErr = 0.8f;
+    data.speedRnd = 0.8f;
     data.accel = 0.5f;
     data.size = XMFLOAT2(0.7f, 0.7f);
-    data.sizeErr = XMFLOAT2(0.1, 0.1);
+    data.sizeRnd = XMFLOAT2(0.1, 0.1);
     data.scale = XMFLOAT2(1.05, 1.05);
 
     //エフェクトグラデーション
@@ -509,7 +510,9 @@ void Player::EffectGradationColor()
     else
         data.color = XMFLOAT4(1, 0, 0, 1);
 
-    pParticle_->Start(data);
+    //data.color = XMFLOAT4(1, 0, 0, 1);
+
+    VFX::Start(data);
 }
 
 //歩く
@@ -539,51 +542,55 @@ void Player::ChargeMotion()
     stateText = "Charge";
 
     //ボールを持ってる
-    if (pBallRight != nullptr)
+    if (pBallRight == nullptr)
     {
-        EffectGradationColor();
+        nowState = WALK_STATE;
+        return;
+    }
 
-        //グラデーション用
-        effectCollar += GRADATION_VALUE;
+    EffectGradationColor();
 
-        //ゴールを向く
-        XMFLOAT3 origine = XMFLOAT3(0, 0, 0);
-        XMVECTOR vOrigin = XMLoadFloat3(&origine);
-        XMFLOAT3 HandPos = Model::GetBonePosition(hModel_, "joint1");
-        XMVECTOR vPlayerPos = XMLoadFloat3(&HandPos);
-        XMVECTOR vGoal = vOrigin - vPlayerPos; //ゴールへの向き
+    //グラデーション用
+    effectCollar += GRADATION_VALUE;
 
-        //ゴールまでの長さ
-        XMVECTOR vGoalLength = XMVector3Length(vGoal);
-        goalLength = XMVectorGetX(vGoalLength);
-        //ゴールの方向
-        XMFLOAT3 goalRotate;
-        XMStoreFloat3(&goalRotate, vGoal);
-        //持ってるボールが自分のか
-        if (playerID % 2 == pBallRight->ballID % 2)
-        {
-            //ゴール向く
-            transform_.rotate_.y = (float)(atan2(goalRotate.x, goalRotate.z) * GOAL_ROTATE / M_PI);
-        }
-        else
-        {
-            //ゴールと反対を向く
-            goalLength = CIRCLE_RADIUS - goalLength;
-            transform_.rotate_.y = (float)(atan2(-goalRotate.x, -goalRotate.z) * GOAL_ROTATE / M_PI);
-        }
+    //ゴールを向く
+    XMFLOAT3 origine = XMFLOAT3(0, 0, 0);
+    XMVECTOR vOrigin = XMLoadFloat3(&origine);
+    XMFLOAT3 HandPos = Model::GetBonePosition(hModel_, "joint1");
+    XMVECTOR vPlayerPos = XMLoadFloat3(&HandPos);
+    XMVECTOR vGoal = vOrigin - vPlayerPos; //ゴールへの向き
 
-        //力ためる
-        powerY -= POWER;
-        powerZ += POWER;
+    //ゴールまでの長さ
+    XMVECTOR vGoalLength = XMVector3Length(vGoal);
+    goalLength = XMVectorGetX(vGoalLength);
+    //ゴールの方向
+    XMFLOAT3 goalRotate;
+    XMStoreFloat3(&goalRotate, vGoal);
 
-        //投げるか                                           
-        if (powerZ > powf(goalLength - throwPower, THROW_POWER_Y) * POWER_ADJUSTMENT)
-        {
-            nowState = THROW_STATE;//ボールを投げる状態へ
-        }
+    //持ってるボールが自分のか
+    if (playerID % 2 == pBallRight->ballID % 2)
+    {
+        //ゴール向く
+        transform_.rotate_.y = (float)(atan2(goalRotate.x, goalRotate.z) * GOAL_ROTATE / M_PI);
     }
     else
-        nowState = WALK_STATE;
+    {
+        //ゴールと反対を向く
+        goalLength = CIRCLE_RADIUS - goalLength;
+        transform_.rotate_.y = (float)(atan2(-goalRotate.x, -goalRotate.z) * GOAL_ROTATE / M_PI);
+    }
+
+    //力ためる
+    powerY -= POWER;
+    powerZ += POWER;
+
+    float a = powf(goalLength - throwPower, THROW_POWER_Y) * POWER_ADJUSTMENT;
+    //投げるか                                           
+    if (powerZ > powf(goalLength - throwPower, THROW_POWER_Y) * POWER_ADJUSTMENT)
+    {
+        nowState = THROW_STATE;//ボールを投げる状態へ
+    }
+      
 }
 
 //投げる
@@ -612,6 +619,7 @@ void Player::ThrowMotion()
     else//持ってたら
     {
         throwPower = ((rand() % RANDOM_VALUE_ALL) - RANDOM_VALUE_MAX) / DECIMAL_CHANGE;
+        throwPower = 4;
         //投げるへ
         nowState = CHARGE_STATE;
     }

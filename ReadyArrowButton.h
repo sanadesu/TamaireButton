@@ -3,9 +3,6 @@
 #include "TitleScene.h"
 #include "Player.h"
 
-//using namespace Button;
-
-//■■シーンを管理するクラス
 class ReadyArrowButton : public Button
 {
 	int a = 0;
@@ -18,8 +15,6 @@ class ReadyArrowButton : public Button
 	int playerNum;
 	int arrowPos;
 	float scaleY;
-
-	bool isAssist;
 	Player* pPlayer;
 public:
 
