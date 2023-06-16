@@ -75,6 +75,7 @@ void UI::Draw()
         }
 #endif
     }
+
     Image::SetTransform(hPict_, transform_);
     Image::Draw(hPict_);
 }

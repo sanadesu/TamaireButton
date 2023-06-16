@@ -35,9 +35,7 @@ void ReadyArrowButton::SubInitialize()
 	else
 	{
 		arrowPos = 1000;
-		SetIsNextSelect(true);
-		IsSelect();
-		SetIsFirst(this);
+		
 	}
 
 	const char* PlayerName[] = { "Player", "Player2", "Player3", "Player4" };
@@ -61,6 +59,7 @@ void ReadyArrowButton::SubInitialize()
 		posX = 0;
 	}
 
+	isFirst = true;
 	transform_.position_ = Image::PixelPos(hPict_, arrowPos + posX, posY);
 	transform_.scale_ = XMFLOAT3(0.5f,scaleY * 0.5f,0.5f);
 
@@ -68,13 +67,14 @@ void ReadyArrowButton::SubInitialize()
 
 void ReadyArrowButton::SubUpdate()
 {
-	ButtonSwith();
-	if (a == 0)//
+	//Å‰‚¾‚¯‚â‚è‚½‚¢ˆ—
+	if (isFirst)
 	{
-		a = 1;
-		ButtonManager::AddButton((Button*)this, playerNum - min);//screenID
-		this->SetScreenID(playerNum - min);//screenID
+		isFirst = false;
+		ButtonManager::AddButton((Button*)this, screenID);
+		this->SetScreenID(screenID);
 	}
+	ButtonSwith();
 }
 
 void ReadyArrowButton::Draw()

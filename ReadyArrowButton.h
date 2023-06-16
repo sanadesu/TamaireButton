@@ -5,7 +5,6 @@
 
 class ReadyArrowButton : public Button
 {
-	int a = 0;
 	int hPict_;
 	int arrowID;
 	int screenID;
@@ -15,6 +14,7 @@ class ReadyArrowButton : public Button
 	int playerNum;
 	int arrowPos;
 	float scaleY;
+	bool isFirst;
 	Player* pPlayer;
 public:
 

@@ -30,10 +30,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 // エントリーポイント
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-//#if defined(DEBUG) | defined(_DEBUG)
-//	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-//#endif
-
 	srand((unsigned)time(NULL));
 	SetCurrentDirectory("Assets");
 
@@ -42,9 +38,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	int screenHeight = GetPrivateProfileInt("SCREEN", "Height", 600, ".\\setup.ini");	//スクリーンの高さ
 	int fpsLimit = GetPrivateProfileInt("GAME", "Fps", 60, ".\\setup.ini");				//FPS（画面更新速度）
 	int isDrawFps = GetPrivateProfileInt("DEBUG", "ViewFps", 0, ".\\setup.ini");		//キャプションに現在のFPSを表示するかどうか
-
-
-
 
 	//ウィンドウを作成
 	HWND hWnd = InitApp(hInstance, screenWidth, screenHeight, nCmdShow);
@@ -61,12 +54,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//オーディオ（効果音）の準備
 	Audio::Initialize();
 
-
 	//ルートオブジェクト準備
 	//すべてのゲームオブジェクトの親となるオブジェクト
 	RootObject* pRootObject = new RootObject;
 	pRootObject->Initialize();
-
 
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
@@ -120,19 +111,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				//ルートオブジェクトのUpdateを呼んだあと、自動的に子、孫のUpdateが呼ばれる
 				pRootObject->UpdateSub();
 
-				////カメラを更新
-				//Camera::Update();
-
-
 				//このフレームの描画開始
 				Direct3D::BeginDraw();
 
-				////全オブジェクトを描画
-				////ルートオブジェクトのDrawを呼んだあと、自動的に子、孫のUpdateが呼ばれる
-				//pRootObject->DrawSub();
-
-				//エフェクトの描画
-				VFX::Draw();
+				//エフェクトの更新
+				VFX::Update();
 
 				//デバックのみ
 				if (Input::IsKeyDown(DIK_ESCAPE))
@@ -154,9 +137,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						}
 						Camera::Update();
 
-						//エフェクトの更新
-						VFX::Update();
-
 						pRootObject->DrawSub();
 
 						//エフェクトの描画
@@ -176,9 +156,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						}
 
 						Camera::Update();
-
-						//エフェクトの更新
-						VFX::Update();
 
 						//全オブジェクトを描画
 						//ルートオブジェクトのDrawを呼んだあと、自動的に子、孫のUpdateが呼ばれる
@@ -201,9 +178,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						Camera::Update();
 
-						//エフェクトの更新
-						VFX::Update();
-
 						//全オブジェクトを描画
 						//ルートオブジェクトのDrawを呼んだあと、自動的に子、孫のUpdateが呼ばれる
 						pRootObject->DrawSub();
@@ -222,8 +196,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 						Camera::Update();
-						//エフェクトの更新
-						VFX::Update();
 
 						//全オブジェクトを描画
 						//ルートオブジェクトのDrawを呼んだあと、自動的に子、孫のUpdateが呼ばれる
@@ -248,8 +220,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						}
 
 						Camera::Update();
-						//エフェクトの更新
-						VFX::Update();
 
 						//全オブジェクトを描画
 						//ルートオブジェクトのDrawを呼んだあと、自動的に子、孫のUpdateが呼ばれる
@@ -271,8 +241,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						}
 
 						Camera::Update();
-						//エフェクトの更新
-						VFX::Update();
 
 						//全オブジェクトを描画
 						//ルートオブジェクトのDrawを呼んだあと、自動的に子、孫のUpdateが呼ばれる
@@ -294,8 +262,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						}
 
 						Camera::Update();
-						//エフェクトの更新
-						VFX::Update();
 
 						//全オブジェクトを描画
 						//ルートオブジェクトのDrawを呼んだあと、自動的に子、孫のUpdateが呼ばれる
@@ -317,8 +283,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						}
 
 						Camera::Update();
-						//エフェクトの更新
-						VFX::Update();
 
 						//全オブジェクトを描画
 						//ルートオブジェクトのDrawを呼んだあと、自動的に子、孫のUpdateが呼ばれる
@@ -332,14 +296,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					{
 						
 						Direct3D::SetViewPort(0);
-						
-							Camera::SetPosition(XMFLOAT3(100,0,100));
-							Camera::SetTarget(XMFLOAT3(100, 1, 100));
-						
+
+						Camera::SetPosition(XMFLOAT3(100, 0, 100));
+						Camera::SetTarget(XMFLOAT3(100, 1, 100));
 
 						Camera::Update();
-						//エフェクトの更新
-						VFX::Update();
 
 						//全オブジェクトを描画
 						//ルートオブジェクトのDrawを呼んだあと、自動的に子、孫のUpdateが呼ばれる
@@ -350,7 +311,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					}
 					default:
 						break;
-
 				}
 
 				//描画終了

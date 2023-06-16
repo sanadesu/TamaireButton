@@ -2,9 +2,9 @@
 #include "Engine/GameObject.h"
 #include "Engine/PoryLine.h"
 #include "Ground.h"
-#include"Ball.h"
+#include "Ball.h"
 #include "Engine/Text.h"
-//#include "Engine/Particle.h"
+#include "Basket.h"
 #include "ResultText.h"
 #include "PlayStop.h"
 
@@ -21,55 +21,55 @@ class Player : public GameObject
         MAX_STATE
     };
 
-    int hModel_;    //モデル番号
-    int hSound_Throw;//投げる音
+    int hModel_;            //モデル番号
+    int hSound_Throw;       //投げる音
 
-    int dropTime;//ボールを拾えない時間
-    int nowState;//現在の状態
-    int rightHand;//ボールをもっているか
-    int leftHand;//ボールをもっているか
-    float powerY;//投げる強さ
-    float powerZ;//投げる強さ
-    float trajectoryY;//ボールの軌道計算
-    float trajectoryZ;//ボールの軌道計算
-    float viewY;//カメラY座標
-    float moveLimit;//移動範囲
-    float goalLength;//ゴールまでの長さ
-    float cameraZ; //カメラZ座標
-    float effectCollar;//エフェクトグラデーション用
-    float throwPower;//投げる力
+    int dropTime;           //ボールを拾えない時間
+    int nowState;           //現在の状態
+    int rightHand;          //ボールをもっているか
+    int leftHand;           //ボールをもっているか
+    float powerY;           //投げる強さ
+    float powerZ;           //投げる強さ
+    float trajectoryY;      //ボールの軌道計算
+    float trajectoryZ;      //ボールの軌道計算
+    float viewY;            //カメラY座標
+    float moveLimit;        //移動範囲
+    float goalLength;       //ゴールまでの長さ
+    float cameraZ;          //カメラZ座標
+    float effectColor;     //エフェクトグラデーション用
+    float throwPower;       //投げる力
 
-    bool IsFirst;//最初だけやりたい処理
-    bool isDamage;            //攻撃を受けたか
-    bool isChargePower; //パワーチャージ中か
+    bool IsFirst;           //最初だけやりたい処理
+    bool isDamage;          //攻撃を受けたか
+    bool isChargePower;     //パワーチャージ中か
     bool isDrop;            //玉を拾えないか
     bool isAssist;          //アシストありか
 
-    XMFLOAT3 camPos;//カメラの場所
-    XMFLOAT3 LeftStick;//移動量を入れる
-    XMFLOAT3 RightStick;//回転量を入れる
-    XMFLOAT3 move;//プレイヤー移動量
-    XMVECTOR vMove;//↑ベクター
+    XMFLOAT3 camPos;        //カメラの場所
+    XMFLOAT3 LeftStick;     //移動量を入れる
+    XMFLOAT3 RightStick;    //回転量を入れる
+    XMFLOAT3 move;          //プレイヤー移動量
+    XMFLOAT4 effectGradation;//グラデーション色
+    XMVECTOR vMove;         //↑ベクター
     //カメラ
     XMVECTOR vCam;
     XMVECTOR vPos;
     XMMATRIX mRotate;
 
-    //Particle* pParticle_;//パワー溜めるエフェクト
-    string stateText;//状態表示
+    string stateText;       //状態表示
 
-    Transform prevPos; //1フレーム前の場所
-    Transform poryTrans;//ボールの軌道の場所
+    Transform prevPos;      //1フレーム前の場所
+    Transform poryTrans;    //ボールの軌道の場所
     std::unique_ptr<PoryLine> pLine;//ボールの軌道を描く
     Ball* pBall;
-    Ball* pBallRight;//右手で持ってるボール
-    Ball* pBallLeft;//左手で持ってるボール
-    Ball* pBallThrow;//投げられているボール
-    Ground* pGround;//ボールの管理に使う
+    Ball* pBallRight;       //右手で持ってるボール
+    Ball* pBallLeft;        //左手で持ってるボール
+    Ball* pBallThrow;       //投げられているボール
+    Ground* pGround;        //ボールの管理に使う
     ResultText* pResultText;
-    PlayStop* pPlayStop;//動けるか
+    PlayStop* pPlayStop;    //動けるか
     Text* pText;
-
+    Basket* pBasket;        //ゴールの場所を取得するため
 public:
     int playerID;
 
@@ -103,9 +103,6 @@ public:
 
     //攻撃されたか取得
     bool GetDamage();
-
-    //プレイヤーの場所取得
-    Transform GetPlayerPosition(bool right_);
 
     //プレイヤーカメラ
     Transform FrontDirection(float x_, float y_, float z_, float direction_, Transform trans_);

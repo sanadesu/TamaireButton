@@ -45,7 +45,7 @@ void TitleScene::Initialize()
 	//画像データのロード
 	hPict_ = Image::Load("Title.png");
 	assert(hPict_ >= 0);
-	hPict_Back = Image::Load("Back.jpg");
+	hPict_Back = Image::Load("BackT.png");
 	assert(hPict_Back >= 0);
 
 	Instantiate<Frame>(this);

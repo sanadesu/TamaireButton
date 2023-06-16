@@ -31,4 +31,7 @@ public:
 
     //ゴールの中心位置
     XMFLOAT3 GetBasketPos();
+
+    //ゴールの半径
+    float GetRadius();
 };

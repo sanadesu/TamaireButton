@@ -18,7 +18,6 @@ void ReadyOKButton::SubInitialize()
 {
 	hPict_ = Image::Load("ReadyButton.png");
 	assert(hPict_ >= 0);
-	first = 0;
 	playerNum = 0;
 	if (ScreenSplit::GetPlayerPerson() == 2)
 	{
@@ -28,19 +27,24 @@ void ReadyOKButton::SubInitialize()
 	{
 		scaleY = 1;
 	}
+	isFirst = true;
 	transform_.position_.y = -0.3f;
 	transform_.scale_.y = scaleY;
+
+	SetIsNextSelect(true);
+	IsSelect();
+	SetIsFirst(this);
 }
 
 void ReadyOKButton::SubUpdate()
 {
-	ButtonSwith();
-	if (first == 0)
+	if (isFirst)
 	{
+		isFirst = false;
 		ButtonManager::AddButton((Button*)this, screenID);
 		this->SetScreenID(screenID);
-		first = 1;
 	}
+	ButtonSwith();
 }
 
 void ReadyOKButton::Draw()

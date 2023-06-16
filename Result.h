@@ -1,12 +1,14 @@
 #pragma once
 #include "Engine/GameObject.h"
 #include "Time.h"
-//■■シーンを管理するクラス
+#include "ResultText.h"
+
 class Result : public GameObject
 {
-
-	Time* pTime;//ゲームが終わっているかどうか確認する
-	bool isFirst;//最初の一回だけやりたい処理
+	int hPict_;		//画像番号
+	Time* pTime;	//ゲームが終わっているかどうか確認する
+	bool isFirst;	//最初の一回だけやりたい処理
+	ResultText* pResultText;
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）

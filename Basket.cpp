@@ -70,3 +70,8 @@ XMFLOAT3 Basket::GetBasketPos()
     return BASKET_POS;
 }
 
+float Basket::GetRadius()
+{
+    return BASKET_COL_SIZE;
+}
+

@@ -19,7 +19,6 @@ void ReadyText::Initialize()
 	if (ScreenSplit::GetPlayerPerson() == 2)
 	{
 		transform_.scale_.y *= 0.5f;
-		//transform_.position_.y += 0.05f;
 	}
 }
 

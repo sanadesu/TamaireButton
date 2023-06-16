@@ -49,7 +49,7 @@ void Time::Initialize()
     assert(hSound_ >= 0);
 
     //使用するファイル名
-    const char* pictFileName[] = { "TimerFront.png", "TimerBack.png" ,"Number.png" ,"Number.png" ,"Number.png" ,"Ready.png" ,"Start.png" };
+    const char* pictFileName[] = { "TimerFrontG.png", "TimerBackRed.png" ,"Number.png" ,"Number.png" ,"Number.png" ,"Ready.png" ,"Start.png" };
 
     //ロード
     for (int i = 0; i < Pict::PICT_MAX; i++)

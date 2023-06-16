@@ -1,17 +1,14 @@
 #pragma once
 #include "Engine/Button.h"
 
-//using namespace Button;
-
-//■■シーンを管理するクラス
 class ReadyOKButton : public Button
 {
 	int screenID;
-	int first;
 	int hPict_;
 	int playerNum;
 	float scaleY;
 	bool isReady;
+	bool isFirst;
 public:
 
 	//コンストラクタ

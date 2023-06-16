@@ -1,5 +1,4 @@
 #include "Result.h"
-#include "ResultText.h"
 #include "ResultButton.h"
 #include "Engine/ButtonManager.h"
 #include "Engine/Input.h"
@@ -20,7 +19,7 @@ Result::Result(GameObject* parent)
 //‰Šú‰»
 void Result::Initialize()
 {
-	Instantiate<ResultText>(this);
+	pResultText = Instantiate<ResultText>(this);
 	pTime = (Time*)FindObject("Time");
 	isFirst = true;
 }
@@ -30,7 +29,13 @@ void Result::Update()
 {
 	if (pTime->GetTime() <= 0 && isFirst)
 	{
+		hPict_ = Image::Load("BlackBack.png");
+		assert(hPict_ >= 0);
 		isFirst = false;
+	}
+
+	if (pResultText->GetResultCount() == 250)
+	{
 		for (int i = 0; i < BUTTON_COUNT; i++)
 		{
 			ButtonManager::CreateButtonScreen<ResultButton>(this, "ResultButton", i, SCREEN_ID);
@@ -41,7 +46,11 @@ void Result::Update()
 //•`‰æ
 void Result::Draw()
 {
-	
+	if (pTime->GetTime() <= 0)
+	{
+		Image::SetTransform(hPict_, transform_);
+		Image::Draw(hPict_);
+	}
 }
 
 //ŠJ•ú

@@ -65,7 +65,6 @@ void ResultText::Initialize()
         assert(hSound_[Sound::SOUND_DRUM] >= 0);
     }
 
-    
     whiteSum = 0;
     redSum = 0;
     ResultTextCount = 0;
@@ -168,4 +167,9 @@ void ResultText::Release()
 bool ResultText::GetIsEnd()
 {
 	return isEnd;
+}
+
+int ResultText::GetResultCount()
+{
+    return ResultTextCount;
 }

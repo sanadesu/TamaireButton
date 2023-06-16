@@ -66,4 +66,6 @@ public:
 
     //I‚í‚Á‚½‚©
     bool GetIsEnd();
+
+    int GetResultCount();
 };

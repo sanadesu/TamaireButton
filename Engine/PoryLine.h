@@ -53,6 +53,9 @@ public:
 	//描画
 	void Draw();
 
+	//描画色指定バージョン
+	void Draw(XMFLOAT4 color);
+
 	//解放
 	void Release();
 

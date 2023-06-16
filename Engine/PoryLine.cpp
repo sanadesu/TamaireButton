@@ -7,7 +7,7 @@
 
 PoryLine::PoryLine() :
 	WIDTH_(0.1f),	//太さ
-	LENGTH_(15),	//長さ（あくまで位置を記憶する数で、実際の長さは移動速度によって変わる）
+	LENGTH_(45),	//長さ（あくまで位置を記憶する数で、実際の長さは移動速度によって変わる）
 	pVertexBuffer_(nullptr), pConstantBuffer_(nullptr), pTexture_(nullptr)
 {
 }
@@ -260,6 +260,49 @@ void PoryLine::Draw()
 	CONSTANT_BUFFER cb;
 	cb.matWVP = XMMatrixTranspose(Camera::GetViewMatrix() * Camera::GetProjectionMatrix());
 	cb.color = XMFLOAT4(1, 1, 1, 1);
+
+	D3D11_MAPPED_SUBRESOURCE pdata;
+	Direct3D::pContext_->Map(pConstantBuffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &pdata);	// GPUからのデータアクセスを止める
+	memcpy_s(pdata.pData, pdata.RowPitch, (void*)(&cb), sizeof(cb));	// データを値を送る
+
+	ID3D11SamplerState* pSampler = pTexture_->GetSampler();
+	Direct3D::pContext_->PSSetSamplers(0, 1, &pSampler);
+
+	ID3D11ShaderResourceView* pSRV = pTexture_->GetSRV();
+	Direct3D::pContext_->PSSetShaderResources(0, 1, &pSRV);
+
+	Direct3D::pContext_->Unmap(pConstantBuffer_, 0);	//再開
+
+	//頂点バッファ
+	UINT stride = sizeof(VERTEX);
+	UINT offset = 0;
+	Direct3D::pContext_->IASetVertexBuffers(0, 1, &pVertexBuffer_, &stride, &offset);
+
+	//コンスタントバッファ
+	Direct3D::pContext_->VSSetConstantBuffers(0, 1, &pConstantBuffer_);	//頂点シェーダー用	
+	Direct3D::pContext_->PSSetConstantBuffers(0, 1, &pConstantBuffer_);	//ピクセルシェーダー用
+
+	//頂点データの並び方を指定
+	Direct3D::pContext_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+
+	//描画（インデックスバッファいらないタイプ）
+	Direct3D::pContext_->Draw((positions_.size() - 1) * 2, 0);
+
+	//頂点データの並び方を指定を戻す
+	Direct3D::pContext_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	//戻す
+	Direct3D::SetShader(Direct3D::SHADER_TOON);
+}
+
+void PoryLine::Draw(XMFLOAT4 color)
+{
+	Direct3D::SetShader(Direct3D::SHADER_BILLBOARD);
+
+	//コンスタントバッファに渡す情報
+	CONSTANT_BUFFER cb;
+	cb.matWVP = XMMatrixTranspose(Camera::GetViewMatrix() * Camera::GetProjectionMatrix());
+	cb.color = XMFLOAT4(color.x, color.y, color.z, color.w);
 
 	D3D11_MAPPED_SUBRESOURCE pdata;
 	Direct3D::pContext_->Map(pConstantBuffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &pdata);	// GPUからのデータアクセスを止める
