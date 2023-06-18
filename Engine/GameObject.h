@@ -110,8 +110,6 @@ public:
 	//子オブジェクトを全て削除
 	void KillAllChildren();
 
-
-
 	//コライダー（衝突判定）を追加する
 	void AddCollider(Collider * collider);
 
@@ -134,6 +132,12 @@ public:
 	//移動回転
 	Transform AngleChange(XMFLOAT3 moveSize_, float angle_, XMFLOAT3 nowPos_);
 
+	//値を範囲内に収める
+	template<typename T>
+	const T& clamp(const T& value, const T& minValue, const T& maxValue)
+	{
+		return max(minValue, min(value, maxValue));
+	}
 
 	//各アクセス関数
 	XMFLOAT3 GetPosition() { return transform_.position_; }
@@ -220,4 +224,3 @@ T* InstantiateFront(GameObject* pParent)
 	pNewObject->Initialize();
 	return pNewObject;
 }
-

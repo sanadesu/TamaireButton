@@ -1,10 +1,8 @@
 #pragma once
 #include "Engine/Button.h"
 #include "TitleScene.h"
+#include "Engine/Frame.h"
 
-//using namespace Button;
-
-//■■シーンを管理するクラス
 class TitleButton : public Button
 {
 	enum TitleState
@@ -15,17 +13,20 @@ class TitleButton : public Button
 		MAX
 	};
 
-
-
-
+	enum ButtonID
+	{
+		START_BUTTON,
+		RULE_BUTTON
+	};
 	int buttonID;
-	int alpha;
-	int titleState;
-	bool isPush;
-	bool isFirstTime;
+	int alpha;			//ボタンの透明度、だんだん不透明になる
+	int titleState;		//なんの画面か
+	bool isPush;		//押せるか
+	bool isFirstTime;	//1フレーム目か
 
 	TitleScene* pTitle;
 	TitleButton* pRuleButton;
+	Frame* nowFrame;
 public:
 
 	//コンストラクタ

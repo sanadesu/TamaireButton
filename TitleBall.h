@@ -1,11 +1,10 @@
 #pragma once
 #include "Engine/GameObject.h" 
 
-//■■シーンを管理するクラス
 class TitleBall : public GameObject
 {
 	int hModel_;    //モデル番号
-	float easeY;
+	float easeY;	//イージングの値
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）

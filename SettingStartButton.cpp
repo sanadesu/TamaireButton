@@ -48,7 +48,7 @@ void SettingStartButton::SubUpdate()
 	{
 		//ƒXƒ‰ƒCƒh‚µ‚Ä“oê‚³‚¹‚é
 		easeSave = START_EASE - easeX;
-		easeSave = std::min<float>(std::max<float>(easeSave, 0), 1);
+		easeSave = clamp(easeSave, 0.0f, 1.0f);
 		transform_.position_.x = -Easing::EaseInQuart(easeSave) * 2;
 		easeX += EASE_VAL;
 	}
