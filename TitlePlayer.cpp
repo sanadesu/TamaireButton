@@ -1,3 +1,4 @@
+#define NLOHMANN_JSON_USE_EXCEPTION
 #include "TitlePlayer.h"
 #include "Engine/Input.h"
 #include "Engine/Model.h"
@@ -6,6 +7,12 @@
 #include "Engine/Easing.h"
 #include "TitleScene.h"
 #include "TitleButton.h"
+#include <iostream>
+#include <fstream>
+#include "json.hpp"
+
+//using jsonData = nlohmann::json;
+
 
 //定数
 namespace
@@ -75,6 +82,43 @@ void TitlePlayer::Update()
 
             playerPosRed = POS_X;
             playerRotateZ = 0;
+
+
+            // JSONデータを読み込むためのファイルストリームを作成
+            //std::ifstream file("test.json", std::ios::in | std::ios::binary);
+            std::ifstream f("title.json");
+            std::ifstream file("test.json");
+
+            // ファイルが正常にオープンされたかを確認
+            if (!f.is_open()) {
+                std::cerr << "Failed to open JSON file." << std::endl;
+                return;
+            }
+
+            // JSONデータを格納するための変数
+            nlohmann::json data;
+
+            // JSONファイルをパースしてデータを取得
+            f >> data;
+
+
+            // ファイルをクローズ
+            f.close();
+            
+            nlohmann::json innerObject = data["age"];
+
+            innerObject;
+            playerPosRed = innerObject;
+
+            int a = 0;
+            //XMFLOAT2 a = data["playerPos"];
+
+            //std::ifstream file("test.json");
+            //jsonData data;
+            //file >> data;
+
+            //std::string name = data["name"];
+            //int age = data["age"];
         }
 
         transform_.position_.y = Easing::EaseInBounce(BoundRed) * BOUND_WIDTH + PLAYER_POS_Y;

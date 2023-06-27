@@ -76,3 +76,41 @@
 // シーン切り替え
 // リザルトボタン
 // ルール画像
+
+
+
+
+//
+////json
+// // JSONデータを読み込むためのファイルストリームを作成
+//std::ifstream file("test.json", std::ios::in | std::ios::binary);
+//
+//// ファイルが正常にオープンされたかを確認
+//if (!file.is_open()) {
+//    std::cerr << "Failed to open JSON file." << std::endl;
+//    return;
+//}
+//
+//// JSONデータを格納するための変数
+//nlohmann::json data;
+//
+//// JSONファイルをパースしてデータを取得
+//file >> data;
+//
+//
+//// ファイルをクローズ
+//file.close();
+//
+//nlohmann::json innerObject = data["playerPos"];
+//
+//innerObject[0];
+////playerPosRed = innerObject[0];
+//
+////XMFLOAT2 a = data["playerPos"];
+//
+////std::ifstream file("test.json");
+////jsonData data;
+////file >> data;
+//
+////std::string name = data["name"];
+////int age = data["age"];

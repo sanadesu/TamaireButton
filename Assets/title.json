@@ -1,0 +1,22 @@
+{
+  "playerPosX": -15,
+  "playerPosY": -2,
+
+
+
+
+
+
+  "playerPos": {
+    "x": -15,
+    "y": -2
+  },
+
+
+
+  "name": "John Doe",
+  "age": 10,
+  "hobbies": [ "reading", "running" ]
+}
+
+
