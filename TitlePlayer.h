@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine/GameObject.h"
 #include "Engine/Frame.h"
+#include "Json.h"
 
 static const int EASE_MAX = 1;//イージングの最大値
 
@@ -24,7 +25,7 @@ class TitlePlayer : public GameObject
     float playerPosWhite;
     float playerRotateZ;
     Frame* nowFrame = (Frame*)FindObject("Frame");
-    
+    nlohmann::json data;
 public:
     int T_PlayerID;
     

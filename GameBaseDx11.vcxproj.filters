@@ -234,6 +234,7 @@
     <ClCompile Include="Engine\VFX.cpp">
       <Filter>01Engine\GameObject</Filter>
     </ClCompile>
+    <ClCompile Include="Json.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -425,6 +426,7 @@
     <ClInclude Include="Engine\VFX.h">
       <Filter>01Engine\GameObject</Filter>
     </ClInclude>
+    <ClInclude Include="Json.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">

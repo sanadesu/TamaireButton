@@ -149,6 +149,7 @@
     <ClCompile Include="Engine\Stopwach.cpp" />
     <ClCompile Include="Engine\VFX.cpp" />
     <ClCompile Include="Ground.cpp" />
+    <ClCompile Include="Json.cpp" />
     <ClCompile Include="memo.cpp" />
     <ClCompile Include="PauseButton.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -215,6 +216,7 @@
     <ClInclude Include="Engine\Stopwach.h" />
     <ClInclude Include="Engine\VFX.h" />
     <ClInclude Include="Ground.h" />
+    <ClInclude Include="Json.h" />
     <ClInclude Include="PauseButton.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayScene.h" />

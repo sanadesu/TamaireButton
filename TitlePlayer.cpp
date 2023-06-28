@@ -7,9 +7,6 @@
 #include "Engine/Easing.h"
 #include "TitleScene.h"
 #include "TitleButton.h"
-#include <iostream>
-#include <fstream>
-#include "json.hpp"
 
 //using jsonData = nlohmann::json;
 
@@ -17,15 +14,17 @@
 //定数
 namespace
 {
-    static const int POS_X = -15;
-    static const int MOVE_RANGE = 50;
-    static const int BOUND_WIDTH = 15;//登場する時の横幅
-    static const int PLAYER_POS_Y = -2;//プレイヤーの高さ
+    //static const int POS_X = -15;
+    //static const int PLAYER_POS_Y = -2;//プレイヤーの高さ
+    //static const int MOVE_START_WIDTH = 50;//登場する時の横移動開始位置
+    static const int BOUND_HEIGHT = 15;//登場する時の縦幅
+    static const int ROTATE_Y = 180;//正面向く
     static const int RED_ANGLE = 170;//赤キャラの角度
     static const int WHITE_ANGLE = 190;//白キャラの角度
     static const int WHITE_START = 30;//赤キャラから遅れて登場するフレーム数
     static const int SWING_WIDTH = 30;//揺れる幅
-    static const float PLAYER_SIZE = 2.0f;//プレイヤーの大きさ
+    //static const float PLAYER_SIZE = 2.0f;//プレイヤーの大きさ
+
     static const float SWING_ROTATE = 0.01f;//左右に擦れる時の1フレームに回転する値
     static const float SWING_POS = 0.05f;//左右に揺れるときの1フレームに動く値
     static const float BOUND_EASE_START = 0.5f;//イージングをどこから始めるか
@@ -36,6 +35,7 @@ namespace
     static const float SWING_POS_RED = 17.5f;//ゆらゆらの左右移動具合
     static const float SWING_POS_WHITE = 12.5f;//ゆらゆらの左右移動具合
 }
+
 //コンストラクタ
 TitlePlayer::TitlePlayer(GameObject* parent)
     :GameObject(parent, "TitlePlayer"), hModel_(-1)
@@ -51,6 +51,25 @@ TitlePlayer::~TitlePlayer()
 //初期化
 void TitlePlayer::Initialize()
 {
+    data = Json::Load("Title.json");
+
+    //メモ
+    //int innerObject = data["users"][0]["age"];
+    //nlohmann::json innerObject = data["playerPos"];
+    //innerObject["x"];
+    //innerObject;
+    //playerPosRed = innerObject;
+
+    //XMFLOAT2 a = data["playerPos"];
+
+    //std::ifstream file("test.json");
+    //jsonData data;
+    //file >> data;
+
+    //std::string name = data["name"];
+    //int age = data["age"];
+
+
     T_PlayerID = 0;
     redStop = 0;
     rotateZ = SWING_ROTATE;
@@ -58,15 +77,16 @@ void TitlePlayer::Initialize()
     easePlayer = BOUND_EASE_START;
     BoundRed = EASE_MAX;
     BoundWhite = EASE_MAX;
-    playerPosRed = POS_X + MOVE_RANGE;
-    playerPosWhite = POS_X + MOVE_RANGE;
+    playerPosRed = data["playerPos"]["x"]; 
+    playerPosRed += data["startMove"]["startWidth"];
+    playerPosWhite = data["playerPos"]["x"];
+    playerPosWhite += data["startMove"]["startWidth"];
     playerRotateZ = 0;
     hModel_ = Model::Load("RedPlayer.fbx");
     assert(hModel_ >= 0);
     transform_.position_.z += 30;
-    transform_.scale_.x *= PLAYER_SIZE;
-    transform_.scale_.y *= PLAYER_SIZE;
-    transform_.scale_.z *= PLAYER_SIZE;
+
+    transform_.scale_ = XMFLOAT3(data["playerPos"]["size"], data["playerPos"]["size"], data["playerPos"]["size"]);
 }
 
 //更新
@@ -80,58 +100,21 @@ void TitlePlayer::Update()
         {
             BoundRed = 0;
 
-            playerPosRed = POS_X;
+            playerPosRed = data["playerPos"]["x"];
             playerRotateZ = 0;
-
-
-            // JSONデータを読み込むためのファイルストリームを作成
-            //std::ifstream file("test.json", std::ios::in | std::ios::binary);
-            std::ifstream f("title.json");
-            std::ifstream file("test.json");
-
-            // ファイルが正常にオープンされたかを確認
-            if (!f.is_open()) {
-                std::cerr << "Failed to open JSON file." << std::endl;
-                return;
-            }
-
-            // JSONデータを格納するための変数
-            nlohmann::json data;
-
-            // JSONファイルをパースしてデータを取得
-            f >> data;
-
-
-            // ファイルをクローズ
-            f.close();
-            
-            nlohmann::json innerObject = data["age"];
-
-            innerObject;
-            playerPosRed = innerObject;
-
-            int a = 0;
-            //XMFLOAT2 a = data["playerPos"];
-
-            //std::ifstream file("test.json");
-            //jsonData data;
-            //file >> data;
-
-            //std::string name = data["name"];
-            //int age = data["age"];
         }
 
-        transform_.position_.y = Easing::EaseInBounce(BoundRed) * BOUND_WIDTH + PLAYER_POS_Y;
+        transform_.position_.y = Easing::EaseInBounce(BoundRed) * BOUND_HEIGHT + data["playerPos"]["y"];
         transform_.position_.x = playerPosRed;
         transform_.rotate_.z = -playerRotateZ;
         transform_.rotate_.y = RED_ANGLE;
 
-        if (playerPosRed > POS_X)
+        if (playerPosRed > data["playerPos"]["x"])
         {
-            playerPosRed -= MOVE_RANGE / (EASE_MAX / BOUND_DOWN);
+            playerPosRed -= data["startMove"]["startWidth"] / (EASE_MAX / BOUND_DOWN);
             playerRotateZ += PLAYER_ROTATE;
-            if (playerPosRed < POS_X)
-                playerPosRed = POS_X;
+            if (playerPosRed < data["playerPos"]["x"])
+                playerPosRed = data["playerPos"]["x"];
 
         }
 
@@ -158,19 +141,19 @@ void TitlePlayer::Update()
             {
                 BoundWhite = 0;
 
-                playerPosWhite = POS_X;
+                playerPosWhite = data["playerPos"]["x"];
                 playerRotateZ = 0;
             }
             transform_.position_.x = -playerPosWhite;
-            transform_.position_.y = Easing::EaseInBounce(BoundWhite) * BOUND_WIDTH + PLAYER_POS_Y;
+            transform_.position_.y = Easing::EaseInBounce(BoundWhite) * BOUND_HEIGHT + data["playerPos"]["y"];
             //transform_.rotate_.z = playerRotateZ;
             transform_.rotate_.y = WHITE_ANGLE;
-            if (playerPosWhite > POS_X)
+            if (playerPosWhite > data["playerPos"]["x"])
             {
-                playerPosWhite -= MOVE_RANGE / (EASE_MAX / BOUND_DOWN);
+                playerPosWhite -= data["startMove"]["startWidth"] / (EASE_MAX / BOUND_DOWN);
                 playerRotateZ += PLAYER_ROTATE;
-                if (playerPosWhite < POS_X)
-                    playerPosWhite = POS_X;
+                if (playerPosWhite < data["playerPos"]["x"])
+                    playerPosWhite = data["playerPos"]["x"];
 
             }
             if (BoundWhite > 0)

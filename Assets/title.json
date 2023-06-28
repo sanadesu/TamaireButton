@@ -1,16 +1,37 @@
 {
-  "playerPosX": -15,
-  "playerPosY": -2,
+  "": "プレイヤーに必要な数値",
+    "": "プレイヤーの情報",
+        "playerPos": {
+            "x": -15,
+            "y": -2,
+            "rotate": 10,
+            "lateStart": 30,
+            "swingWidth": 30,
+            "size": 2.0
+        },
+    "": "登場の動きの値",
+        "startMove": {
+            "startWidth": 50,
+            "boundHeight": 15
+        },
 
 
+  "total": 3,
+  "users": [
+    {
+      "name": "佐藤太郎",
+      "age": 22
+    },
+    {
+      "name": "高橋次郎",
+      "age": 18
+    },
+    {
+      "name": "田中三郎",
+      "age": 21
+    }
+  ],
 
-
-
-
-  "playerPos": {
-    "x": -15,
-    "y": -2
-  },
 
 
 

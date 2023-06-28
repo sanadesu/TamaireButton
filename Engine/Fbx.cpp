@@ -31,6 +31,7 @@ HRESULT Fbx::Load(std::string fileName)
 	FbxImporter *fbxImporter = FbxImporter::Create(pFbxManager_, "imp");
 	if (!fbxImporter->Initialize(FileName.Buffer(), -1, pFbxManager_->GetIOSettings()))
 	{
+		MessageBox(NULL,"FBX‚Ì“Ç‚İ‚İ‚É¸”s‚µ‚Ü‚µ‚½B","FAIL", MB_OK);
 		//¸”s
 		return E_FAIL;
 	}
