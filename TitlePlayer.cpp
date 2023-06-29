@@ -34,6 +34,10 @@ namespace
     static const float SWING_MOVE = 5.0f;//ゆらゆらの左右移動具合
     static const float SWING_POS_RED = 17.5f;//ゆらゆらの左右移動具合
     static const float SWING_POS_WHITE = 12.5f;//ゆらゆらの左右移動具合
+
+    static const std::string PLAYER_INFO = "playerInfo";
+        static const std::string POS_X = "x";
+    static const std::string START_MOVE = "startMove";
 }
 
 //コンストラクタ
@@ -77,16 +81,16 @@ void TitlePlayer::Initialize()
     easePlayer = BOUND_EASE_START;
     BoundRed = EASE_MAX;
     BoundWhite = EASE_MAX;
-    playerPosRed = data["playerPos"]["x"]; 
-    playerPosRed += data["startMove"]["startWidth"];
-    playerPosWhite = data["playerPos"]["x"];
-    playerPosWhite += data["startMove"]["startWidth"];
+    playerPosRed = data[PLAYER_INFO][POS_X];
+    playerPosRed += data[START_MOVE]["startWidth"];
+    playerPosWhite = data[PLAYER_INFO][POS_X];
+    playerPosWhite += data[START_MOVE]["startWidth"];
     playerRotateZ = 0;
     hModel_ = Model::Load("RedPlayer.fbx");
     assert(hModel_ >= 0);
     transform_.position_.z += 30;
 
-    transform_.scale_ = XMFLOAT3(data["playerPos"]["size"], data["playerPos"]["size"], data["playerPos"]["size"]);
+    transform_.scale_ = XMFLOAT3(data[PLAYER_INFO]["size"], data[PLAYER_INFO]["size"], data[PLAYER_INFO]["size"]);
 }
 
 //更新
@@ -100,21 +104,21 @@ void TitlePlayer::Update()
         {
             BoundRed = 0;
 
-            playerPosRed = data["playerPos"]["x"];
+            playerPosRed = data[PLAYER_INFO][POS_X];
             playerRotateZ = 0;
         }
 
-        transform_.position_.y = Easing::EaseInBounce(BoundRed) * BOUND_HEIGHT + data["playerPos"]["y"];
+        transform_.position_.y = Easing::EaseInBounce(BoundRed) * BOUND_HEIGHT + data[PLAYER_INFO]["y"];
         transform_.position_.x = playerPosRed;
         transform_.rotate_.z = -playerRotateZ;
         transform_.rotate_.y = RED_ANGLE;
 
-        if (playerPosRed > data["playerPos"]["x"])
+        if (playerPosRed > data[PLAYER_INFO][POS_X])
         {
-            playerPosRed -= data["startMove"]["startWidth"] / (EASE_MAX / BOUND_DOWN);
+            playerPosRed -= data[START_MOVE]["startWidth"] / (EASE_MAX / BOUND_DOWN);
             playerRotateZ += PLAYER_ROTATE;
-            if (playerPosRed < data["playerPos"]["x"])
-                playerPosRed = data["playerPos"]["x"];
+            if (playerPosRed < data[PLAYER_INFO][POS_X])
+                playerPosRed = data[PLAYER_INFO][POS_X];
 
         }
 
@@ -131,29 +135,31 @@ void TitlePlayer::Update()
     }
     else if(T_PlayerID == PLAYER_WHITE)
     {
-        //☆
+        //モデル読み込み
         hModel_ = Model::Load("WhitePlayer.fbx");
         assert(hModel_ >= 0);
 
+        //最初のモーション中か
         if ((nowFrame->GetFrame() > WHITE_START && BoundWhite != 0) || pTitle->GetIsSkip())
         {
+            //スキップされたら
             if (pTitle->GetIsSkip())
             {
                 BoundWhite = 0;
 
-                playerPosWhite = data["playerPos"]["x"];
+                playerPosWhite = data[PLAYER_INFO][POS_X];
                 playerRotateZ = 0;
             }
             transform_.position_.x = -playerPosWhite;
-            transform_.position_.y = Easing::EaseInBounce(BoundWhite) * BOUND_HEIGHT + data["playerPos"]["y"];
+            transform_.position_.y = Easing::EaseInBounce(BoundWhite) * BOUND_HEIGHT + data[PLAYER_INFO]["y"];
             //transform_.rotate_.z = playerRotateZ;
             transform_.rotate_.y = WHITE_ANGLE;
-            if (playerPosWhite > data["playerPos"]["x"])
+            if (playerPosWhite > data[PLAYER_INFO][POS_X])
             {
-                playerPosWhite -= data["startMove"]["startWidth"] / (EASE_MAX / BOUND_DOWN);
+                playerPosWhite -= data[START_MOVE]["startWidth"] / (EASE_MAX / BOUND_DOWN);
                 playerRotateZ += PLAYER_ROTATE;
-                if (playerPosWhite < data["playerPos"]["x"])
-                    playerPosWhite = data["playerPos"]["x"];
+                if (playerPosWhite < data[PLAYER_INFO][POS_X])
+                    playerPosWhite = data[PLAYER_INFO][POS_X];
 
             }
             if (BoundWhite > 0)
